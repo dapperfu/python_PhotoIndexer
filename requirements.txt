@@ -1,0 +1,34 @@
+xxhash
+
+exifyay
+git+http://github.com/smarnach/pyexiftool.git
+
+
+git+https://github.com/jed-frey/get_files.git#egg=get_files
+# Web
+flask
+flask-restful
+pony
+flask-pony
+
+# Testing
+pytest
+pytest-html
+
+flake8
+flake8-html
+flake8-quotes
+flake8-isort
+flake8-docstrings
+flake8-commas
+flake8-docstrings
+
+mccabe
+pep8-naming
+
+# Development 
+jupyter
+notebook
+
+# IDE
+spyder
