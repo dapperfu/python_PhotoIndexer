@@ -3,8 +3,11 @@ xxhash
 exifyay
 git+http://github.com/smarnach/pyexiftool.git
 
+-e git+git@github.com:jed-frey/ffinfo.git
+-e git+git@github.com:jed-frey/get_files.git
 
-git+https://github.com/jed-frey/get_files.git#egg=get_files
+versioneer
+
 # Web
 flask
 flask-restful
