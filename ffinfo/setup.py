@@ -1,6 +1,5 @@
 from setuptools import setup
-
-__VERSION__ = "0.0.1"
+import versioneer
 
 setup(name="ffinfo",
       version=__VERSION__,
@@ -10,4 +9,7 @@ setup(name="ffinfo",
       author_email='jed-frey@users.noreply.github.com',
       license='GPLv3',
       packages=['ffinfo'],
-      zip_safe=False)
+      zip_safe=False,
+      version=versioneer.get_version(),
+      cmdclass=versioneer.get_cmdclass(),
+)

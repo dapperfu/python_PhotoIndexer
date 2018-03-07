@@ -7,6 +7,8 @@ git+http://github.com/smarnach/pyexiftool.git
 -e git+git@github.com:jed-frey/get_files.git
 
 versioneer
+rq
+
 
 # Web
 flask

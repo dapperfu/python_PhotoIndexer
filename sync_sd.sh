@@ -20,5 +20,7 @@ mount /dev/mmcblk0p1 /mnt/sdcard
 mkdir -p $ROOT/$DIR
 # Sync
 rsync -aP /mnt/sdcard/ $ROOT/$DIR/
+
+touch "/mnt/sdcard/.synced_`date +%Y%b%d_%H%M%S`"
 # Unmo
 umount /mnt/sdcard
