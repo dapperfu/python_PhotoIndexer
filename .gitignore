@@ -1,3 +1,12 @@
+## Top Level venv folders/files to ignore
+**/bin/*
+**/etc/*
+**/lib64
+**/pip-selfcheck.json
+**/pyvenv.cfg
+**/share/*
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -2,10 +2,8 @@ cached_property
 xxhash
 
 exifyay
-git+http://github.com/smarnach/pyexiftool.git
-
--e git+git@github.com:jed-frey/ffinfo.git
--e git+git@github.com:jed-frey/get_files.git
+git+http://github.com/smarnach/pyexiftool.git#egg=pyexiftool
+git+http://github.com/jed-frey/get_files.git#egg=get_files
 
 versioneer
 rq
