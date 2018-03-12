@@ -1,6 +1,7 @@
+import configparser
+
 import redis
 import rq
-import configparser
 
 config = configparser.ConfigParser()
 config.read('config.ini')

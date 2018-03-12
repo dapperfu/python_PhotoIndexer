@@ -1,10 +1,11 @@
-import xxhash
-import exiftool
 import configparser
-import redis
 import json
+
+import exiftool
 import get_files
+import redis
 import rq
+import xxhash
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -55,10 +56,12 @@ def cache_xxhash(media_file):
     return XXHASH
 
 def cache_exif(media_file):
-    EXIF_ = exif_cache.get(xxhash)
+    XXHASH_ = cache_xxhash(media_file)
+    EXIF_ = exif_cache.get(XXHASH_)
     if  EXIF_ is None:
         EXIF = get_exif(media_file)
-        exif_cache.set(xxhash, json.dumps(EXIF))
+        exif_cache.set(XXHASH_
+                       , json.dumps(EXIF))
         print("Caching EXIF: {}".format(media_file))
     else:
         EXIF = json.loads(EXIF_.decode())
@@ -73,5 +76,4 @@ def scan_dir(root_dir):
         q.enqueue(scan_dir, media_dir)
     media_files = get_files.get_files(root_dir, depth=1)
     for media_file in media_files:
-        q.enqueue(cache_xxhash, media_file)
         q.enqueue(cache_exif, media_file)
