@@ -1,3 +1,0 @@
-[submodule "get_files"]
-	path = get_files
-	url = git@github.com:jed-frey/get_files.git
