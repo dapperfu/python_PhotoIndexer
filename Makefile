@@ -39,7 +39,7 @@ clean:
 	@git clean -xfd
 
 requirements.txt:
-	$(error r${@} is missing.)
+	$(error ${@} is missing.)
 
 .PHONY:nb
 nb:
