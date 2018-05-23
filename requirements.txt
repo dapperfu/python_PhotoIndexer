@@ -1,19 +1,13 @@
-cached_property
-xxhash
-
+# Pictures
 exifyay
+Pillow
 git+http://github.com/smarnach/pyexiftool.git#egg=pyexiftool
-git+http://github.com/jed-frey/get_files.git#egg=get_files
-
 versioneer
+
+# DB
 rq
 PyMySQL
-
-# Web
-flask
-flask-restful
 pony
-flask-pony
 
 # Testing
 pytest
@@ -36,3 +30,9 @@ notebook
 
 # IDE
 spyder
+
+# Other
+cached_property
+xxhash
+git+http://github.com/jed-frey/get_files.git#egg=get_files
+
