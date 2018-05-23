@@ -2,6 +2,7 @@
 
 # Environments to setup for this project
 # Available options: python arduino
+BASE_MODULES:=cython
 ENVS:=python
 
 ## make_sandwich includes
