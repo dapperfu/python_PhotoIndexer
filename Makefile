@@ -1,14 +1,9 @@
 # Config
 
-## Targets
-# Do nothing.
-.PHONY: null
-null:
-	@$(error No Default Target).
+# Environments to setup for this project
+# Available options: python arduino
+ENVS:=python
 
-# Toolchain Includes
+## make_sandwich includes
+# https://github.com/jed-frey/make_sandwich
 include .mk_inc/env.mk
-include .mk_inc/host_env.mk
-include .mk_inc/python.mk
-include .mk_inc/arduino.mk
-include .mk_inc/lint.mk
