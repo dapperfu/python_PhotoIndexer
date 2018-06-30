@@ -5,7 +5,7 @@
 set HOST=`hostname`
 if ( ${HOST} == "m6700" ) then
    set SD_CARD=mmcblk0p1
-   set SYNC_ROOT=/pictures
+   set SYNC_ROOT=/mnt/ubuntu1604_2/pictures
 else if ( ${HOST} == "4770k" ) then
    echo Host "${HOST}" not configured.
    exit 1
@@ -15,7 +15,7 @@ else
 endif
 
 # Sync photos on my laptop to my local pictures directory.
-DIR=`date --iso-8601="seconds" | sed "s/\:/_/g"`
+set DIR=`date --iso-8601="seconds" | sed "s/\:/_/g"`
 
 # Cameras, especially "Action Cams" have a bad habit of corrupting
 # a partition.
