@@ -5,7 +5,7 @@
 set HOST=`hostname`
 if ( ${HOST} == "m6700" ) then
    set SD_CARD=mmcblk0p1
-   set SYNC_ROOT=/mnt/ubuntu1604_2/pictures
+   set SYNC_ROOT=/net/8600k.local/mnt/vault/pictures/sync
 else if ( ${HOST} == "4770k" ) then
    echo Host "${HOST}" not configured.
    exit 1

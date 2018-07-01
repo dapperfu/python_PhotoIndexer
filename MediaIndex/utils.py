@@ -8,7 +8,7 @@ import rq
 import xxhash
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read("config.ini")
 
 exif_cache = redis.StrictRedis(
     host=config["redis"]["host"],
@@ -28,10 +28,12 @@ r = redis.StrictRedis(
 )
 q = rq.Queue(connection=r)
 
+
 def get_str_xxhash(string=""):
     x = xxhash.xxh64()
     x.update(string)
     return x.hexdigest()
+
 
 def get_xxhash(fname):
     hash64 = xxhash.xxh64()
@@ -40,9 +42,11 @@ def get_xxhash(fname):
             hash64.update(chunk)
     return hash64.hexdigest()
 
+
 def get_exif(fname):
     with exiftool.ExifTool() as et:
         return et.get_metadata(str(fname))
+
 
 def cache_xxhash(media_file):
     XXHASH_ = xxhash_cache.get(str(media_file))
@@ -55,18 +59,19 @@ def cache_xxhash(media_file):
         print("Cached hash : {}".format(media_file))
     return XXHASH
 
+
 def cache_exif(media_file):
     XXHASH_ = cache_xxhash(media_file)
     EXIF_ = exif_cache.get(XXHASH_)
-    if  EXIF_ is None:
+    if EXIF_ is None:
         EXIF = get_exif(media_file)
-        exif_cache.set(XXHASH_
-                       , json.dumps(EXIF))
+        exif_cache.set(XXHASH_, json.dumps(EXIF))
         print("Caching EXIF: {}".format(media_file))
     else:
         EXIF = json.loads(EXIF_.decode())
         print("Cached EXIF : {}".format(media_file))
-    return(EXIF)
+    return EXIF
+
 
 def scan_dir(root_dir):
     media_dirs = get_files.get_dirs(root_dir, depth=1)
