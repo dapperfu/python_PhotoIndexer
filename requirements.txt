@@ -36,3 +36,9 @@ notebook
 
 # IDE
 spyder
+
+
+## Host Requirements
+#16.04 18.04: python3
+#16.04 18.04: python3-venv
+
