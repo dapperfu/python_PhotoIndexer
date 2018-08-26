@@ -5,27 +5,30 @@ from PIL import Image
 import xxhash
 
 
-def get_xxhash(fname):
+def get_xxhash(file_path):
     """ Get the xxhash of a given file."""
     hash64 = xxhash.xxh64()
-    with open(str(fname), "rb") as f:
+    with open(str(file_path), "rb") as f:
         for chunk in iter(lambda: f.read(4096), b""):
             hash64.update(chunk)
     return hash64.hexdigest()
 
 
-def get_exif(fname):
+def get_exif(file_path):
     """Get the exif of a given file."""
     with exiftool.ExifTool() as et:
-        return et.get_metadata(str(fname))
+        return et.get_metadata(str(file_path))
 
 
-def get_thumbnail(img_path, size=(255, 255)):
-    if isinstance(img_path, bytes):
-        img_path = img_path.decode("UTF-8")
+def get_thumbnail(file_path, size=(255, 255), pil_image=True):
+    if isinstance(file_path, bytes):
+        file_path = file_path.decode("UTF-8")
 
-    img = Image.open(img_path)
+    img = Image.open(file_path)
     img.thumbnail(size)
+    if pil_image:
+        return img
+
     with io.BytesIO() as buffer:
         img.save(buffer, format="jpeg")
         thumbnail = buffer.getvalue()
