@@ -14,10 +14,22 @@ cfg = os.path.join(cfg_dir, "config.ini")
 config = configparser.ConfigParser()
 config.read(cfg)
 
-exif_cache = redis.StrictRedis(host=config["redis"]["host"], port=config["redis"]["port"], db=config["redis"]["exif"])
-xxhash_cache = redis.StrictRedis(host=config["redis"]["host"], port=config["redis"]["port"], db=config["redis"]["xxhash"])
+exif_cache = redis.StrictRedis(
+    host=config["redis"]["host"],
+    port=config["redis"]["port"],
+    db=config["redis"]["exif"],
+)
+xxhash_cache = redis.StrictRedis(
+    host=config["redis"]["host"],
+    port=config["redis"]["port"],
+    db=config["redis"]["xxhash"],
+)
 
-r = redis.StrictRedis(host=config["redis"]["host"], port=config["redis"]["port"], db=config["redis"]["rq"])
+r = redis.StrictRedis(
+    host=config["redis"]["host"],
+    port=config["redis"]["port"],
+    db=config["redis"]["rq"],
+)
 q = rq.Queue(connection=r)
 
 
