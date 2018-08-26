@@ -1,12 +1,12 @@
 import configparser
 import json
+import os
 
 import exiftool
 import get_files
 import redis
 import rq
 import xxhash
-import os
 
 cfg_dir = os.path.dirname(os.path.abspath(__file__))
 cfg = os.path.join(cfg_dir, "config.ini")
