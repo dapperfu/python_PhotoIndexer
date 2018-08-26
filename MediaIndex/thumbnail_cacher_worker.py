@@ -63,8 +63,11 @@ def cache_thumbnail(img_path, size=(255, 255)):
     try:
         Thumbnail(xxhash=xxhash, thumbnail=thumbnail)
         db.commit()
+        return True
     except orm.CacheIndexError:
-        pass
+        return False
+    except orm.TransactionIntegrityError:
+        return False
     except:
         raise
 
