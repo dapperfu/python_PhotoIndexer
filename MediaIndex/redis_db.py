@@ -35,4 +35,3 @@ for db_name, db in redis_databases.items():
 if __name__ == "__main__":
     for db_name, db in redis_databases.items():
         print("{} db: {} keys".format(db_name, db.dbsize()))
- 

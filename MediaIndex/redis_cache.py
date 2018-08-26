@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """Redis cache of stuff."""
 
-import utils
-import redis_db
 import json
+
+import redis_db
+import utils
+
 
 def get_xxhash(file_path):
     """Return the xxhash of a given media file.

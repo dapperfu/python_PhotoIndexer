@@ -17,7 +17,6 @@ r = redis.StrictRedis(
 )
 
 
-
 def scan_dir(root_dir):
     # Scan for directories in the given root directory, to a depth of 1
     media_dirs = get_files.get_dirs(root_dir, depth=1)

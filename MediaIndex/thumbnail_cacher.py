@@ -3,7 +3,6 @@ import io
 import os
 
 from PIL import Image
-
 from pony import orm
 import rq
 

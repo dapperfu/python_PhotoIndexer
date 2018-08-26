@@ -1,7 +1,8 @@
 import io
+
 import exiftool
-import xxhash
 from PIL import Image
+import xxhash
 
 
 def get_xxhash(fname):
@@ -17,7 +18,7 @@ def get_exif(fname):
     """Get the exif of a given file."""
     with exiftool.ExifTool() as et:
         return et.get_metadata(str(fname))
-    
+
 
 def get_thumbnail(img_path, size=(255, 255)):
     if isinstance(img_path, bytes):
@@ -29,6 +30,7 @@ def get_thumbnail(img_path, size=(255, 255)):
         img.save(buffer, format="jpeg")
         thumbnail = buffer.getvalue()
     return thumbnail
+
 
 def pil_thumbnail(thumbnail_str):
     assert isinstance(thumbnail_str, bytes)
