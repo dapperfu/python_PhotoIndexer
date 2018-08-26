@@ -60,5 +60,14 @@ def get_thumbnail(file_path, size=(255, 255)):
     return thumbnail
         
         
-
+def cache_xxhash(file_path):
+    get_xxhash(file_path);
+    return None
+def cache_exifsh(file_path):
+    get_xxhash(file_path);
+    return None
+def cache_xxhash(file_path):
+    get_thumbnail(file_path);
+    return None
+                                     
             
