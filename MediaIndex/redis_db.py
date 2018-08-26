@@ -3,7 +3,6 @@
 """
 Created on Sat Aug 25 22:44:57 2018
 
-@author: jed
 """
 import configparser
 import os
@@ -30,8 +29,10 @@ for key in config["redis"].keys():
     redis_databases[key] = db_
 
 this = sys.modules[__name__]
-for key, value in redis_databases.items():
-    setattr(this, key, value)
+for db_name, db in redis_databases.items():
+    setattr(this, db_name, db)
 
 if __name__ == "__main__":
-    pass
+    for db_name, db in redis_databases.items():
+        print("{} db: {} keys".format(db_name, db.dbsize()))
+ 

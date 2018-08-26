@@ -1,3 +1,4 @@
+redis_cache_decorator
 cached_property
 xxhash
 
@@ -17,6 +18,8 @@ pytest-html
 
 cython
 
+Pillow
+
 # Development 
 jupyter
 notebook
@@ -25,4 +28,3 @@ notebook
 #16.04 18.04: python3
 #16.04 18.04: python3-venv
 #16.04 18.04: python3-dev
-

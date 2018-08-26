@@ -5,9 +5,7 @@ import os
 from PIL import Image
 
 from pony import orm
-import redis
 import rq
-import utils
 
 cfg_dir = os.path.dirname(os.path.abspath(__file__))
 cfg = os.path.join(cfg_dir, "config.ini")
@@ -15,28 +13,6 @@ cfg = os.path.join(cfg_dir, "config.ini")
 config = configparser.ConfigParser()
 config.read(cfg)
 
-exif_cache = redis.StrictRedis(
-    host=config["redis"]["host"],
-    port=config["redis"]["port"],
-    db=config["redis"]["exif"],
-)
-xxhash_cache = redis.StrictRedis(
-    host=config["redis"]["host"],
-    port=config["redis"]["port"],
-    db=config["redis"]["xxhash"],
-)
-
-thumb_cache = redis.StrictRedis(
-    host=config["redis"]["host"],
-    port=config["redis"]["port"],
-    db=config["redis"]["thumb"],
-)
-
-rq_thumb = redis.StrictRedis(
-    host=config["redis"]["host"],
-    port=config["redis"]["port"],
-    db=config["redis"]["rq_thumb"],
-)
 
 db = orm.Database()
 provider = "mysql"
@@ -56,18 +32,6 @@ class Thumbnail(db.Entity):
 
 
 db.generate_mapping()
-
-
-def get_thumbnail(img_path, size=(255, 255)):
-    if isinstance(img_path, bytes):
-        img_path = img_path.decode("UTF-8")
-
-    img = Image.open(img_path)
-    img.thumbnail(size)
-    with io.BytesIO() as buffer:
-        img.save(buffer, format="jpeg")
-        thumbnail = buffer.getvalue()
-    return thumbnail
 
 
 def cache_thumbnail(img_path, size=(255, 255)):
