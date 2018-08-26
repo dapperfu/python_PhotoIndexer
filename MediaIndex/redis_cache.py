@@ -6,27 +6,29 @@ import json
 import redis_db
 import utils
 
+
 def get_xxhash(file_path):
     """Return the xxhash of a given media file.
 
     Cache if it is not already cached."""
     if isinstance(file, bytes):
-        file_path=file_path.decode("UTF-8")
-    file_path=str(file_path)
+        file_path = file_path.decode("UTF-8")
+    file_path = str(file_path)
 
     if redis_db.xxhash.exists(file_path):
-        XXHASH= redis_db.xxhash.get(file_path).decode("UTF-8")
+        XXHASH = redis_db.xxhash.get(file_path).decode("UTF-8")
         print("[X] hash : {}".format(file_path))
     else:
-        XXHASH=utils.get_xxhash(file_path)
+        XXHASH = utils.get_xxhash(file_path)
         redis_db.xxhash.set(file_path, XXHASH)
         print("[ ] hash: {}".format(file_path))
     return XXHASH
 
+
 def get_exif(file_path):
     if isinstance(file_path, bytes):
-        file_path=file_path.decode("UTF-8")
-    file_path=str(file_path)
+        file_path = file_path.decode("UTF-8")
+    file_path = str(file_path)
 
     file_hash = get_xxhash(file_path)
     if redis_db.exif.exists(file_hash):
@@ -41,14 +43,14 @@ def get_exif(file_path):
 
     return exif
 
+
 def get_thumbnail(file_path, size=(255, 255)):
     if isinstance(file_path, bytes):
-        file_path=file_path.decode("UTF-8")
-    file_path=str(file_path)
+        file_path = file_path.decode("UTF-8")
+    file_path = str(file_path)
 
     file_hash = get_xxhash(file_path)
-    cache_thumbnail(file_path)
-    
+
     if redis_db.thumbnail.exists(file_hash):
         thumb_ = redis_db.thumbnail.get(file_hash)
         print("[X] thumb : {}".format(file_path))
@@ -56,20 +58,25 @@ def get_thumbnail(file_path, size=(255, 255)):
         thumb_ = utils.get_thumbnail(file_path, size=size)
         print("[ ] thumb : {}".format(file_path))
 
-    thumbnail = utils.pil_thumbnail(thumb_{})
+    thumbnail = utils.pil_thumbnail(thumb_)
     return thumbnail
-        
+
+
 """
 
 """
+
+
 def cache_xxhash(file_path):
-    get_xxhash(file_path);
+    get_xxhash(file_path)
     return None
+
+
 def cache_exifsh(file_path):
-    get_xxhash(file_path);
+    get_xxhash(file_path)
     return None
+
+
 def cache_xxhash(file_path):
-    get_thumbnail(file_path);
+    get_thumbnail(file_path)
     return None
-                                     
-            
