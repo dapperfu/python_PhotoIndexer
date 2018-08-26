@@ -9,36 +9,20 @@ versioneer
 rq
 PyMySQL
 
-# Web
-flask
-flask-restful
-pony
-flask-pony
+black
 
 # Testing
 pytest
 pytest-html
 
-flake8
-flake8-html
-flake8-quotes
-flake8-isort
-flake8-docstrings
-flake8-commas
-flake8-docstrings
-
-mccabe
-pep8-naming
+cython
 
 # Development 
 jupyter
 notebook
 
-# IDE
-spyder
-
-
 ## Host Requirements
 #16.04 18.04: python3
 #16.04 18.04: python3-venv
+#16.04 18.04: python3-dev
 
