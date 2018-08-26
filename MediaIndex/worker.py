@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""redis_db module utils.
+"""worker module utils.
 
 Usage:
   redis_db.py
