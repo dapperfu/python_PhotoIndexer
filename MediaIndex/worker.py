@@ -16,7 +16,7 @@ r = redis.StrictRedis(
     db=config["redis"]["rq"],
 )
 
-w = rq.Worker("default", connection=r)
 
 if __name__ == "__main__":
+    w = rq.Worker("default", connection=r)
     w.work()
