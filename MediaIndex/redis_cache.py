@@ -61,15 +61,15 @@ def get_thumbnail(file_path, **kwargs):
 
     file_hash = get_xxhash(file_path)
 
-    if redis_db.thumbnail.exists(file_hash):
-        thumb_ = redis_db.thumbnail.get(file_hash)
+    if redis_db.thumb.exists(file_hash):
+        thumb_ = redis_db.thumb.get(file_hash)
         print("[X] thumb : {}".format(file_path))
     else:
-        thumb_ = utils.get_thumbnail(file_path, **kwargs)
+        thumb_ = utils.get_thumbnail(file_path, pil_image=False)
+        redis_db.thumb.set(file_hash, thumb_)
         print("[ ] thumb : {}".format(file_path))
 
-    thumbnail = utils.pil_thumbnail(thumb_)
-    return thumbnail
+    return thumb_
 
 
 """
@@ -100,5 +100,6 @@ if __name__ == "__main__":
 
     xxhash = get_xxhash(file_path)
     exif = get_exif(file_path)
-    thumbnail = get_thumbnail(file_path, pil_image=True)
+    thumbnail = get_thumbnail(file_path)
+    thumbnail = utils.pil_thumbnail(thumbnail)
     thumbnail.save("thumbnail.jpg")

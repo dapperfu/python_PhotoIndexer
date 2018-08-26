@@ -1,20 +1,26 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""redis_db module utils.
+
+Usage:
+  redis_db.py
+  redis_db.py flush
+
+Options:
+  -h --help     Show this screen.
+  --version     Show version.
+
+"""
 import configparser
 import os
+import sys
 
+from docopt import docopt
 import redis
 import rq
 
 cfg_dir = os.path.dirname(os.path.abspath(__file__))
 cfg = os.path.join(cfg_dir, "config.ini")
-
-config = configparser.ConfigParser()
-config.read(cfg)
-
-r = redis.StrictRedis(
-    host=config["redis"]["host"],
-    port=config["redis"]["port"],
-    db=config["redis"]["rq"],
-)
 
 
 def scan_dir(root_dir):

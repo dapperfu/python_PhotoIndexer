@@ -1,17 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""redis_db module ^ utils.
+"""redis_db module utils.
 
 Usage:
-  redis_db.py 
+  redis_db.py
   redis_db.py flush
 
 Options:
   -h --help     Show this screen.
   --version     Show version.
-  --speed=<kn>  Speed in knots [default: 10].
-  --moored      Moored (anchored) mine.
-  --yes    Drifting mine.
 
 """
 import configparser
