@@ -56,7 +56,9 @@ def get_exif(fname):
 
 
 def cache_xxhash(media_file):
-    """Return the xxhash of a given media file. Cache if it is not already cached."""
+    """Return the xxhash of a given media file.
+
+    Cache if it is not already cached."""
     XXHASH_ = xxhash_cache.get(str(media_file))
     if XXHASH_ is None:
         XXHASH = get_xxhash(str(media_file))

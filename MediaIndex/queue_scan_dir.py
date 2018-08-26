@@ -8,5 +8,5 @@ import sys
 import utils
 
 for import_dir in sys.argv[1:]:
-    print(import_dir)
-#    j = q.enqueue(utils.scan_dir, )
+    print("Enqueuing: '{}'".format(import_dir))
+    utils.q.enqueue(utils.scan_dir, import_dir)
