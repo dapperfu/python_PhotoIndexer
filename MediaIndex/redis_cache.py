@@ -53,8 +53,8 @@ def get_thumbnail(file_path, size=(255, 255)):
         thumb_ = redis_db.thumbnail.get(file_hash)
         print("[X] thumb : {}".format(file_path))
     else:
-        thumb_ = utils.get_thumbnail(file_path, size=
-        print("[] thumb : {}".format(file_path))
+        thumb_ = utils.get_thumbnail(file_path, size=size)
+        print("[ ] thumb : {}".format(file_path))
 
     thumbnail = utils.pil_thumbnail(thumb_{})
     return thumbnail
