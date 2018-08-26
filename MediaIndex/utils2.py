@@ -7,12 +7,10 @@ from PIL import Image
 
 import exiftool
 import get_files
-from pony.orm import *
+from pony import orm
 import redis
 import rq
 import xxhash
-
-set_sql_debug(False)
 
 cfg_dir = os.path.dirname(os.path.abspath(__file__))
 cfg = os.path.join(cfg_dir, "config.ini")
@@ -39,11 +37,25 @@ r = redis.StrictRedis(
 q = rq.Queue(connection=r)
 
 
-def get_str_xxhash(string=""):
-    """Return the xxhash of a given string."""
-    x = xxhash.xxh64()
-    x.update(string)
-    return x.hexdigest()
+db = orm.Database()
+
+provider = "mysql"
+db.bind(
+    provider=provider,
+    host=config[provider]["host"],
+    user=config[provider]["user"],
+    passwd=config[provider]["pass"],
+    db="media_index4",
+)
+
+
+class Thumbnail(db.Entity):
+    id = PrimaryKey(int, auto=True)
+    xxhash = Required(str, unique=True)
+    thumbnail = Optional(buffer)
+
+
+db.generate_mapping()
 
 
 def get_xxhash(fname):
