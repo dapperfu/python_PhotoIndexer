@@ -3,8 +3,8 @@
 """worker module utils.
 
 Usage:
-  redis_db.py
-  redis_db.py flush
+  worker.py
+  worker.py [
 
 Options:
   -h --help     Show this screen.
@@ -45,5 +45,8 @@ def scan_dir(root_dir):
 
 
 if __name__ == "__main__":
-    w = rq.Worker("default", connection=r)
-    w.work()
+    arguments = docopt(__doc__, version="redis_db.py 0.1")
+    print(arguments)
+
+    # w = rq.Worker("default", connection=r)
+    # w.work()
