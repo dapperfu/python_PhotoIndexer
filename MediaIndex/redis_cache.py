@@ -54,7 +54,7 @@ def get_exif(file_path):
     return exif
 
 
-def get_thumbnail(file_path, size=(255, 255)):
+def get_thumbnail(file_path, **kwargs):
     if isinstance(file_path, bytes):
         file_path = file_path.decode("UTF-8")
     file_path = str(file_path)
@@ -65,7 +65,7 @@ def get_thumbnail(file_path, size=(255, 255)):
         thumb_ = redis_db.thumbnail.get(file_hash)
         print("[X] thumb : {}".format(file_path))
     else:
-        thumb_ = utils.get_thumbnail(file_path, size=size)
+        thumb_ = utils.get_thumbnail(file_path, **kwargs)
         print("[ ] thumb : {}".format(file_path))
 
     thumbnail = utils.pil_thumbnail(thumb_)
@@ -100,4 +100,5 @@ if __name__ == "__main__":
 
     xxhash = get_xxhash(file_path)
     exif = get_exif(file_path)
-    thumbnail = get_thumbnail(file_path)
+    thumbnail = get_thumbnail(file_path, pil_image=True)
+    thumbnail.save("thumbnail.jpg")
