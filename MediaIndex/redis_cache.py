@@ -1,7 +1,17 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Redis cache of stuff."""
+"""redis_db module ^ utils.
 
+Usage:
+  redis_cache.py IMAGE
+
+Options:
+  -h --help     Show this screen
+
+"""
 import json
+
+from docopt import docopt
 
 import redis_db
 import utils
@@ -11,7 +21,7 @@ def get_xxhash(file_path):
     """Return the xxhash of a given media file.
 
     Cache if it is not already cached."""
-    if isinstance(file, bytes):
+    if isinstance(file_path, bytes):
         file_path = file_path.decode("UTF-8")
     file_path = str(file_path)
 
@@ -77,6 +87,17 @@ def cache_exifsh(file_path):
     return None
 
 
-def cache_xxhash(file_path):
+def cache_thumbnail(file_path):
     get_thumbnail(file_path)
     return None
+
+
+if __name__ == "__main__":
+
+    arguments = docopt(__doc__, version="redis_db.py 0.1")
+    print(arguments)
+    file_path = arguments["IMAGE"]
+
+    xxhash = get_xxhash(file_path)
+    exif = get_exif(file_path)
+    thumbnail = get_thumbnail(file_path)

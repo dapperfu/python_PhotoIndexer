@@ -18,8 +18,8 @@ import configparser
 import os
 import sys
 
-import redis
 from docopt import docopt
+import redis
 
 cfg_dir = os.path.dirname(os.path.abspath(__file__))
 cfg = os.path.join(cfg_dir, "config.ini")

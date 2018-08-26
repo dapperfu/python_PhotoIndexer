@@ -3,8 +3,9 @@ import io
 import os
 
 from PIL import Image
-from pony import orm
 import rq
+
+from pony import orm
 
 cfg_dir = os.path.dirname(os.path.abspath(__file__))
 cfg = os.path.join(cfg_dir, "config.ini")
