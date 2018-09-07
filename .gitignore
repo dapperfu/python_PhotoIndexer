@@ -5,7 +5,8 @@
 **/pip-selfcheck.json
 **/pyvenv.cfg
 **/share/*
-
+**/.ipynb_checkpoints/
+.ipynb_checkpoints
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
