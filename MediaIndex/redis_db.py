@@ -25,7 +25,7 @@ config = configparser.ConfigParser()
 config.read(cfg)
 
 
-redis_databases = dict()
+databases = dict()
 for key in config["redis"].keys():
     if key in ["host", "port"]:
         continue
@@ -34,20 +34,20 @@ for key in config["redis"].keys():
         port=config["redis"]["port"],
         db=config["redis"][key],
     )
-    redis_databases[key] = db_
+    databases[key] = db_
 
 this = sys.modules[__name__]
-for db_name, db in redis_databases.items():
+for db_name, db in databases.items():
     setattr(this, db_name, db)
 
 
 def flush_keys():
-    for db_name, db in redis_databases.items():
+    for db_name, db in databases.items():
         print("{} db: flushing".format(db_name))
 
 
 def key_count():
-    for db_name, db in redis_databases.items():
+    for db_name, db in databases.items():
         print("{} db: {} keys".format(db_name, db.dbsize()))
 
 

@@ -1,3 +1,4 @@
+docopts
 redis_cache_decorator
 cached_property
 xxhash

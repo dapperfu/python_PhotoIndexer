@@ -82,7 +82,7 @@ def cache_xxhash(file_path):
     return None
 
 
-def cache_exifsh(file_path):
+def cache_exif(file_path):
     get_xxhash(file_path)
     return None
 
@@ -90,6 +90,34 @@ def cache_exifsh(file_path):
 def cache_thumbnail(file_path):
     get_thumbnail(file_path)
     return None
+
+import get_files
+import os
+import redis_db
+import rq
+
+def cache_dir(root_dir):
+    db_ = "rq"
+    connection = redis_db.databases[db_]
+    queue = rq.Queue(connection=connection)
+    # Scan for directories in the given root directory, to a depth of 1
+    media_dirs = get_files.get_dirs(root_dir, depth=1)
+    # For each found directory:
+    for media_dir in media_dirs:
+        # Don't scan zfs snap directories
+        if ".zfs" in media_dir:
+            continue
+        # Don't follow symbolic links.
+        if os.path.islink(media_dir):
+            continue
+        # Queue scanning the folder.
+        queue.enqueue(cache_dir, media_dir)
+    # Scan given directory for files, to a depth of 1
+    media_files = get_files.get_files(root_dir, depth=1)
+    # For each media_file:
+    for media_file in media_files:
+        # Queue scanning the media's exif data.
+        queue.enqueue(cache_thumbnail, media_file)
 
 
 if __name__ == "__main__":
