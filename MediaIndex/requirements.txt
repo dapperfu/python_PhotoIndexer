@@ -1,6 +1,8 @@
+click-config-file
+isort
+pycodestyle
+pydocstyle
 
-docopts
-redis_cache_decorator
 cached_property
 xxhash
 
@@ -10,16 +12,12 @@ git+http://github.com/jed-frey/get_files.git#egg=get_files
 
 versioneer
 rq
-PyMySQL
-
 black
+redis
 
 # Testing
 pytest
-pytest-html
-
 cython
-
 Pillow
 
 # Development 
@@ -30,4 +28,4 @@ notebook
 #16.04 18.04: python3
 #16.04 18.04: python3-venv
 #16.04 18.04: python3-dev
-pony
+
