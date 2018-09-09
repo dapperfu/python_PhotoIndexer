@@ -8,10 +8,7 @@ import os
 
 import click
 
-import MediaIndexer
-
 from .config import config
-from .utils import url_is_alive
 
 
 @click.group()
