@@ -1,3 +1,4 @@
+click-config-file
 isort
 pycodestyle
 pydocstyle
