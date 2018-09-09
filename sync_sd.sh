@@ -6,6 +6,7 @@ set HOST=`hostname`
 if ( ${HOST} == "m6700" ) then
    set SD_CARD=mmcblk0p1
    set SYNC_ROOT=/net/8600k.local/mnt/vault/pictures/sync
+   set SYNC_ROOT=/pictures
 else if ( ${HOST} == "4770k" ) then
    echo Host "${HOST}" not configured.
    exit 1
@@ -19,7 +20,7 @@ set DIR=`date --iso-8601="seconds" | sed "s/\:/_/g"`
 
 # Cameras, especially "Action Cams" have a bad habit of corrupting
 # a partition.
-fsck -a /dev/${SD_CARD}
+fsck  /dev/${SD_CARD}
 
 # Create a mountpoint.
 mkdir -p /mnt/sdcard
