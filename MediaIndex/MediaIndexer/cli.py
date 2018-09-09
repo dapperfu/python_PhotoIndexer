@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Module for the ```darknet.py``` command line interface.
-
-An entrypoint for ```pydarknet2``` module.
+"""MediaIndexer 
 """
 
 import os
@@ -13,10 +11,8 @@ from .config import config
 
 @click.group()
 @click.version_option()
-def cli():
-    """```pydarknet2``` command line interface entry point.
-
-    darknet.py is a utility for interacting with pydarknet from the
-    command line.
-    """
+@click.option('--name', default='World', help='Who to greet.')
+@click_config_file.configuration_option()
+def hello(name):
+    click.echo('Hello {}!'.format(name))
 
