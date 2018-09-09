@@ -11,13 +11,11 @@ from .config import config
 @click.group()
 @click.version_option()
 def cli():
-    """```pydarknet2``` command line interface entry point.
+    """MediaIndexer command line interface entry point.
 
-    darknet.py is a utility for interacting with pydarknet from the
-    command line.
     """
 
-@click.command()
+@cli.command()
 @click.option('--name', default='World', help='Who to greet.')
 @click_config_file.configuration_option()
 def hello(name):
