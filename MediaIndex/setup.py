@@ -7,7 +7,6 @@ import versioneer
 
 LOCAL_DIR = os.path.dirname(os.path.abspath(__file__))
 
-
 # Get requirements
 requirements = []
 with open(os.path.join(LOCAL_DIR, "requirements.txt"), "r") as infile:
@@ -16,6 +15,7 @@ with open(os.path.join(LOCAL_DIR, "requirements.txt"), "r") as infile:
         if line and not line[0] == "#":  # ignore comments
             requirements.append(line)
 
+print(requirements)
 setup(
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
@@ -23,7 +23,6 @@ setup(
     author="Jed Frey",
     description="IndexMediaStuffs with Python & Redis.",
     packages=find_packages(),
-    install_requires=requirements,
     entry_points={
         'console_scripts': [
             'mi = MediaIndexer.cli:cli',
