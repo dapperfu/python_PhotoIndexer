@@ -5,7 +5,7 @@
 import os
 
 import click
-
+import click_config_file
 from .config import config
 
 
