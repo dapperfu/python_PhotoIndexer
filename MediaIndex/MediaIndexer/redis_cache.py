@@ -43,12 +43,12 @@ def get_exif(file_path):
     file_hash = get_xxhash(file_path)
     if redis_db.exif.exists(file_hash):
         exif_ = redis_db.exif.get(file_hash)
-        exif = json.loads(exif_.decode("UTF-8"))
+        exif = json.loads(exif_.decode("UTF-8").replace("'", "\""))
         print("[X] EXIF : {}".format(file_path))
     else:
         exif = utils.get_exif(file_path)
         exif_ = json.dumps(exif)
-        redis_db.exif.exists(file_hash, exif)
+        redis_db.exif.set(file_hash, exif_)
         print("[ ] EXIF: {}".format(file_path))
 
     return exif
