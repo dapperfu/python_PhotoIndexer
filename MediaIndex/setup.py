@@ -23,9 +23,5 @@ setup(
     author="Jed Frey",
     description="IndexMediaStuffs with Python & Redis.",
     packages=find_packages(),
-    entry_points={
-        'console_scripts': [
-            'mi = MediaIndexer.cli:cli',
-        ],
-    }
+    entry_points={"console_scripts": ["mi = MediaIndexer.cli:cli"]},
 )
