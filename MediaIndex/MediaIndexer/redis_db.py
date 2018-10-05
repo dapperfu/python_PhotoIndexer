@@ -36,6 +36,7 @@ for key in config["redis"].keys():
 
 this = sys.modules[__name__]
 for db_name, db in databases.items():
+    print("Loaded: {}".format(db_name))
     setattr(this, db_name, db)
 
 

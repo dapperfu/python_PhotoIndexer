@@ -13,9 +13,8 @@ import json
 
 from docopt import docopt
 
-import redis_db
-import utils
-
+from . import redis_db
+from MediaIndexer import utils
 
 def get_xxhash(file_path):
     """Return the xxhash of a given media file.
@@ -93,7 +92,6 @@ def cache_thumbnail(file_path):
 
 import get_files
 import os
-import redis_db
 import rq
 
 def cache_dir(root_dir):
