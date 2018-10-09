@@ -1,25 +1,23 @@
-
 docopts
-redis_cache_decorator
 cached_property
 xxhash
 
 exifyay
 git+http://github.com/smarnach/pyexiftool.git#egg=pyexiftool
 git+http://github.com/jed-frey/get_files.git#egg=get_files
+git+https://github.com/jed-frey/pydarknet2.git#egg=pydarknet2
+git+https://github.com/jed-frey/jupyter_NotebookCleaners.git#egg=notebookcleaner
 
 versioneer
 rq
 PyMySQL
 
 black
-
+isort
 # Testing
 pytest
 pytest-html
-
 cython
-
 Pillow
 
 # Development 

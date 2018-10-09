@@ -18,12 +18,10 @@ import sys
 from docopt import docopt
 import redis
 
-cfg_dir = os.path.dirname(os.path.abspath(__file__))
-cfg = os.path.join(cfg_dir, "config.ini")
+cfg = os.path.join("config.ini")
 
 config = configparser.ConfigParser()
 config.read(cfg)
-
 
 databases = dict()
 for key in config["redis"].keys():
@@ -38,6 +36,7 @@ for key in config["redis"].keys():
 
 this = sys.modules[__name__]
 for db_name, db in databases.items():
+    print("Loaded: {}".format(db_name))
     setattr(this, db_name, db)
 
 
