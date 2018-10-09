@@ -11,9 +11,6 @@ config = configparser.ConfigParser()
 config.read("config.ini")
 
 r = redis.StrictRedis(
-    host=config["redis"]["host"],
-    port=config["redis"]["port"],
-    db=1,
+    host=config["redis"]["host"], port=config["redis"]["port"], db=1
 )
 q = rq.Queue(connection=r)
-
