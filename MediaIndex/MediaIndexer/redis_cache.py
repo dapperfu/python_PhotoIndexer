@@ -60,11 +60,12 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
         # Print a cache hit.
         print("[X] EXIF : {}".format(file_path))
     else:
+        #
         exif = utils.get_exif(file_path)
         exif_ = json.dumps(exif)
         db.set(file_hash, exif_)
         print("[ ] EXIF: {}".format(file_path))
-
+    # Return the exif data.
     return exif
 
 @hashop
