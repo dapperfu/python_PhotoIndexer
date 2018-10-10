@@ -29,15 +29,16 @@ def get_thumbnail(file_path, size=(255, 255), pil_image=True):
     if isinstance(file_path, bytes):
         file_path = file_path.decode("UTF-8")
 
-    img = Image.open(file_path)
-    img.thumbnail(size)
-    if pil_image:
-        return img
+    with open(file_path, "rb") as fp:
+        img = Image.open(fp=fp)
+        img.thumbnail(size)
+        if pil_image:
+            return img
 
-    with io.BytesIO() as buffer:
-        img.save(buffer, format="jpeg")
-        thumbnail = buffer.getvalue()
-    return thumbnail
+        with io.BytesIO() as buffer:
+            img.save(buffer, format="jpeg")
+            thumbnail = buffer.getvalue()
+        return thumbnail
 
 def pil_thumbnail(thumbnail_str):
     assert isinstance(thumbnail_str, bytes)
