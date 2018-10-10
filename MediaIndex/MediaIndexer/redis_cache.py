@@ -72,6 +72,18 @@ def _get_thumbnail(file_path, file_hash, databases, **kwargs):
     return thumb_
 
 
+class RedisUtilsMixin(object):
+
+    def flush_keys(self):
+        databases = self.databases
+        for db_name, db in databases.items():
+            print("{} db: flushing".format(db_name))
+
+    def key_count(self):
+        databases = self.databases
+        for db_name, db in databases.items():
+            print("{} db: {} keys".format(db_name, db.dbsize()))
+
 class RedisCacheMixin(object):
     def get_xxhash(self, file_path):
         """Return the xxhash of a given media file.
