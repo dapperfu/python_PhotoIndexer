@@ -14,6 +14,7 @@ import json
 from docopt import docopt
 from MediaIndexer import utils
 
+
 def get_xxhash(file_path):
     """Return the xxhash of a given media file.
 
