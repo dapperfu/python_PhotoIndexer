@@ -46,4 +46,5 @@ class IndexedMedia(object):
         self.indexer=indexer
         self.file_path=file_path
 
-
+    @cached_property.cached_property
+    def objects
