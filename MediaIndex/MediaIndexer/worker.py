@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 """."""
 
-import MediaIndexer
-from MediaIndexer import redis_utils
+from . import redis_utils
 from . import redis_cache
 import os
 
