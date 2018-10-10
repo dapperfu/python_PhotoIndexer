@@ -6,8 +6,8 @@ import os
 import rq
 import click
 import click_config_file
-from MediaIndexer import worker
-from MediaIndexer import redis_cache
+import MediaIndexer.worker
+import MediaIndexer.redis_db
 
 import configparser
 
