@@ -22,7 +22,7 @@ def _get_xxhash(file_path, databases):
         XXHASH = db.get(file_path).decode("UTF-8")
         print("[X] hash : {}".format(file_path))
     else:
-        XXHASH = utils.get_xxhash(file_path)
+        XXHASH = MediaIndexer.local.get_xxhash(file_path)
         db.set(file_path, XXHASH)
         print("[ ] hash: {}".format(file_path))
     return XXHASH
@@ -61,7 +61,7 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
         print("[X] EXIF : {}".format(file_path))
     else:
         # U
-        exif = local.get_exif(file_path)
+        exif = MediaIndexer.local.get_exif(file_path)
         exif_ = json.dumps(exif)
         db.set(file_hash, exif_)
         print("[ ] EXIF: {}".format(file_path))
