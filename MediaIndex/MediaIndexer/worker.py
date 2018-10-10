@@ -9,7 +9,7 @@ import os
 def cache_xxhash(file_path):
     config_file = os.environ["MEDIAINDEXER_CFG"]
     database = os.environ["MEDIAINDEXER_DB"]
-    databases = redis_utils.load_databases(config_file, database)
+    databases = redis_utils.load_databases(config_file)
     cfg = {
         "file_path": file_path,
         "databases": databases,
@@ -17,6 +17,8 @@ def cache_xxhash(file_path):
     redis_cache._get_xxhash(**cfg)
 
 def cache_exif(file_path):
+    config_file = os.environ["MEDIAINDEXER_CFG"]
+    database = os.environ["MEDIAINDEXER_DB"]
     databases = redis_utils.load_databases(config_file)
     cfg = {
         "file_path": file_path,
