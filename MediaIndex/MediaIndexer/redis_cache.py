@@ -5,7 +5,7 @@
 """
 import json
 
-from MediaIndexer import utils
+import MediaIndexer.local
 import cached_property
 
 import functools
@@ -51,7 +51,7 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
         print("{}: {}".format(key, value))
     # exif data is cached in the exif database.
     db = databases["exif"]
-    # If the file_has exists in the database.
+    # If the file_hash exists in the database.
     if db.exists(file_hash):
         # Get the raw exif data.
         exif_ = db.get(file_hash)
@@ -60,8 +60,8 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
         # Print a cache hit.
         print("[X] EXIF : {}".format(file_path))
     else:
-        #
-        exif = utils.get_exif(file_path)
+        # U
+        exif = local.get_exif(file_path)
         exif_ = json.dumps(exif)
         db.set(file_hash, exif_)
         print("[ ] EXIF: {}".format(file_path))
