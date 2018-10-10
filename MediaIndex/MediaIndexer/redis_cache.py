@@ -83,9 +83,12 @@ class RedisCacheMixin(object):
 
 
     def get_thumbnail(self, file_path, pil_image=True):
-        thumbnail = _get_thumbnail(file_path=file_path, databases=self.databases)
+        thumbnail_ = _get_thumbnail(file_path=file_path, databases=self.databases)
         if pil_image:
-            thumbnail =
+            thumbnail = local.pil_thumbnail(thumbnail_)
+        else:
+            thumbnail = thumbnail_
+        return thumbnail
 
     def cache_xxhash(self, file_path):
         self.get_xxhash(file_path)
