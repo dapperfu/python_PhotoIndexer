@@ -11,7 +11,7 @@ class MediaIndexer(object):
     def __init__(self, config):
         self.config=config
         
-    @cached_property
+    @cached_property.cached_property
     def databases(self):
         return load_databases(self.config)
     
