@@ -51,14 +51,14 @@ for method in ["delete", "put", "post"]:
 
 api.add_resource(xxhash, '/api/xxhash')
 api.add_resource(exif, '/api/exif')
-
+import io
 @app.route('/thumbnails/')
 def thumbnails():
     path = request.args.get('path')
     thumbnail = indexer.get_thumbnail(path, pil_image=False)
 
     return send_file(
-                     thumbnail,
+                     io.BytesIO(thumbnail),
                      attachment_filename='logo.jpeg',
                      mimetype='image/jpg'
                )
