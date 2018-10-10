@@ -62,7 +62,7 @@ class RedisCacheMixin(object):
         return _get_exif(file_path, db)
     
     
-    def get_thumbnail(self, file_path, **kwargs):
+    def get_thumbnail(self, file_path):
         if isinstance(file_path, bytes):
             file_path = file_path.decode("UTF-8")
         file_path = str(file_path)
