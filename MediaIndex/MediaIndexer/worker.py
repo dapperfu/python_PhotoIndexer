@@ -13,7 +13,7 @@ def cache_xxhash(file_path):
     }
     redis_cache._get_xxhash(**cfg)
 
-def cache_exif(config_file, file_path):
+def cache_exif(file_path):
     databases = MediaIndexer.redis_db.load_databases(config_file)
     cfg = {
         "file_path": file_path,
@@ -21,7 +21,7 @@ def cache_exif(config_file, file_path):
     }
     redis_cache._get_exif(**cfg)
 
-def cache_thumbnail(config_file, file_path):
+def cache_thumbnail(file_path):
     databases = MediaIndexer.redis_db.load_databases(config_file)
     cfg = {
         "file_path": file_path,
