@@ -92,7 +92,7 @@ import os
 import rq
 class CacherMixin(object):
     def cache_dir(root_dir):
-        sonnection = self.databases["rq"]
+        connection = self.databases["rq"]
         queue = rq.Queue(connection=connection)
         # Scan for directories in the given root directory, to a depth of 1
         media_dirs = get_files.get_dirs(root_dir, depth=1)
@@ -107,7 +107,7 @@ class CacherMixin(object):
             # Queue scanning the folder.
             queue.enqueue(cache_dir, media_dir)
         # Scan given directory for files, to a depth of 1
-        media_files = get_files.get_files(root_dir, depth=1)
+        media_files = get_files.get_files(root_dir, depth=1,)
         # For each media_file:
         for media_file in media_files:
             # Queue scanning the media's exif data.
