@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """."""
-import configparser
-import os
-import sys
 
 import redis
 from .utils import read_config
+
 
 def load_databases(config_file="config.ini", config=None):
     """."""
@@ -23,5 +21,3 @@ def load_databases(config_file="config.ini", config=None):
         )
         databases[key] = db_
     return databases
-
-
