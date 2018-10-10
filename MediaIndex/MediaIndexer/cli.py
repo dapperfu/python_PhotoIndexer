@@ -3,7 +3,7 @@
 """
 
 import os
-
+import rq
 import click
 import click_config_file
 from .config import config
@@ -21,8 +21,8 @@ def worker(config):
     m = MediaIndexer.MediaIndexer(config)
     click.echo('Hello {}!'.format(m))
     connection = m.databases["rq"]
-    print(connection)
-    #w = rq.Worker("default", **kwargs)
-    #w.work()
+    w = rq.Worker("default", connection=connection)
+
+    w.work()
 
 
