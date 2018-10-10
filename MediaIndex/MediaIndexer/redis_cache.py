@@ -73,6 +73,7 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
 
 @hashop
 def _get_thumbnail(file_path, file_hash, databases, **kwargs):
+    """Return a thumbnail for a given file_hash."""
     for key, value in kwargs.items():
         print("{}: {}".format(key, value))
 
@@ -81,7 +82,7 @@ def _get_thumbnail(file_path, file_hash, databases, **kwargs):
         thumb_ = db.get(file_hash)
         print("[X] thumb : {}".format(file_path))
     else:
-        thumb_ = utils.get_thumbnail(file_path, pil_image=False)
+        thumb_ = MediaIndexer.local.get_thumbnail(file_path, pil_image=False)
         db.set(file_hash, thumb_)
         print("[ ] thumb : {}".format(file_path))
 
