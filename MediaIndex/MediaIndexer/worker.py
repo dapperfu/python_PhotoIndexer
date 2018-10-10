@@ -36,7 +36,7 @@ def cache_thumbnail(file_path):
         "databases": databases,
     }
     redis_cache._get_thumbnail(**cfg)
-
+888888y5
 def scan_dir(directory):
     """Scan a directory.
 
@@ -56,3 +56,4 @@ def scan_dir(directory):
     for image in get_files.get_files(directory=directory, extensions=[".jpg", ".jpeg"], depth=1):
         queue.enqueue(MediaIndexer.worker.cache_exif, image)
         queue.enqueue(MediaIndexer.worker.cache_thumbnail, image)
+
