@@ -28,14 +28,6 @@ def worker(config, cfg_db):
 
     connection = databases[cfg_db]
     w = rq.Worker("default", connection=connection)
-
-
-
-    print(config)
-    return None
-    #onfig =
-    click.echo('Hello {}!'.format(m))
-
     w.work()
 
 @cli.command()
