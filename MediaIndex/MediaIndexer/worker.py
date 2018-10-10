@@ -36,7 +36,11 @@ def cache_thumbnail(file_path):
     redis_cache._get_thumbnail(**cfg)
 
 def scan_dir(directory):
-    """Scan a directory. Queue a scan of any found directories.
+    """Scan a directory.
+
+    1. Queue a scan of any found directories.
+    2. Queue exif & thumbnail caching for any .jpeg files found.
+    """
     config_file = os.environ.get("MEDIAINDEXER_CFG", "config.ini")
     queue = rq_utils.get_queue(config_file=config_file, database="rq")
 
