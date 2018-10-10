@@ -5,12 +5,10 @@
 """
 import json
 
-import MediaIndexer.local
+from MediaIndexer import utils
 import cached_property
 
-import functools
-
-
+import functoolsz
 
 def _get_xxhash(file_path, databases):
     if isinstance(file_path, bytes):
@@ -22,7 +20,7 @@ def _get_xxhash(file_path, databases):
         XXHASH = db.get(file_path).decode("UTF-8")
         print("[X] hash : {}".format(file_path))
     else:
-        XXHASH = MediaIndexer.local.get_xxhash(file_path)
+        XXHASH = utils.get_xxhash(file_path)
         db.set(file_path, XXHASH)
         print("[ ] hash: {}".format(file_path))
     return XXHASH
@@ -39,41 +37,24 @@ def hashop(f):
 
 @hashop
 def _get_exif(file_path, file_hash, databases, **kwargs):
-    """Return exif for a given file_hash.
-
-    If the result is cached in redis, it returns the redis value.
-    If the result is not cached in redis it uses exiftool to:
-        1. Get the exif data.
-        2. Cache the exif data.
-        3. Return the exif data.
-    """
     for key, value in kwargs.items():
         print("{}: {}".format(key, value))
-    # exif data is cached in the exif database.
+
     db = databases["exif"]
-    # If the file_hash exists in the database.
     if db.exists(file_hash):
-        # Get the raw exif data.
         exif_ = db.get(file_hash)
-        # Clean up the raw exif data.
         exif = json.loads(exif_.decode("UTF-8").replace("'", "\""))
-        # Print a cache hit.
         print("[X] EXIF : {}".format(file_path))
     else:
-        # Use helper function to get the exif.
-        exif = MediaIndexer.local.get_exif(file_path)
-        # Encode the exif.
+        exif = utils.get_exif(file_path)
         exif_ = json.dumps(exif)
-        # Cache the exif
         db.set(file_hash, exif_)
-        # Mark a cache miss.
         print("[ ] EXIF: {}".format(file_path))
-    # Return the exif data.
+
     return exif
 
 @hashop
 def _get_thumbnail(file_path, file_hash, databases, **kwargs):
-    """Return a thumbnail for a given file_hash."""
     for key, value in kwargs.items():
         print("{}: {}".format(key, value))
 
@@ -82,45 +63,70 @@ def _get_thumbnail(file_path, file_hash, databases, **kwargs):
         thumb_ = db.get(file_hash)
         print("[X] thumb : {}".format(file_path))
     else:
-        thumb_ = MediaIndexer.local.get_thumbnail(file_path, pil_image=False)
+        thumb_ = utils.get_thumbnail(file_path, pil_image=False)
         db.set(file_hash, thumb_)
         print("[ ] thumb : {}".format(file_path))
 
     return thumb_
 
 
-class RedisUtilsMixin(object):
-    """Mixin to do some housekeeping on Redis.
-
-    Useful for development.
-    """
-    def flush_keys(self):
-        """Flush all keys."""
-        databases = self.databases
-        for db_name, db in databases.items():
-            print("{} db: flushing".format(db_name))
-
-    def key_count(self):
-        """Count Keys."""
-        databases = self.databases
-        for db_name, db in databases.items():
-            print("{} db: {} keys".format(db_name, db.dbsize()))
-
-class RedisCacheMixin(RedisUtilsMixin):
-    """Mixin to cache results with Redis.
-
-    """
+class RedisCacheMixin(object):
     def get_xxhash(self, file_path):
         """Return the xxhash of a given media file.
 
         Cache if it is not already cached."""
         return _get_xxhash(file_path=file_path, databases=self.databases)
 
+
     def get_exif(self, file_path):
-        """Return the EXIF of a given media file."""
         return _get_exif(file_path=file_path, databases=self.databases)
 
 
     def get_thumbnail(self, file_path):
-        """Return a thumbnail of a given image file."""
         return _get_thumbnail(file_path=file_path, databases=self.databases)
+
+    def cache_xxhash(self, file_path):
+        self.get_xxhash(file_path)
+        return None
+
+
+    def cache_exif(self, file_path):
+        self.get_xxhash(file_path)
+        return None
+
+    def cache_thumbnail(self, file_path):
+        self.get_thumbnail(file_path)
+        return None
+
+import get_files
+import os
+import rq
+class CacherMixin(object):
+
+    @cached_property.cached_property
+    def connection(self):
+        return self.databases["rq"]
+
+    @cached_property.cached_property
+    def queue(self):
+        return rq.Queue(connection=self.connection)
+
+    def cache_dir(self, root_dir):
+        # Scan for directories in the given root directory, to a depth of 1
+        media_dirs = get_files.get_dirs(root_dir, depth=1)
+        # For each found directory:
+        for media_dir in media_dirs:
+            # Don't scan zfs snap directories
+            if ".zfs" in media_dir:
+                continue
+            # Don't follow symbolic links.
+            if os.path.islink(media_dir):
+                continue
+            # Queue scanning the folder.
+            self.queue.enqueue(cache_dir, media_dir)
+        # Scan given directory for files, to a depth of 1
+        media_files = get_files.get_files(root_dir, depth=1)
+        # For each media_file:
+        for media_file in media_files:
+            # Queue scanning the media's exif data.
+            self.queue.enqueue(self.cache_thumbnail, media_file)
