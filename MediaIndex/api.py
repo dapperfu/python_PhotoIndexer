@@ -56,9 +56,12 @@ api.add_resource(exif, '/api/exif')
 def thumbnails():
     path = request.args.get('path')
     thumbnail = indexer.get_thumbnail(path)
-    print(thumbnail)
-    print(type(thumbnail))
-    return ""
+
+    return send_file(
+                     io.BytesIO(bites.read()),
+                     attachment_filename='logo.jpeg',
+                     mimetype='image/jpg'
+               )
 
 
 # <image src="data:image/png;base64,' + caffe.draw.draw_net(net, "UD").encode("base64") + '" style="max-width:100%" />
