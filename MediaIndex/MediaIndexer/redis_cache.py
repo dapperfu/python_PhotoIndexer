@@ -94,8 +94,14 @@ import rq
 class CacherMixin(object):
     
     @cached_property.cached_property
+    def connection(self):
+        return self.databases["rq"] 
+           
+    @cached_property.cached_property
+    def queue(self):
+        return rq.Queue(connection=self.connection)
+        
     def cache_dir(self, root_dir):
-        queue = self.rq.Queue(connection=connection)
         # Scan for directories in the given root directory, to a depth of 1
         media_dirs = get_files.get_dirs(root_dir, depth=1)
         # For each found directory:
