@@ -1,3 +1,4 @@
+prettytable
 requests
 flask-restful
 Flask-Bootstrap4
