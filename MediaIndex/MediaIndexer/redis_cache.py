@@ -44,13 +44,13 @@ class RedisCacheMixin(object):
         
         db = self.databases["exif"]
         if db.exists(file_hash):
-            exif_ = self.databases["exif"].get(file_hash)
+            exif_ = db.get(file_hash)
             exif = json.loads(exif_.decode("UTF-8").replace("'", "\""))
             print("[X] EXIF : {}".format(file_path))
         else:
             exif = utils.get_exif(file_path)
             exif_ = json.dumps(exif)
-            self.databases["exif"].set(file_hash, exif_)
+            db.set(file_hash, exif_)
             print("[ ] EXIF: {}".format(file_path))
     
         return exif
@@ -65,7 +65,7 @@ class RedisCacheMixin(object):
     
         self.databases["thumb"]
         if db.exists(file_hash):
-            thumb_ = self.databases["thumb"].get(file_hash)
+            thumb_ = db.get(file_hash)
             print("[X] thumb : {}".format(file_path))
         else:
             thumb_ = utils.get_thumbnail(file_path, pil_image=False)
