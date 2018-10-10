@@ -80,7 +80,7 @@ class RedisCacheMixin(object):
     
     
     def cache_thumbnail(self, file_path):
-        self.(file_path)
+        self.get_thumbnail(file_path)
         return None
 
 import get_files
