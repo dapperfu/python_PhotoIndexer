@@ -78,7 +78,6 @@ class RedisCacheMixin(object):
         self.get_xxhash(file_path)
         return None
     
-    
     def cache_thumbnail(self, file_path):
         self.get_thumbnail(file_path)
         return None
