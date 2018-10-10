@@ -36,7 +36,7 @@ class MediaIndexer(RedisCacheMixin, CacherMixin):
 
     @cached_property.cached_property
     def classifier(self):
-        print("Network
+        print("Loading darknet classifier")
         return pydarknet2.Classifier("cfg/coco.data", "cfg/yolov3.cfg", "/opt/weights/yolov3.weights", root="/tmp/darknet")
 
     def objects(self, file_path):
