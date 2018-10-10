@@ -39,7 +39,7 @@ class IndexedMedia(object):
         self.file_path=file_path
 
     def __repr__(self):
-
+        return
 
     @cached_property.cached_property
     def objects(self):
