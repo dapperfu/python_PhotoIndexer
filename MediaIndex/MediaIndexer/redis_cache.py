@@ -69,24 +69,18 @@ class RedisCacheMixin(object):
     
         return thumb_
     
-    
-    """
-    
-    """
-    
-    
-    def cache_xxhash(file_path):
-        get_xxhash(file_path)
+    def cache_xxhash(self, file_path):
+        self.get_xxhash(file_path)
         return None
     
     
-    def cache_exif(file_path):
-        get_xxhash(file_path)
+    def cache_exif(self, file_path):
+        self.get_xxhash(file_path)
         return None
     
     
-    def cache_thumbnail(file_path):
-        get_thumbnail(file_path)
+    def cache_thumbnail(self, file_path):
+        self.(file_path)
         return None
 
 import get_files
