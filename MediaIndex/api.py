@@ -63,9 +63,9 @@ def thumbnails():
                      mimetype='image/jpg'
                )
 
-@app.route('/thumbnails/<str:xxhash>.jpg'):
+@app.route('/thumbnails/<string:xxhash>.jpg')
 def thumbnails2(xxhash):
-    pass
+    return xxhash
 
 
 # <image src="data:image/png;base64,' + caffe.draw.draw_net(net, "UD").encode("base64") + '" style="max-width:100%" />
