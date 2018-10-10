@@ -15,7 +15,8 @@ class MediaIndexer(RedisCacheMixin):
         self.config_file = config_file
 
     @cached_property.cached_property
-    def
+    def config(self):
+        return read_config(self.config_file)
 
     @cached_property.cached_property
     def databases(self):
@@ -36,6 +37,9 @@ class IndexedMedia(object):
     def __init__(self, indexer, file_path):
         self.indexer=indexer
         self.file_path=file_path
+
+    def __repr__(self):
+
 
     @cached_property.cached_property
     def objects(self):
