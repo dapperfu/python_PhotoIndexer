@@ -8,7 +8,7 @@ import cached_property
 from .redis_db import load_databases
 from .redis_cache import RedisCacheMixin
 
-class MediaIndexer(RedisCacheMixin):
+class MediaIndexer(RedisCacheMixin, CacherMixin):
     def __init__(self, config):
         self.config=config
         

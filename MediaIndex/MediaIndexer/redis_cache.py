@@ -91,7 +91,7 @@ import get_files
 import os
 import rq
 class CacherMixin(object):
-    def cache_dir(root_dir):
+    def cache_dir(self, root_dir):
         connection = self.databases["rq"]
         queue = rq.Queue(connection=connection)
         # Scan for directories in the given root directory, to a depth of 1
