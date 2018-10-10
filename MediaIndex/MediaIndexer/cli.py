@@ -55,10 +55,42 @@ def server(**kwargs):
     app.config["CONFIG"] = kwargs["config"]
     app.run(debug=True, host=kwargs["host"])
 
+@cli.group("db")
+def db(**kwargs):
+    """Manage MediaIndexer redis databases.
 
-@cli.command()
-def test(**kwargs):
-    # queue = MediaIndexer.rq_utils.get_queue(config_file=config_file, database="rq")
-    # queue.enqueue(MediaIndexer.worker.scan_dir, "/net/nas.local/mnt/keg/Pictures")
-    for key, value in kwargs.items():
-        print("{}: {}".format(key, value))
+
+    """
+import tableprint as tp
+from prettytable import PrettyTable
+
+@db.command("keys")
+@click.option("--config", default="config.ini", show_default=True, type=click.Path(exists=True, resolve_path=True))
+def keys(**kwargs):
+    os.environ["MEDIAINDEXER_CFG"]=kwargs["config"]
+    databases = load_databases(kwargs["config"])
+
+    tbl = PrettyTable()
+    tbl.field_names = ["Redis DB", "Keys"]
+    for db_name, database in databases.items():
+        tbl.add_row([db_name, database.dbsize()])
+    print(tbl)
+
+def callback(ctx, param, value):
+        if not value:
+            ctx.abort()
+
+import time
+
+@db.command("flush")
+@click.option("--config", default="config.ini", show_default=True, type=click.Path(exists=True, resolve_path=True))
+@click.option('--yes', is_flag=True, callback=callback,
+              expose_value=False, prompt='Are you sure you want to flush all redis databases?')
+def dropdb(**kwargs):
+    databases = load_databases(kwargs["config"])
+    for db_name, database in databases.items():
+        print("Flushing: {}...".format(db_name), end="")
+        t1=time.time()
+        database.flushdb()
+        t2=time.time()
+        print("...done ({:.1f})".format(t2-t1))
