@@ -6,8 +6,6 @@
 import functools
 import json
 
-import cached_property
-
 from . import local
 
 
@@ -16,7 +14,7 @@ def _get_xxhash(file_path, databases):
         file_path = file_path.decode("UTF-8")
     file_path = str(file_path)
 
-    db = databases["xxhash"]
+    db = databases["cache_xxhash"]
     if db.exists(file_path):
         XXHASH = db.get(file_path).decode("UTF-8")
         print("[X] hash : {}".format(file_path))
@@ -25,7 +23,7 @@ def _get_xxhash(file_path, databases):
         db.set(file_path, XXHASH)
         print("[ ] hash: {}".format(file_path))
 
-    db2 = databases["xxhash2"]
+    db2 = databases["cache_xxhash2"]
     if not db2.exists(XXHASH):
         db2.set(XXHASH, file_path)
 
