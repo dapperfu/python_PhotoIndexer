@@ -63,9 +63,14 @@ def thumbnails():
                      mimetype='image/jpg'
                )
 
+import MediaIndexer.redis_cache
 @app.route('/thumbnails/<string:xxhash>.jpg')
 def thumbnails2(xxhash):
-    return xxhash
+    thumbnail = MediaIndexer.redis_cache._get_thumbnail(file_path="", file_hash=xxhash, databases=indexer.databases)
+    return send_file(
+                     io.BytesIO(thumbnail),
+                     mimetype='image/jpg'
+            )
 
 
 # <image src="data:image/png;base64,' + caffe.draw.draw_net(net, "UD").encode("base64") + '" style="max-width:100%" />
