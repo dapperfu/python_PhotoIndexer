@@ -25,7 +25,6 @@ def cli():
 @click.option('--cfg_db', default="rq", show_default=True, type=str)
 def worker(config, cfg_db):
     databases = MediaIndexer.redis_db.load_databases(config)
-
     connection = databases[cfg_db]
     w = rq.Worker("default", connection=connection)
     w.work()
