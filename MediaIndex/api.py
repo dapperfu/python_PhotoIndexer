@@ -72,6 +72,11 @@ def thumbnails2(xxhash):
                      mimetype='image/jpg'
             )
 
+import json
+@app.route('/exif/<string:xxhash>.json')
+def exif2(xxhash):
+    exif=MediaIndexer.redis_cache._get_exif(file_path="", file_hash=xxhash, databases=indexer.databases)
+    return json.dumps(exif)
 
 # <image src="data:image/png;base64,' + caffe.draw.draw_net(net, "UD").encode("base64") + '" style="max-width:100%" />
 if __name__ == '__main__':
