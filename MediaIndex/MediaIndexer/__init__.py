@@ -7,6 +7,7 @@ import os
 import cached_property
 from .redis_utils import load_databases
 from .redis_cache import RedisCacheMixin
+from .utils import read_config
 import pydarknet2
 
 class MediaIndexer(RedisCacheMixin):
