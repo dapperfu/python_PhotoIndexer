@@ -26,8 +26,9 @@ def cache_exif(file_path):
     }
     redis_cache._get_exif(**cfg)
 
-def cache_thumbnail( file_path):
-    config_file = os.environ[worker_uuid]
+def cache_thumbnail(file_path):
+    config_file = os.environ["MEDIAINDEXER_CFG"]
+    database = os.environ["MEDIAINDEXER_DB"]
     databases = redis_utils.load_databases(config_file)
     cfg = {
         "file_path": file_path,
