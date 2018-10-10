@@ -52,7 +52,7 @@ for method in ["delete", "put", "post"]:
 api.add_resource(xxhash, '/api/xxhash')
 api.add_resource(exif, '/api/exif')
 import io
-@app.route('/thumbnails/')
+@app.route('/thumbnails')
 def thumbnails():
     path = request.args.get('path')
 
