@@ -7,6 +7,7 @@ import functools
 import json
 
 from . import local
+import os
 
 
 def _get_xxhash(file_path, databases):
@@ -24,9 +25,8 @@ def _get_xxhash(file_path, databases):
         print("[ ] hash: {}".format(file_path))
 
     db2 = databases["cache_xxhash2"]
-    if not db2.exists(XXHASH):
-        db2.set(XXHASH, file_path)
-
+    db2.append(XXHASH, os.pathsep)
+    db2.append(XXHASH, file_path)
     return XXHASH
 
 def hashop(f):
