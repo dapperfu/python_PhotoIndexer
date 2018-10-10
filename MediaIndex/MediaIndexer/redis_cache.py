@@ -60,11 +60,11 @@ class RedisCacheMixin(object):
         file_hash = get_xxhash(file_path)
     
         if self.databases["thumb"].exists(file_hash):
-            thumb_ = redis_db.thumb.get(file_hash)
+            thumb_ = elf.databases["thumb"].get(file_hash)
             print("[X] thumb : {}".format(file_path))
         else:
             thumb_ = utils.get_thumbnail(file_path, pil_image=False)
-            redis_db.thumb.set(file_hash, thumb_)
+            elf.databases["thumb"].set(file_hash, thumb_)
             print("[ ] thumb : {}".format(file_path))
     
         return thumb_
