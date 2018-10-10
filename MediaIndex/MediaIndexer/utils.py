@@ -77,3 +77,8 @@ def pil_thumbnail(thumbnail_str):
         for media_file in media_files:
             # Queue scanning the media's exif data.
             self.queue.enqueue(self.cache_thumbnail, media_file)
+
+def read_config(config_file):
+    config = configparser.ConfigParser()
+    config.read(config_file)
+    return config
