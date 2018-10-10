@@ -53,8 +53,8 @@ class IndexedMedia(object):
     def xxhash(self):
         return self.indexer.get_xxhash(self.file_path)
     @cached_property.cached_property
-    def objects(self):
-        return self.indexer.objects(self.file_path)
+    def exif(self):
+        return self.indexer.get_exif(self.file_path)
     @cached_property.cached_property
-    def objects(self):
-        return self.indexer.objects(self.file_path)
+    def thumbnail(self):
+        return self.indexer.get_thumbnail(self.file_path)
