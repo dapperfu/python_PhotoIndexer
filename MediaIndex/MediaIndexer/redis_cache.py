@@ -35,6 +35,8 @@ class RedisCacheMixin(object):
         file_path = str(file_path)
         
         db = self.databases["xxhash"]
+        
+        return _get_xxhash(file_path, db)
     
         
     
