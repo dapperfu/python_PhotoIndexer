@@ -36,7 +36,7 @@ def cache_thumbnail(file_path):
     redis_cache._get_thumbnail(**cfg)
 
 def scan_dir(directory):
-    config_file = os.environ["MEDIAINDEXER_CFG"]
+    config_file = os.environ.get("MEDIAINDEXER_CFG", "config.ini")
     queue = rq_utils.get_queue(config_file=config_file, database="rq")
 
     for d in get_files.get_dirs(directory=directory, depth=1):
