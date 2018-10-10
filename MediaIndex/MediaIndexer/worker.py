@@ -31,3 +31,12 @@ def cache_thumbnail(worker_uuid, file_path):
         "databases": databases,
     }
     redis_cache._get_thumbnail(**cfg)
+
+def scan_dir(worker_uuid, base_directory):
+    config_file = os.environ[worker_uuid]
+    databases = redis_utils.load_databases(config_file)
+    cfg = {
+        "file_path": file_path,
+        "databases": databases,
+    }
+    redis_cache._get_thumbnail(**cfg)
