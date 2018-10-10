@@ -10,11 +10,13 @@ import cached_property
 
 import functools
 
+
+
 def _get_xxhash(file_path, databases):
     if isinstance(file_path, bytes):
         file_path = file_path.decode("UTF-8")
     file_path = str(file_path)
-        
+
     db = databases["xxhash"]
     if db.exists(file_path):
         XXHASH = db.get(file_path).decode("UTF-8")
@@ -31,10 +33,10 @@ def hashop(f):
     def wrapper(*args, **kwargs):
         file_hash = _get_xxhash(**kwargs)
         kwargs["file_hash"] = file_hash
-        
+
         return f(*args, **kwargs)
     return wrapper
-   
+
 @hashop
 def _get_exif(file_path, file_hash, databases, **kwargs):
     for key, value in kwargs.items():
@@ -52,7 +54,7 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
         print("[ ] EXIF: {}".format(file_path))
 
     return exif
-    
+
 @hashop
 def _get_thumbnail(file_path, file_hash, databases, **kwargs):
     for key, value in kwargs.items():
@@ -68,32 +70,32 @@ def _get_thumbnail(file_path, file_hash, databases, **kwargs):
         print("[ ] thumb : {}".format(file_path))
 
     return thumb_
-    
-    
+
+
 class RedisCacheMixin(object):
     def get_xxhash(self, file_path):
         """Return the xxhash of a given media file.
-    
+
         Cache if it is not already cached."""
         return _get_xxhash(file_path=file_path, databases=self.databases)
-    
-        
+
+
     def get_exif(self, file_path):
         return _get_exif(file_path=file_path, databases=self.databases)
-    
-    
+
+
     def get_thumbnail(self, file_path):
         return _get_thumbnail(file_path=file_path, databases=self.databases)
-    
+
     def cache_xxhash(self, file_path):
         self.get_xxhash(file_path)
         return None
-    
-    
+
+
     def cache_exif(self, file_path):
         self.get_xxhash(file_path)
         return None
-    
+
     def cache_thumbnail(self, file_path):
         self.get_thumbnail(file_path)
         return None
@@ -102,15 +104,15 @@ import get_files
 import os
 import rq
 class CacherMixin(object):
-    
+
     @cached_property.cached_property
     def connection(self):
-        return self.databases["rq"] 
-           
+        return self.databases["rq"]
+
     @cached_property.cached_property
     def queue(self):
         return rq.Queue(connection=self.connection)
-        
+
     def cache_dir(self, root_dir):
         # Scan for directories in the given root directory, to a depth of 1
         media_dirs = get_files.get_dirs(root_dir, depth=1)
