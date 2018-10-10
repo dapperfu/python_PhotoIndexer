@@ -5,5 +5,5 @@
 # For each of those files:
 #    -n1: Pass them individually to fix.sh
 #    -P8: Run 8 in parallel
-find pydarknet -name "*.py" | xargs -n1 -P8 ./fix.sh
+find MediaIndexer -name "*.py" | xargs -n1 -P8 ./fix.sh
 exit 0
