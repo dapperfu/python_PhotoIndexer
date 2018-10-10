@@ -10,4 +10,6 @@ class MediaIndexer(object):
         self.config=config
         
         
-    def __repr__()
+    def __repr__(self):
+        return "MediaIndexer<{}>".format(os.path.basename(self.config))
+        
