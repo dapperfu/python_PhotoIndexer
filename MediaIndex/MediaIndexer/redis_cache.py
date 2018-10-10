@@ -5,7 +5,7 @@
 """
 import json
 
-import .local
+from . import local
 import cached_property
 
 import functools
