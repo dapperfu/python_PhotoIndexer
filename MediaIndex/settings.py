@@ -1,4 +1,4 @@
-REDIS_URL = 'redis://localhost:6379/60'
+REDIS_URL = "redis://localhost:6379/60"
 
 # You can also specify the Redis DB to use
 # REDIS_HOST = 'redis.example.com'
@@ -7,4 +7,4 @@ REDIS_URL = 'redis://localhost:6379/60'
 # REDIS_PASSWORD = 'very secret'
 
 # Queues to listen on
-QUEUES = ['high', 'normal', 'low']
+QUEUES = ["high", "normal", "low"]
