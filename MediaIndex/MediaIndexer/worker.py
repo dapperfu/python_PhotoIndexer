@@ -2,11 +2,14 @@
 # -*- coding: utf-8 -*-
 """."""
 
-from . import redis_utils
-from . import redis_cache
-from . import rq_utils
-import MediaIndexer.worker
 import os
+
+import get_files
+
+import MediaIndexer.worker
+
+from . import redis_cache, redis_utils, rq_utils
+
 
 def cache_xxhash(file_path):
     config_file = os.environ["MEDIAINDEXER_CFG"]
@@ -25,7 +28,6 @@ def cache_exif(file_path):
         "databases": databases,
     }
     redis_cache._get_exif(**cfg)
-import get_files
 def cache_thumbnail(file_path):
     config_file = os.environ["MEDIAINDEXER_CFG"]
     databases = redis_utils.load_databases(config_file)

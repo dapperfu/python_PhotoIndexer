@@ -3,12 +3,13 @@
 """redis_db module ^ utils.
 
 """
+import functools
 import json
 
-from . import local
 import cached_property
 
-import functools
+from . import local
+
 
 def _get_xxhash(file_path, databases):
     if isinstance(file_path, bytes):

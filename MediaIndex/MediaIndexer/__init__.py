@@ -1,14 +1,17 @@
 
+import os
+
+import cached_property
+import pydarknet2
+
 from ._version import get_versions
+from .redis_cache import RedisCacheMixin
+from .redis_utils import load_databases
+from .utils import read_config
+
 __version__ = get_versions()['version']
 del get_versions
 
-import os
-import cached_property
-from .redis_utils import load_databases
-from .redis_cache import RedisCacheMixin
-from .utils import read_config
-import pydarknet2
 
 class MediaIndexer(RedisCacheMixin):
     def __init__(self, config_file):

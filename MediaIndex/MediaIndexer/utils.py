@@ -4,9 +4,11 @@
 Generic utilities for use in MediaIndexer.
 """
 
-import io
 import configparser
+import io
+
 from PIL import Image
+
 
 def pil_thumbnail(thumbnail_str):
     assert isinstance(thumbnail_str, bytes)

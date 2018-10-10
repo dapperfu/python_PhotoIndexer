@@ -2,19 +2,16 @@ import io
 import json
 import os
 
-
-from flask import Flask, make_response, request, send_file
+import flask
+from flask import (Blueprint, current_app, Flask, g, make_response,
+                   render_template, request, send_file)
 from flask_bootstrap import Bootstrap
 from flask_restful import Api, reqparse, Resource
-import MediaIndexer.redis_utils
-import MediaIndexer
-
-import flask
-import werkzeug.exceptions
-from flask import current_app, g
 from werkzeug import HTTP_STATUS_CODES
+import werkzeug.exceptions
 
-from flask import current_app, Blueprint, render_template
+import MediaIndexer
+import MediaIndexer.redis_utils
 
 parser = reqparse.RequestParser()
 parser.add_argument("path")
@@ -75,7 +72,6 @@ api = Api(**api_cfg)
 api.add_resource(xxhash, "/xxhash")
 api.add_resource(exif, "/exif")
 
-import os
 
 
 base = Blueprint('base', __name__, url_prefix='/')
