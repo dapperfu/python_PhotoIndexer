@@ -55,12 +55,17 @@ import io
 @app.route('/thumbnails/')
 def thumbnails():
     path = request.args.get('path')
+
     thumbnail = indexer.get_thumbnail(path, pil_image=False)
 
     return send_file(
                      io.BytesIO(thumbnail),
                      mimetype='image/jpg'
                )
+
+@app.route('/thumbnails/<str:xxhash>.jpg'):
+def thumbnails2(xxhash):
+    pass
 
 
 # <image src="data:image/png;base64,' + caffe.draw.draw_net(net, "UD").encode("base64") + '" style="max-width:100%" />
