@@ -59,7 +59,6 @@ def thumbnails():
 
     return send_file(
                      io.BytesIO(thumbnail),
-                     attachment_filename='logo.jpeg',
                      mimetype='image/jpg'
                )
 
