@@ -40,12 +40,6 @@ def get_thumbnail(file_path, size=(255, 255), pil_image=True):
         thumbnail = buffer.getvalue()
     return thumbnail
 
-def get_objects(file_path):
-    """ Get objects in a given image."""
-    if isinstance(file_path, bytes):
-        file_path = file_path.decode("UTF-8")
-    return classifier.detect(file_path)
-
 def pil_thumbnail(thumbnail_str):
     assert isinstance(thumbnail_str, bytes)
     return Image.open(io.BytesIO(thumbnail_str))
