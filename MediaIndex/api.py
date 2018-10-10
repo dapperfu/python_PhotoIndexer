@@ -49,9 +49,11 @@ for method in ["delete", "put", "post"]:
 api.add_resource(xxhash, '/api/xxhash')
 api.add_resource(exif, '/api/exif')
 
+from flask import send_file
+
+
 @app.route('/thumbnails/')
 def null():
-    path = request.args.get('path')
     return path
 
 
