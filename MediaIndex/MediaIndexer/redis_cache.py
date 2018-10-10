@@ -8,7 +8,7 @@ import json
 from MediaIndexer import utils
 import cached_property
 
-import functoolsz
+import functools
 
 def _get_xxhash(file_path, databases):
     if isinstance(file_path, bytes):
