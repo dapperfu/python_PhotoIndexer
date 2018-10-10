@@ -37,7 +37,6 @@ def cache_thumbnail(file_path):
 
 def scan_dir(directory):
     config_file = os.environ["MEDIAINDEXER_CFG"]
-    database = os.environ["MEDIAINDEXER_DB"]
     queue = rq_utils.get_queue(config_file=config_file, database="rq")
 
     for d in get_files.get_dirs(directory=directory, depth=1):
