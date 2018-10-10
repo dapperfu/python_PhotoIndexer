@@ -18,6 +18,6 @@ def cli():
 @cli.command()
 @click.argument("config", type=click.Path(exists=True))
 def worker(config):
-    
-    click.echo('Hello {}!'.format(config))
+    m = MediaIndexer.MediaIndexer(config)
+    click.echo('Hello {}!'.format(m))
 
