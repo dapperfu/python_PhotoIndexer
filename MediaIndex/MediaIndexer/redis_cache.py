@@ -70,15 +70,7 @@ class RedisCacheMixin(object):
         file_hash = self.get_xxhash(file_path)
     
         db = self.databases["thumb"]
-        if db.exists(file_hash):
-            thumb_ = db.get(file_hash)
-            print("[X] thumb : {}".format(file_path))
-        else:
-            thumb_ = utils.get_thumbnail(file_path, pil_image=False)
-            db.set(file_hash, thumb_)
-            print("[ ] thumb : {}".format(file_path))
-    
-        return thumb_
+        return _get_thumbnail(file_path, db)
     
     def cache_xxhash(self, file_path):
         self.get_xxhash(file_path)
