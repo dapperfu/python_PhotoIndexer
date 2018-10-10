@@ -41,4 +41,5 @@ class MediaIndexer(RedisCacheMixin, CacherMixin):
     def objects(self, file_path):
         return self.classifier.detect(file_path)
 
-class IndexedMedia(
+class IndexedMedia(object):
+    def __init__(self, indexer, file_path):
