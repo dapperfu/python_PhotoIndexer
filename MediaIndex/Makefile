@@ -1,4 +1,5 @@
 # Config
+VENV=_${PROJ}
 
 # Environments to setup for this project
 # Available options: python arduino
