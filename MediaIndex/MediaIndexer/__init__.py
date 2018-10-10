@@ -5,11 +5,15 @@ del get_versions
 
 import os
 import cached_property
+from .redis_db import load_databases
 
 class MediaIndexer(object):
     def __init__(self, config):
         self.config=config
         
+    @cached_property
+    
+    load_databases
     
         
         
