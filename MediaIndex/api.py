@@ -1,47 +1,58 @@
 from flask import Flask
 from flask_restful import Resource, Api
 from flask_bootstrap import Bootstrap
-
+from flask_restful import reqparse
 
 app = Flask(__name__)
 api = Api(app)
 
-class HelloWorld(Resource):
-    def get(self, **kwargs):
-        kwargs["method"]="get"
-        return kwargs
+parser = reqparse.RequestParser()
+parser.add_argument('path')
 
-    def delete(self, **kwargs):
-        kwargs["method"]="delete"
-        return kwargs
+import MediaIndexer
 
-    def post(self, **kwargs):
-        kwargs["method"]="post"
-        return kwargs
+import os
+cfg = os.path.abspath("config_m6700.ini")
+assert os.path.exists(cfg)
 
-    def put(self, **kwargs):
-        kwargs["method"]="put"
-        return kwargs
+indexer = MediaIndexer.MediaIndexer(cfg)
 
-class HelloWorld2(Resource):
-    def get(self, **kwargs):
-        kwargs["method"]="get"
-        return kwargs
 
-    def delete(self, **kwargs):
-        kwargs["method"]="delete"
-        return kwargs
+def debug(self, *args, **kwargs):
+    args = parser.parse_args()
+    print(args)
+    for i, arg in enumerate(args):
+        print("{}: {}".format(i, arg))
 
-    def post(self, **kwargs):
-        kwargs["method"]="post"
-        return kwargs
+    for key, value in kwargs.items():
+        print("{}: {}".format(key,value))
+    return args
 
-    def put(self, **kwargs):
-        kwargs["method"]="put"
-        return kwargs
+class xxhash(Resource):
+    def get(self):
+        args = parser.parse_args()
+        args["xxhash"]=indexer.get_xxhash(args["path"])
+        return args
 
-api.add_resource(HelloWorld, '/api/exif/<string:xxhash>')
-api.add_resource(HelloWorld2, '/api/xxhash/<string:path>')
+class exif(Resource):
+    def get(self):
+        args = parser.parse_args()
+        args["exif"]=indexer.get_exif(args["path"])
+        return args
 
+
+for method in ["delete", "put", "post"]:
+    setattr(xxhash, method, debug)
+    setattr(exif, method, debug)
+
+api.add_resource(xxhash, '/api/xxhash')
+api.add_resource(exif, '/api/exif')
+
+@app.route('/thumbnails/')
+def null():
+    return "Hello"
+
+
+# <image src="data:image/png;base64,' + caffe.draw.draw_net(net, "UD").encode("base64") + '" style="max-width:100%" />
 if __name__ == '__main__':
     app.run(debug=True)
