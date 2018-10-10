@@ -25,6 +25,7 @@ def cli():
 @click.option('--cfg_db', default="rq", show_default=True, type=str)
 def worker(config, cfg_db):
     os.environ["MEDIAINDEXER_CFG"]=config
+    os.environ["MEDIAINDEXER_DB"]=cfg_db
     w = get_worker(config_file=config, database=cfg_db)
     w.work()
 
