@@ -15,6 +15,8 @@ def load_databases(config):
         config = config
     elif isinstance(config, str):
         config = read_config(config_file=config_file)
+    else:
+        raise Exception()
     databases = dict()
     for key in config["redis"].keys():
         if key in ["host", "port"]:
