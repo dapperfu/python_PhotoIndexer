@@ -4,6 +4,7 @@
 
 from . import redis_utils
 from . import redis_cache
+from . import rq_utils
 import os
 
 def cache_xxhash(file_path):
@@ -37,6 +38,7 @@ def cache_thumbnail(file_path):
 def scan_dir(directory):
     config_file = os.environ["MEDIAINDEXER_CFG"]
     database = os.environ["MEDIAINDEXER_DB"]
+    queue = rq_utils.get_queue(config_file=config_file, database=database)
 
     databases = redis_utils.load_databases(config_file)
     cfg = {
