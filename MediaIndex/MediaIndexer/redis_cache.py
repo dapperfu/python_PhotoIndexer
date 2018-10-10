@@ -20,7 +20,7 @@ def _get_xxhash(file_path, databases):
         XXHASH = db.get(file_path).decode("UTF-8")
         print("[X] hash : {}".format(file_path))
     else:
-        XXHASH = utils.get_xxhash(file_path)
+        XXHASH = local.get_xxhash(file_path)
         db.set(file_path, XXHASH)
         print("[ ] hash: {}".format(file_path))
     return XXHASH
@@ -46,7 +46,7 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
         exif = json.loads(exif_.decode("UTF-8").replace("'", "\""))
         print("[X] EXIF : {}".format(file_path))
     else:
-        exif = utils.get_exif(file_path)
+        exif = local.get_exif(file_path)
         exif_ = json.dumps(exif)
         db.set(file_hash, exif_)
         print("[ ] EXIF: {}".format(file_path))
@@ -63,7 +63,7 @@ def _get_thumbnail(file_path, file_hash, databases, **kwargs):
         thumb_ = db.get(file_hash)
         print("[X] thumb : {}".format(file_path))
     else:
-        thumb_ = utils.get_thumbnail(file_path, pil_image=False)
+        thumb_ = local.get_thumbnail(file_path, pil_image=False)
         db.set(file_hash, thumb_)
         print("[ ] thumb : {}".format(file_path))
 
