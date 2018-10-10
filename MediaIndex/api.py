@@ -56,11 +56,6 @@ def thumbnails():
     thumbnail = indexer.get_thumbnail(path)
     print(thumbnail)
     print(type(thumbnail))
-    response = make_response(thumbnail)
-    response.headers.set('Content-Type', 'image/jpeg')
-    response.headers.set(
-        'Content-Disposition', 'attachment', filename='%s.jpg' % pid)
-
     return ""
 
 
