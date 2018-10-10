@@ -14,7 +14,7 @@ def load_databases(config):
     if isinstance(config, configparser.ConfigParser):
         config = config
     elif isinstance(config, str):
-        config = read_config(config_file=config_file)
+        config = read_config(config_file=config)
     else:
         raise Exception()
     databases = dict()
