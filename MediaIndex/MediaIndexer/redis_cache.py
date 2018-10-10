@@ -30,7 +30,7 @@ class RedisCacheMixin(object):
             print("[X] hash : {}".format(file_path))
         else:
             XXHASH = utils.get_xxhash(file_path)
-            self.databases["xxhash"].set(file_path, XXHASH)
+            db.set(file_path, XXHASH)
             print("[ ] hash: {}".format(file_path))
         return XXHASH
     
@@ -63,13 +63,13 @@ class RedisCacheMixin(object):
     
         file_hash = self.get_xxhash(file_path)
     
-        self.databases["thumb"]
+        db = self.databases["thumb"]
         if db.exists(file_hash):
             thumb_ = db.get(file_hash)
             print("[X] thumb : {}".format(file_path))
         else:
             thumb_ = utils.get_thumbnail(file_path, pil_image=False)
-            elf.databases["thumb"].set(file_hash, thumb_)
+            db.set(file_hash, thumb_)
             print("[ ] thumb : {}".format(file_path))
     
         return thumb_
