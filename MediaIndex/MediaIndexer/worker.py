@@ -34,6 +34,10 @@ def cache_thumbnail( file_path):
     redis_cache._get_thumbnail(**cfg)
 
 def scan_dir(base_directory):
+    config_file = os.environ["MEDIAINDEXER_CFG"]
+    database = os.environ["MEDIAINDEXER_DB"]
+    databases = redis_utils.load_databases(config_file, database
+
     config_file = os.environ[worker_uuid]
     databases = redis_utils.load_databases(config_file)
     cfg = {
