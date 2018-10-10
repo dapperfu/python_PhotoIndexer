@@ -18,7 +18,6 @@ def cache_xxhash(file_path):
 
 def cache_exif(file_path):
     config_file = os.environ["MEDIAINDEXER_CFG"]
-    database = os.environ["MEDIAINDEXER_DB"]
     databases = redis_utils.load_databases(config_file)
     cfg = {
         "file_path": file_path,
@@ -28,7 +27,6 @@ def cache_exif(file_path):
 
 def cache_thumbnail(file_path):
     config_file = os.environ["MEDIAINDEXER_CFG"]
-    database = os.environ["MEDIAINDEXER_DB"]
     databases = redis_utils.load_databases(config_file)
     cfg = {
         "file_path": file_path,
@@ -36,9 +34,8 @@ def cache_thumbnail(file_path):
     }
     redis_cache._get_thumbnail(**cfg)
 
-def scan_dir(base_directory):
+def scan_dir(directory):
     config_file = os.environ["MEDIAINDEXER_CFG"]
-    database = os.environ["MEDIAINDEXER_DB"]
     databases = redis_utils.load_databases(config_file)
     cfg = {
         "file_path": file_path,
