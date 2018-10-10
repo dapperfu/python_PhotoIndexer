@@ -10,12 +10,11 @@ import click
 import click_config_file
 from prettytable import PrettyTable
 import rq
-import tableprint as tp
 
 import MediaIndexer.flask
 import MediaIndexer.worker
 
-from . import queue_tasks, worker
+from . import worker
 from .redis_utils import load_databases
 from .rq_utils import get_connection, get_queue, get_worker
 
