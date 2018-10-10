@@ -6,10 +6,10 @@ del get_versions
 import os
 import cached_property
 from .redis_db import load_databases
-from .redis_cache import RedisCacheMixin, CacherMixin
+from .redis_cache import RedisCacheMixin
 import pydarknet2
 
-class MediaIndexer(RedisCacheMixin, CacherMixin):
+class MediaIndexer(RedisCacheMixin):
     def __init__(self, config):
         self.config=config
 
