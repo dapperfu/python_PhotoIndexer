@@ -13,6 +13,7 @@ import json
 
 from docopt import docopt
 from MediaIndexer import utils
+import cached_property
 
 class RedisCacheMixin(object):
     def get_xxhash(self, file_path):
@@ -91,8 +92,9 @@ import get_files
 import os
 import rq
 class CacherMixin(object):
+    
+    @cached_property.cached_property
     def cache_dir(self, root_dir):
-        connection = self.databases["rq"]
         queue = self.rq.Queue(connection=connection)
         # Scan for directories in the given root directory, to a depth of 1
         media_dirs = get_files.get_dirs(root_dir, depth=1)
