@@ -92,8 +92,7 @@ import os
 import rq
 class CacherMixin(object):
     def cache_dir(root_dir):
-        db_ = "rq"
-        connection = redis_db.databases[db_]
+        sonnection = self.databases["rq"]
         queue = rq.Queue(connection=connection)
         # Scan for directories in the given root directory, to a depth of 1
         media_dirs = get_files.get_dirs(root_dir, depth=1)
