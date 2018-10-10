@@ -6,9 +6,10 @@ import os
 import rq
 import click
 import click_config_file
-import MediaIndexer.worker
-import MediaIndexer.redis_db
-import MediaIndexer.queue_tasks
+from . import worker
+from .redis_utils import load_databases
+from .rq_utils import get_queue, get_worker, get_connection
+from . import queue_tasks
 
 import configparser
 
@@ -23,10 +24,8 @@ def cli():
 @click.argument("config", type=click.Path(exists=True, resolve_path=True))
 @click.option('--cfg_db', default="rq", show_default=True, type=str)
 def worker(config, cfg_db):
-    databases = MediaIndexer.redis_db.load_databases(config)
-    connection = databases[cfg_db]
 
-    w = rq.Worker("default", connection=connection)
+    w = get_worker(config_file=config, database=cfg_db)
     w.work()
 
 @cli.command()

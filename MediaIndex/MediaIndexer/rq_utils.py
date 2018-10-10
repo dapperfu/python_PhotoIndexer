@@ -4,10 +4,12 @@
 
 import MediaIndexer
 from MediaIndexer import redis_cache
+from .redis_utils import load_databases
 import rq
+import uuid
 
 def get_connection(config_file, database):
-    databases = MediaIndexer.redis_db.load_databases(config_file)
+    databases = load_databases(config_file)
     return databases[database]
 
 def get_queue(**kwargs):
