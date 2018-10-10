@@ -39,6 +39,14 @@ def hashop(f):
 
 @hashop
 def _get_exif(file_path, file_hash, databases, **kwargs):
+    """Return exif for a given file_hash.
+
+    If the result is cached in redis, it returns the redis value.
+    If the result is not cached in redis it uses exiftool to:
+        1. Get the exif data.
+        2. Cache the exif data.
+        3. Return the exif data.
+    """
     for key, value in kwargs.items():
         print("{}: {}".format(key, value))
 
