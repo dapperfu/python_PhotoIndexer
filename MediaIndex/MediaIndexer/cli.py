@@ -16,8 +16,7 @@ def cli():
     """
 
 @cli.command()
-@click.option('--name', default='World', help='Who to greet.')
-@click_config_file.configuration_option()
-def hello(name):
-    click.echo('Hello {}!'.format(name))
+@click.argument("config")
+def worker(config):
+    click.echo('Hello {}!'.format(config))
 
