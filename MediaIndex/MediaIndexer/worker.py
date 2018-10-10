@@ -28,3 +28,4 @@ def cache_thumbnail(file_path):
         "databases": databases,
     }
     redis_cache._get_thumbnail(**cfg)
+
