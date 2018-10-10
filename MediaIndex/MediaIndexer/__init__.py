@@ -10,7 +10,7 @@ from .redis_cache import RedisCacheMixin
 import pydarknet2
 
 class MediaIndexer(RedisCacheMixin):
-    def __init__(self, config):
+    def __init__(self, config_file):
         self.config=config
 
     @cached_property.cached_property
