@@ -5,7 +5,7 @@
 import MediaIndexer
 from MediaIndexer import redis_cache
 
-def cache_xxhash(config_file, file_path):
+def cache_xxhash(file_path):
     databases = MediaIndexer.redis_db.load_databases(config_file)
     cfg = {
         "file_path": file_path,
