@@ -89,7 +89,8 @@ class RedisUtilsMixin(object):
         for db_name, db in databases.items():
             print("{} db: {} keys".format(db_name, db.dbsize()))
 
-class RedisCacheMixin(object):
+class RedisCacheMixin(RedisUtilsMixin):
+    """
     def get_xxhash(self, file_path):
         """Return the xxhash of a given media file.
 
