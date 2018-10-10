@@ -28,5 +28,3 @@ def load_databases(config):
         )
         databases[key] = db_
     return databases
-
-
