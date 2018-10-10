@@ -5,7 +5,7 @@ del get_versions
 
 import os
 import cached_property
-from .redis_db import load_databases
+from .redis_utils import load_databases
 from .redis_cache import RedisCacheMixin
 import pydarknet2
 
