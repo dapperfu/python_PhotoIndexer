@@ -35,7 +35,7 @@ def debug(self, *args, **kwargs):
 class xxhash(Resource):
     def get(self):
         args = parser.parse_args()
-        args["xxhash"]=indexer.get_xxhash(args["path"])
+        #args["xxhash"]=indexer.get_xxhash(args["path"])
         return args
 
 class exif(Resource):
