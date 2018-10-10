@@ -73,7 +73,10 @@ def _get_thumbnail(file_path, file_hash, databases, **kwargs):
 
 
 class RedisUtilsMixin(object):
-    """Mixin to do some housekeeping on Redis."""
+    """Mixin to do some housekeeping on Redis.
+
+    Useful for development.
+    """
     def flush_keys(self):
         """Flush all keys."""
         databases = self.databases
