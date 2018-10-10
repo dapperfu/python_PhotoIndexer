@@ -36,6 +36,18 @@ def _get_exif(file_path, db)
         print("[ ] EXIF: {}".format(file_path))
 
     return exif
+    
+    
+def _get_thumbnail(file_path, db):
+    if db.exists(file_hash):
+        thumb_ = db.get(file_hash)
+        print("[X] thumb : {}".format(file_path))
+    else:
+        thumb_ = utils.get_thumbnail(file_path, pil_image=False)
+        db.set(file_hash, thumb_)
+        print("[ ] thumb : {}".format(file_path))
+
+    return thumb_
 
 class RedisCacheMixin(object):
     def get_xxhash(self, file_path):
