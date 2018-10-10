@@ -14,6 +14,16 @@ import json
 from docopt import docopt
 from MediaIndexer import utils
 import cached_property
+def _get_xxhash(file_path, db):
+    if db.exists(file_path):
+        XXHASH = db.get(file_path).decode("UTF-8")
+        print("[X] hash : {}".format(file_path))
+    else:
+        XXHASH = utils.get_xxhash(file_path)
+        db.set(file_path, XXHASH)
+        print("[ ] hash: {}".format(file_path))
+    return XXHASH
+    
 
 class RedisCacheMixin(object):
     def get_xxhash(self, file_path):
@@ -26,14 +36,7 @@ class RedisCacheMixin(object):
         
         db = self.databases["xxhash"]
     
-        if db.exists(file_path):
-            XXHASH = db.get(file_path).decode("UTF-8")
-            print("[X] hash : {}".format(file_path))
-        else:
-            XXHASH = utils.get_xxhash(file_path)
-            db.set(file_path, XXHASH)
-            print("[ ] hash: {}".format(file_path))
-        return XXHASH
+        
     
     
     def get_exif(self, file_path):
