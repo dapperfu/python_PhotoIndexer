@@ -14,80 +14,80 @@ import json
 from docopt import docopt
 from MediaIndexer import utils
 
-
-def get_xxhash(file_path):
-    """Return the xxhash of a given media file.
-
-    Cache if it is not already cached."""
-    if isinstance(file_path, bytes):
-        file_path = file_path.decode("UTF-8")
-    file_path = str(file_path)
-
-    if redis_db.xxhash.exists(file_path):
-        XXHASH = redis_db.xxhash.get(file_path).decode("UTF-8")
-        print("[X] hash : {}".format(file_path))
-    else:
-        XXHASH = utils.get_xxhash(file_path)
-        redis_db.xxhash.set(file_path, XXHASH)
-        print("[ ] hash: {}".format(file_path))
-    return XXHASH
-
-
-def get_exif(file_path):
-    if isinstance(file_path, bytes):
-        file_path = file_path.decode("UTF-8")
-    file_path = str(file_path)
-
-    file_hash = get_xxhash(file_path)
-    if redis_db.exif.exists(file_hash):
-        exif_ = redis_db.exif.get(file_hash)
-        exif = json.loads(exif_.decode("UTF-8").replace("'", "\""))
-        print("[X] EXIF : {}".format(file_path))
-    else:
-        exif = utils.get_exif(file_path)
-        exif_ = json.dumps(exif)
-        redis_db.exif.set(file_hash, exif_)
-        print("[ ] EXIF: {}".format(file_path))
-
-    return exif
-
-
-def get_thumbnail(file_path, **kwargs):
-    if isinstance(file_path, bytes):
-        file_path = file_path.decode("UTF-8")
-    file_path = str(file_path)
-
-    file_hash = get_xxhash(file_path)
-
-    if redis_db.thumb.exists(file_hash):
-        thumb_ = redis_db.thumb.get(file_hash)
-        print("[X] thumb : {}".format(file_path))
-    else:
-        thumb_ = utils.get_thumbnail(file_path, pil_image=False)
-        redis_db.thumb.set(file_hash, thumb_)
-        print("[ ] thumb : {}".format(file_path))
-
-    return thumb_
-
-
-"""
-
-"""
-
-
-def cache_xxhash(file_path):
-    get_xxhash(file_path)
-    return None
-
-
-def cache_exif(file_path):
-    get_xxhash(file_path)
-    return None
-
-
-def cache_thumbnail(file_path):
-    get_thumbnail(file_path)
-    return None
+class RedisCacheMixin(object):
+    def get_xxhash(self, file_path):
+        """Return the xxhash of a given media file.
+    
+        Cache if it is not already cached."""
+        if isinstance(file_path, bytes):
+            file_path = file_path.decode("UTF-8")
+        file_path = str(file_path)
+    
+        if redis_db.xxhash.exists(file_path):
+            XXHASH = redis_db.xxhash.get(file_path).decode("UTF-8")
+            print("[X] hash : {}".format(file_path))
+        else:
+            XXHASH = utils.get_xxhash(file_path)
+            redis_db.xxhash.set(file_path, XXHASH)
+            print("[ ] hash: {}".format(file_path))
+        return XXHASH
+    
+    
+    def get_exif(self, file_path):
+        if isinstance(file_path, bytes):
+            file_path = file_path.decode("UTF-8")
+        file_path = str(file_path)
+    
+        file_hash = get_xxhash(file_path)
+        if redis_db.exif.exists(file_hash):
+            exif_ = redis_db.exif.get(file_hash)
+            exif = json.loads(exif_.decode("UTF-8").replace("'", "\""))
+            print("[X] EXIF : {}".format(file_path))
+        else:
+            exif = utils.get_exif(file_path)
+            exif_ = json.dumps(exif)
+            redis_db.exif.set(file_hash, exif_)
+            print("[ ] EXIF: {}".format(file_path))
+    
+        return exif
+    
+    
+    def get_thumbnail(self, file_path, **kwargs):
+        if isinstance(file_path, bytes):
+            file_path = file_path.decode("UTF-8")
+        file_path = str(file_path)
+    
+        file_hash = get_xxhash(file_path)
+    
+        if redis_db.thumb.exists(file_hash):
+            thumb_ = redis_db.thumb.get(file_hash)
+            print("[X] thumb : {}".format(file_path))
+        else:
+            thumb_ = utils.get_thumbnail(file_path, pil_image=False)
+            redis_db.thumb.set(file_hash, thumb_)
+            print("[ ] thumb : {}".format(file_path))
+    
+        return thumb_
+    
+    
+    """
+    
+    """
+    
+    
+    def cache_xxhash(file_path):
+        get_xxhash(file_path)
+        return None
+    
+    
+    def cache_exif(file_path):
+        get_xxhash(file_path)
+        return None
+    
+    
+    def cache_thumbnail(file_path):
+        get_thumbnail(file_path)
+        return None
 
 import get_files
 import os
