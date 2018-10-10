@@ -52,7 +52,7 @@ api.add_resource(exif, '/api/exif')
 @app.route('/thumbnails/')
 def null():
     path = request.args.get('path')
-    return request.args
+    return path
 
 
 # <image src="data:image/png;base64,' + caffe.draw.draw_net(net, "UD").encode("base64") + '" style="max-width:100%" />
