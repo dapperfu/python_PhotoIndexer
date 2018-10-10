@@ -30,7 +30,6 @@ def worker(config, cfg_db):
 @cli.command()
 @click.argument("config", type=click.Path(exists=True, resolve_path=True))
 @click.option('--cfg_db', default="rq", show_default=True, type=str)
-@click.option('--database', default=-1, show_default=True, type=int)
 def test(**kwargs):
     for key, value in kwargs.items():
         print("{}: {}".format(key, value))
