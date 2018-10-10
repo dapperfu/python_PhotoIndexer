@@ -2,10 +2,12 @@ import io
 import json
 import os
 
+
 from flask import Flask, make_response, request, send_file
 from flask_bootstrap import Bootstrap
 from flask_restful import Api, reqparse, Resource
 import MediaIndexer.redis_utils
+import MediaIndexer
 
 import flask
 import werkzeug.exceptions
@@ -13,6 +15,9 @@ from flask import current_app, g
 from werkzeug import HTTP_STATUS_CODES
 
 from flask import current_app, Blueprint, render_template
+
+parser = reqparse.RequestParser()
+parser.add_argument("path")
 
 api = Api()
 
@@ -33,12 +38,18 @@ def debug(self, *args, **kwargs):
 
 class xxhash(Resource):
     def get(self):
+        config_file = current_app.config["CONFIG"]
+        indexer = MediaIndexer.MediaIndexer(config_file=config_file)
+
         args = parser.parse_args()
         args["xxhash"] = indexer.get_xxhash(args["path"])
         return args
 
 class exif(Resource):
     def get(self):
+        config_file = current_app.config["CONFIG"]
+        indexer = MediaIndexer.MediaIndexer(config_file=config_file)
+
         args = parser.parse_args()
         args["exif"] = indexer.get_exif(args["path"])
         return args
@@ -75,13 +86,21 @@ def blank():
 @base.route("/thumbnails")
 def thumbnails():
     path = request.args.get("path")
-    thumbnail = indexer.get_thumbnail(path, pil_image=False)
+
+    config_file = os.environ["MEDIAINDEXER_CFG"]
+    databases = MediaIndexer.redis_utils.load_databases(config_file)
+    thumbnail = MediaIndexer.redis_cache._get_thumbnail(
+        file_path=path, file_hash=None, databases=databases
+    )
     return send_file(io.BytesIO(thumbnail), mimetype="image/jpg")
 
 @base.route("/thumbnails/<string:xxhash>.jpg")
 def thumbnails2(xxhash):
+    config_file = os.environ["MEDIAINDEXER_CFG"]
+    databases = MediaIndexer.redis_utils.load_databases(config_file)
+
     thumbnail = MediaIndexer.redis_cache._get_thumbnail(
-        file_path="", file_hash=xxhash, databases=indexer.databases
+        file_path="", file_hash=xxhash, databases=databases
     )
     return send_file(io.BytesIO(thumbnail), mimetype="image/jpg")
 
@@ -89,6 +108,7 @@ def thumbnails2(xxhash):
 def exif2(xxhash):
     config_file = os.environ["MEDIAINDEXER_CFG"]
     databases = MediaIndexer.redis_utils.load_databases(config_file)
+
     exif = MediaIndexer.redis_cache._get_exif(
         file_path="", file_hash=xxhash, databases=databases
     )

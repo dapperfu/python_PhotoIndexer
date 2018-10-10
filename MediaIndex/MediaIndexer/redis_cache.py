@@ -23,6 +23,11 @@ def _get_xxhash(file_path, databases):
         XXHASH = local.get_xxhash(file_path)
         db.set(file_path, XXHASH)
         print("[ ] hash: {}".format(file_path))
+
+    db2 = databases["xxhash2"]
+    if not db2.exists(XXHASH):
+        db2.set(XXHASH, file_path)
+
     return XXHASH
 
 def hashop(f):

@@ -52,6 +52,7 @@ def server(**kwargs):
     os.environ["MEDIAINDEXER_DB"]=kwargs["cfg_db"]
     app = MediaIndexer.flask.create_app()
     app = MediaIndexer.flask.update_blueprints(app)
+    app.config["CONFIG"] = kwargs["config"]
     app.run(debug=True, host=kwargs["host"])
 
 
