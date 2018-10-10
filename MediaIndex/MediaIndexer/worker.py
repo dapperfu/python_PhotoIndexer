@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""."""
+""" ."""
 
 import os
 
@@ -55,5 +55,5 @@ def scan_dir(directory):
 
     for image in get_files.get_files(directory=directory, extensions=[".jpg", ".jpeg"], depth=1):
         queue.enqueue(MediaIndexer.worker.cache_exif, image)
-        queue.enqueue(MediaIndexer.worker.cache_thumbnail, image)
+#        queue.enqueue(MediaIndexer.worker.cache_thumbnail, image)
 

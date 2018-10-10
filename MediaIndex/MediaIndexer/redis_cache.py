@@ -45,7 +45,7 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
     for key, value in kwargs.items():
         print("{}: {}".format(key, value))
 
-    db = databases["exif"]
+    db = databases["cache_exif"]
     if db.exists(file_hash):
         exif_ = db.get(file_hash)
         exif = json.loads(exif_.decode("UTF-8").replace("'", "\""))
