@@ -24,7 +24,6 @@ def cli():
 @click.argument("config", type=click.Path(exists=True, resolve_path=True))
 @click.option('--cfg_db', default="rq", show_default=True, type=str)
 def worker(config, cfg_db):
-
     w = get_worker(config_file=config, database=cfg_db)
     w.work()
 
