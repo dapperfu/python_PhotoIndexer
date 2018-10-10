@@ -6,7 +6,7 @@ del get_versions
 import os
 import cached_property
 from .redis_db import load_databases
-from .redis_cache import RedisCacheMixin
+from .redis_cache import RedisCacheMixin, CacherMixin
 
 class MediaIndexer(RedisCacheMixin, CacherMixin):
     def __init__(self, config):
