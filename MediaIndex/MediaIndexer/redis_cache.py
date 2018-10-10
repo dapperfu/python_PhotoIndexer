@@ -49,7 +49,7 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
     """
     for key, value in kwargs.items():
         print("{}: {}".format(key, value))
-
+    # exif data is cached in the exif database.
     db = databases["exif"]
     if db.exists(file_hash):
         exif_ = db.get(file_hash)
