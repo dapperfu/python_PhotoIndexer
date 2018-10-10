@@ -64,7 +64,9 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
         exif = MediaIndexer.local.get_exif(file_path)
         # Encode the exif.
         exif_ = json.dumps(exif)
+        # Cache the exif
         db.set(file_hash, exif_)
+        # Mark a cache miss.
         print("[ ] EXIF: {}".format(file_path))
     # Return the exif data.
     return exif
