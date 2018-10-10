@@ -7,8 +7,9 @@ import io
 
 import exiftool
 from PIL import Image
-import xxhash
 import pydarknet2
+import xxhash
+
 
 def get_xxhash(file_path):
     """ Get the xxhash of a given file."""

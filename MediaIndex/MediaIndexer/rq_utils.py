@@ -2,11 +2,15 @@
 # -*- coding: utf-8 -*-
 """."""
 
+import uuid
+
+import rq
+
 import MediaIndexer
 from MediaIndexer import redis_cache
+
 from .redis_utils import load_databases
-import rq
-import uuid
+
 
 def get_connection(config_file, database):
     databases = load_databases(config_file)
