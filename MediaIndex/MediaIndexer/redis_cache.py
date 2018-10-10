@@ -40,7 +40,7 @@ class RedisCacheMixin(object):
     
         file_hash = get_xxhash(file_path)
         if redis_db.exif.exists(file_hash):
-            exif_ = redis_db.exif.get(file_hash)
+            exif_ = self.databases["exif"].get(file_hash)
             exif = json.loads(exif_.decode("UTF-8").replace("'", "\""))
             print("[X] EXIF : {}".format(file_path))
         else:
