@@ -1,27 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""redis_db module utils.
-
-Usage:
-  redis_db.py
-  redis_db.py flush
-
-Options:
-  -h --help     Show this screen.
-  --version     Show version.
-
-"""
+"""."""
 import configparser
 import os
 import sys
 
 import redis
+from .config import read_config
 
-def load_databases(cfg="config.ini"):
+def load_databases(config_file="config.ini"):
+    """."""
 
-    config = configparser.ConfigParser()
-    config.read(cfg)
-    
+    config = read_config(config_file=config_file)
     databases = dict()
     for key in config["redis"].keys():
         if key in ["host", "port"]:
@@ -33,3 +23,5 @@ def load_databases(cfg="config.ini"):
         )
         databases[key] = db_
     return databases
+
+
