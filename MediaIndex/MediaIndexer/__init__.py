@@ -43,3 +43,7 @@ class MediaIndexer(RedisCacheMixin, CacherMixin):
 
 class IndexedMedia(object):
     def __init__(self, indexer, file_path):
+        self.indexer=indexer
+        self.file_path=file_path
+
+
