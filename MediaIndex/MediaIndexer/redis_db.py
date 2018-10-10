@@ -11,6 +11,7 @@ from .config import read_config
 def load_databases(config_file="config.ini"):
     """."""
 
+
     config = read_config(config_file=config_file)
     databases = dict()
     for key in config["redis"].keys():
