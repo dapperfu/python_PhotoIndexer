@@ -29,8 +29,9 @@ def hashop(f):
     """Operate on the hash of a file instead of the file path itself."""
     @functools.wraps(f)
     def wrapper(*args, **kwargs):
-        file_hash = _get_xxhash(**kwargs)
-        kwargs["file_hash"] = file_hash
+        if "file_hash" not in kwargs:
+            file_hash = _get_xxhash(**kwargs)
+            kwargs["file_hash"] = file_hash
 
         return f(*args, **kwargs)
     return wrapper
