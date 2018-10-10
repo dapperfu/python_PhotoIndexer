@@ -8,6 +8,7 @@ import click
 import click_config_file
 import MediaIndexer.worker
 import MediaIndexer.redis_db
+import MediaIndexer.queue_tasks
 
 import configparser
 
