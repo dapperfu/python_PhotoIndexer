@@ -5,7 +5,7 @@
 """
 import json
 
-from MediaIndexer import utils
+import MediaIndexer.local as utils
 import cached_property
 
 import functools
