@@ -55,7 +55,6 @@ if __name__ == "__main__":
 
     arguments = docopt(__doc__, version="redis_db.py 0.1")
     print(arguments)
-
     if arguments["flush"] is False:
         key_count()
     else:
