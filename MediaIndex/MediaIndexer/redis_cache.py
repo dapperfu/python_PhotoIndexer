@@ -26,7 +26,7 @@ class RedisCacheMixin(object):
         db = self.databases["xxhash"]
     
         if db.exists(file_path):
-            XXHASH = redis_db.xxhash.get(file_path).decode("UTF-8")
+            XXHASH = db.get(file_path).decode("UTF-8")
             print("[X] hash : {}".format(file_path))
         else:
             XXHASH = utils.get_xxhash(file_path)
