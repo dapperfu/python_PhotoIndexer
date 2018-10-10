@@ -24,7 +24,7 @@ def _get_xxhash(file_path, databases):
         db.set(file_path, XXHASH)
         print("[ ] hash: {}".format(file_path))
 
-    db2 = databases["cache_xxhash2"]
+    db2 = databases["cache_xxhash_"]
     db2.append(XXHASH, os.pathsep)
     db2.append(XXHASH, file_path)
     return XXHASH
