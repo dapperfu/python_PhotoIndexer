@@ -79,7 +79,6 @@ class RedisCacheMixin(object):
         Cache if it is not already cached."""
         return _get_xxhash(file_path=file_path, databases=self.databases)
 
-
     def get_exif(self, file_path):
         return _get_exif(file_path=file_path, databases=self.databases)
 

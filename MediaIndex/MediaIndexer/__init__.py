@@ -21,17 +21,6 @@ class MediaIndexer(RedisCacheMixin, CacherMixin):
     def __repr__(self):
         return "MediaIndexer<{}>".format(os.path.basename(self.config))
 
-
-    def flush_keys(self):
-        databases = self.databases
-        for db_name, db in databases.items():
-            print("{} db: flushing".format(db_name))
-
-    def key_count(self):
-        databases = self.databases
-        for db_name, db in databases.items():
-            print("{} db: {} keys".format(db_name, db.dbsize()))
-
     @cached_property.cached_property
     def classifier(self):
         print("Loading darknet classifier")
