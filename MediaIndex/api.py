@@ -59,6 +59,7 @@ def thumbnails():
     response.headers.set(
         'Content-Disposition', 'attachment', filename='%s.jpg' % pid)
 
+    return response
 
 
 # <image src="data:image/png;base64,' + caffe.draw.draw_net(net, "UD").encode("base64") + '" style="max-width:100%" />
