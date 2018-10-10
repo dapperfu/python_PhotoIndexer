@@ -16,8 +16,7 @@ def cache_xxhash(file_path):
     redis_cache._get_xxhash(**cfg)
 
 def cache_exif(file_path):
-    databases = redis_utils
-    .load_databases(config_file)
+    databases = redis_utils.load_databases(config_file)
     cfg = {
         "file_path": file_path,
         "databases": databases,
