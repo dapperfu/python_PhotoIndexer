@@ -55,10 +55,10 @@ api.add_resource(exif, '/api/exif')
 @app.route('/thumbnails/')
 def thumbnails():
     path = request.args.get('path')
-    thumbnail = indexer.get_thumbnail(path)
+    thumbnail = indexer.get_thumbnail(path, pil_image=False)
 
     return send_file(
-                     io.BytesIO(bites.read()),
+                     thumbnail,
                      attachment_filename='logo.jpeg',
                      mimetype='image/jpg'
                )
