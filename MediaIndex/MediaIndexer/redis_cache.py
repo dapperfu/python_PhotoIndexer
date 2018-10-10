@@ -105,12 +105,12 @@ class RedisCacheMixin(RedisUtilsMixin):
 
 
     def get_thumbnail(self, file_path):
+        """Return a thumbnail of a given image file."""
         return _get_thumbnail(file_path=file_path, databases=self.databases)
 
     def cache_xxhash(self, file_path):
         self.get_xxhash(file_path)
         return None
-
 
     def cache_exif(self, file_path):
         self.get_xxhash(file_path)
