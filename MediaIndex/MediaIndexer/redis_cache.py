@@ -100,6 +100,7 @@ class RedisCacheMixin(RedisUtilsMixin):
         return _get_xxhash(file_path=file_path, databases=self.databases)
 
     def get_exif(self, file_path):
+        """Return the EXIF of a given media file."""
         return _get_exif(file_path=file_path, databases=self.databases)
 
 
