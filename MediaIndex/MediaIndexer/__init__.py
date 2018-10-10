@@ -23,7 +23,7 @@ class MediaIndexer(RedisCacheMixin):
         return load_databases(self.config)
 
     def __repr__(self):
-        return "MediaIndexer<{}>".format(os.path.basename(self.config))
+        return "MediaIndexer<{}>".format(os.path.basename(self.config_file))
 
     @cached_property.cached_property
     def classifier(self):
