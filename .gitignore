@@ -6,6 +6,7 @@
 **/pyvenv.cfg
 **/share/*
 **/.ipynb_checkpoints/
+**/Untitled*ipynb
 .ipynb_checkpoints
 
 # Byte-compiled / optimized / DLL files
