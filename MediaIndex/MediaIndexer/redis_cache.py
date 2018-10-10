@@ -24,6 +24,18 @@ def _get_xxhash(file_path, db):
         print("[ ] hash: {}".format(file_path))
     return XXHASH
     
+def _get_exif(file_path, db)
+    if db.exists(file_hash):
+        exif_ = db.get(file_hash)
+        exif = json.loads(exif_.decode("UTF-8").replace("'", "\""))
+        print("[X] EXIF : {}".format(file_path))
+    else:
+        exif = utils.get_exif(file_path)
+        exif_ = json.dumps(exif)
+        db.set(file_hash, exif_)
+        print("[ ] EXIF: {}".format(file_path))
+
+    return exif
 
 class RedisCacheMixin(object):
     def get_xxhash(self, file_path):
@@ -39,8 +51,6 @@ class RedisCacheMixin(object):
         return _get_xxhash(file_path, db)
     
         
-    
-    
     def get_exif(self, file_path):
         if isinstance(file_path, bytes):
             file_path = file_path.decode("UTF-8")
@@ -49,17 +59,7 @@ class RedisCacheMixin(object):
         file_hash = self.get_xxhash(file_path)
         
         db = self.databases["exif"]
-        if db.exists(file_hash):
-            exif_ = db.get(file_hash)
-            exif = json.loads(exif_.decode("UTF-8").replace("'", "\""))
-            print("[X] EXIF : {}".format(file_path))
-        else:
-            exif = utils.get_exif(file_path)
-            exif_ = json.dumps(exif)
-            db.set(file_hash, exif_)
-            print("[ ] EXIF: {}".format(file_path))
-    
-        return exif
+        return _get_exif(file_path, db)
     
     
     def get_thumbnail(self, file_path, **kwargs):
