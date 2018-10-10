@@ -75,11 +75,13 @@ def _get_thumbnail(file_path, file_hash, databases, **kwargs):
 class RedisUtilsMixin(object):
     """Mixin to do some housekeeping on Redis."""
     def flush_keys(self):
+        """Flush all keys."""
         databases = self.databases
         for db_name, db in databases.items():
             print("{} db: flushing".format(db_name))
 
     def key_count(self):
+        """Count Keys."""
         databases = self.databases
         for db_name, db in databases.items():
             print("{} db: {} keys".format(db_name, db.dbsize()))
