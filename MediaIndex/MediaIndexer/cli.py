@@ -11,8 +11,6 @@ import MediaIndexer.redis_db
 
 import configparser
 
-
-
 @click.group()
 @click.version_option()
 def cli():
