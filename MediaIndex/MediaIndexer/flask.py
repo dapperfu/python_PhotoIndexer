@@ -5,6 +5,7 @@ import os
 from flask import Flask, make_response, request, send_file
 from flask_bootstrap import Bootstrap
 from flask_restful import Api, reqparse, Resource
+import MediaIndexer.redis_utils
 
 import flask
 import werkzeug.exceptions
@@ -67,17 +68,18 @@ import os
 
 
 base = Blueprint('base', __name__, url_prefix='/')
+@base.route("/")
+def blank():
+    return "[This space intentionally left blank]"
+
 @base.route("/thumbnails")
 def thumbnails():
     path = request.args.get("path")
-
     thumbnail = indexer.get_thumbnail(path, pil_image=False)
-
     return send_file(io.BytesIO(thumbnail), mimetype="image/jpg")
 
 @base.route("/thumbnails/<string:xxhash>.jpg")
 def thumbnails2(xxhash):
-
     thumbnail = MediaIndexer.redis_cache._get_thumbnail(
         file_path="", file_hash=xxhash, databases=indexer.databases
     )
@@ -85,15 +87,12 @@ def thumbnails2(xxhash):
 
 @base.route("/exif/<string:xxhash>.json")
 def exif2(xxhash):
-
+    config_file = os.environ["MEDIAINDEXER_CFG"]
+    databases = MediaIndexer.redis_utils.load_databases(config_file)
     exif = MediaIndexer.redis_cache._get_exif(
-        file_path="", file_hash=xxhash, databases=indexer.databases
+        file_path="", file_hash=xxhash, databases=databases
     )
     return json.dumps(exif)
-
-@base.route("/")
-def null():
-    return "[This space intentionally left blank]"
 
 def create_app():
     app = flask.Flask(__name__, static_url_path="/static")
