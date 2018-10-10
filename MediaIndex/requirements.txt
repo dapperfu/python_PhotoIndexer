@@ -1,3 +1,5 @@
+requests
+flask-restful
 Flask-Bootstrap4
 
 docopt
@@ -12,6 +14,7 @@ xxhash
 exifyay
 git+http://github.com/smarnach/pyexiftool.git#egg=pyexiftool
 git+http://github.com/jed-frey/get_files.git#egg=get_files
+git+https://github.com/jed-frey/jupyter_NotebookCleaners.git#egg=notebookcleaner
 
 versioneer
 rq
