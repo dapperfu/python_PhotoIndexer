@@ -39,8 +39,6 @@ class MediaIndexer(RedisCacheMixin, CacherMixin):
         return pydarknet2.Classifier("cfg/coco.data", "cfg/yolov3.cfg", "/opt/weights/yolov3.weights", root="/tmp/darknet")
 
     def objects(self, file_path):
-def get_objects(file_path):
-    """ Get objects in a given image."""
-    if isinstance(file_path, bytes):
-        file_path = file_path.decode("UTF-8")
-    return classifier.detect(file_path)
+        return self.classifier.detect(file_path)
+
+class IndexedMedia(
