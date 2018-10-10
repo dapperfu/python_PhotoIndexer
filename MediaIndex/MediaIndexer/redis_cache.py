@@ -2,19 +2,20 @@
 # -*- coding: utf-8 -*-
 """redis_db module ^ utils.
 
-Usage:
-  redis_cache.py IMAGE
-
-Options:
-  -h --help     Show this screen
-
 """
 import json
 
-from docopt import docopt
 from MediaIndexer import utils
 import cached_property
-def _get_xxhash(file_path, db):
+
+import functools
+
+def _get_xxhash(file_path, databases):
+    if isinstance(file_path, bytes):
+        file_path = file_path.decode("UTF-8")
+    file_path = str(file_path)
+        
+    db = databases["xxhash"]
     if db.exists(file_path):
         XXHASH = db.get(file_path).decode("UTF-8")
         print("[X] hash : {}".format(file_path))
@@ -23,8 +24,23 @@ def _get_xxhash(file_path, db):
         db.set(file_path, XXHASH)
         print("[ ] hash: {}".format(file_path))
     return XXHASH
-    
-def _get_exif(file_path, db)
+
+def hashop(f):
+    """Operate on the hash of a file instead of the file path itself."""
+    @functools.wraps(f)
+    def wrapper(*args, **kwargs):
+        file_hash = _get_xxhash(**kwargs)
+        kwargs["file_hash"] = file_hash
+        
+        return f(*args, **kwargs)
+    return wrapper
+   
+@hashop
+def _get_exif(file_path, file_hash, databases, **kwargs):
+    for key, value in kwargs.items():
+        print("{}: {}".format(key, value))
+
+    db = databases["exif"]
     if db.exists(file_hash):
         exif_ = db.get(file_hash)
         exif = json.loads(exif_.decode("UTF-8").replace("'", "\""))
@@ -37,8 +53,12 @@ def _get_exif(file_path, db)
 
     return exif
     
-    
-def _get_thumbnail(file_path, db):
+@hashop
+def _get_thumbnail(file_path, file_hash, databases, **kwargs):
+    for key, value in kwargs.items():
+        print("{}: {}".format(key, value))
+
+    db = databases["thumb"]
     if db.exists(file_hash):
         thumb_ = db.get(file_hash)
         print("[X] thumb : {}".format(file_path))
@@ -48,41 +68,22 @@ def _get_thumbnail(file_path, db):
         print("[ ] thumb : {}".format(file_path))
 
     return thumb_
-
+    
+    
 class RedisCacheMixin(object):
     def get_xxhash(self, file_path):
         """Return the xxhash of a given media file.
     
         Cache if it is not already cached."""
-        if isinstance(file_path, bytes):
-            file_path = file_path.decode("UTF-8")
-        file_path = str(file_path)
-        
-        db = self.databases["xxhash"]
-        
-        return _get_xxhash(file_path, db)
+        return _get_xxhash(file_path=file_path, databases=self.databases)
     
         
     def get_exif(self, file_path):
-        if isinstance(file_path, bytes):
-            file_path = file_path.decode("UTF-8")
-        file_path = str(file_path)
-    
-        file_hash = self.get_xxhash(file_path)
-        
-        db = self.databases["exif"]
-        return _get_exif(file_path, db)
+        return _get_exif(file_path=file_path, databases=self.databases)
     
     
     def get_thumbnail(self, file_path):
-        if isinstance(file_path, bytes):
-            file_path = file_path.decode("UTF-8")
-        file_path = str(file_path)
-    
-        file_hash = self.get_xxhash(file_path)
-    
-        db = self.databases["thumb"]
-        return _get_thumbnail(file_path, db)
+        return _get_thumbnail(file_path=file_path, databases=self.databases)
     
     def cache_xxhash(self, file_path):
         self.get_xxhash(file_path)
@@ -129,16 +130,3 @@ class CacherMixin(object):
         for media_file in media_files:
             # Queue scanning the media's exif data.
             self.queue.enqueue(self.cache_thumbnail, media_file)
-
-
-if __name__ == "__main__":
-
-    arguments = docopt(__doc__, version="redis_db.py 0.1")
-    print(arguments)
-    file_path = arguments["IMAGE"]
-
-    xxhash = get_xxhash(file_path)
-    exif = get_exif(file_path)
-    thumbnail = get_thumbnail(file_path)
-    thumbnail = utils.pil_thumbnail(thumbnail)
-    thumbnail.save("thumbnail.jpg")

@@ -18,11 +18,11 @@ def cli():
 @cli.command()
 @click.argument("config", type=click.Path(exists=True))
 def worker(config):
-    m = MediaIndexer.MediaIndexer(config)
     click.echo('Hello {}!'.format(m))
     connection = m.databases["rq"]
     w = rq.Worker("default", connection=connection)
 
-    w.work()
+    w.work()    m = MediaIndexer.MediaIndexer(config)
+
 
 
