@@ -1,15 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""worker module utils.
-
-Usage:
-  worker.py <path>
-
-Options:
-  -h --help     Show this screen.
-  --version     Show version.
-
-"""
+"""."""
 
 import sys
 from docopt import docopt
