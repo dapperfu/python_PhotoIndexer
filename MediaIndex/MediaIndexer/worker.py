@@ -40,9 +40,13 @@ def scan_dir(directory):
     database = os.environ["MEDIAINDEXER_DB"]
     queue = rq_utils.get_queue(config_file=config_file, database=database)
 
-    databases = redis_utils.load_databases(config_file)
-    cfg = {
-        "file_path": file_path,
-        "databases": databases,
-    }
-    redis_cache._get_thumbnail(**cfg)
+    for d in get_files.get_dirs(directory=directory, depth=1):
+        if d.startswith("."):
+            continue
+        if ".zfs" in d:
+            continue
+        queue.enqueue(MediaIndexer.worker.scan_dir, d)
+
+    for image in get_files.get_files(directory=directory, extensions=[".jpg", ".jpeg"], depth=1):
+        queue.enqueue(MediaIndexer.worker.cache_exif, image)
+        queue.enqueue(MediaIndexer.worker.cache_thumbnail, image)
