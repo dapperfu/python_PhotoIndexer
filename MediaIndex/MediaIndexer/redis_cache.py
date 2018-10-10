@@ -13,7 +13,6 @@ import json
 
 from docopt import docopt
 
-from . import redis_db
 from MediaIndexer import utils
 
 def get_xxhash(file_path):
