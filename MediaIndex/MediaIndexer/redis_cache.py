@@ -113,13 +113,13 @@ class CacherMixin(object):
             if os.path.islink(media_dir):
                 continue
             # Queue scanning the folder.
-            queue.enqueue(cache_dir, media_dir)
+            self.queue.enqueue(cache_dir, media_dir)
         # Scan given directory for files, to a depth of 1
         media_files = get_files.get_files(root_dir, depth=1)
         # For each media_file:
         for media_file in media_files:
             # Queue scanning the media's exif data.
-            queue.enqueue(self.cache_thumbnail, media_file)
+            self.queue.enqueue(self.cache_thumbnail, media_file)
 
 
 if __name__ == "__main__":
