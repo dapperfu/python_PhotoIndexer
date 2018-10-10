@@ -8,7 +8,7 @@ import sys
 import redis
 from .config import read_config
 
-def load_databases(config_file="config.ini"):
+def load_databases(config_file="config.ini", config=None):
     """."""
 
 
