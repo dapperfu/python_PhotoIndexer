@@ -49,3 +49,12 @@ class IndexedMedia(object):
     @cached_property.cached_property
     def objects(self):
         return self.indexer.objects(self.file_path)
+    @cached_property.cached_property
+    def xxhash(self):
+        return self.indexer.get_xxhash(self.file_path)
+    @cached_property.cached_property
+    def objects(self):
+        return self.indexer.objects(self.file_path)
+    @cached_property.cached_property
+    def objects(self):
+        return self.indexer.objects(self.file_path)
