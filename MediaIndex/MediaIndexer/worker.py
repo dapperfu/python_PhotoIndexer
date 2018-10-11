@@ -53,7 +53,7 @@ def scan_dir(directory):
             continue
         queue.enqueue(MediaIndexer.worker.scan_dir, d)
 
-    for image in get_files.get_files(directory=directory, extensions=[".jpg", ".jpeg"], depth=1):
+    for image in get_files.get_files(directory=directory, extensions=[".jpg", ".jpeg", ".cr2", ".dng"], depth=1):
         queue.enqueue(MediaIndexer.worker.cache_exif, image)
 #        queue.enqueue(MediaIndexer.worker.cache_thumbnail, image)
 
