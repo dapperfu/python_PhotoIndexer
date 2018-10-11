@@ -14,9 +14,9 @@ import rq
 import MediaIndexer.flask
 import MediaIndexer.worker
 
-from . import worker
-from .redis_utils import load_databases
-from .rq_utils import get_connection, get_queue, get_worker
+#from .. import worker
+#from ..redis_utils import load_databases
+#from .rq_utils import get_connection, get_queue, get_worker
 
 
 @click.group()
@@ -27,8 +27,8 @@ def cli():
     """
 
 @cli.command()
-@click.option("--config", default="config.ini", show_default=True, type=click.Path(exists=True, resolve_path=True))
-@click.option('--cfg_db', default="rq", show_default=True, type=str)
+@click.option("--config", envvar='MEDIAINDEXER_CFG', default="config.ini", show_default=True, type=click.Path(exists=True, resolve_path=True))
+@click.option('--queue_db', envvar='MEDIAINDEXER_DB', default="rq", show_default=True, type=click.Tuple([str, int]))
 def worker(config, cfg_db):
     os.environ["MEDIAINDEXER_CFG"]=config
     os.environ["MEDIAINDEXER_DB"]=cfg_db
