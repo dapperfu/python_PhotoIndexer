@@ -26,7 +26,7 @@ def index(**kwargs):
         print("{}: {}".format(key, item))
     html = render_template('index.html', directorys=directories, images=images)
     with tempfile.NamedTemporaryFile(mode="w", delete=delete) as f:
-        f.write(
+        f.write(html)
     return html
 
 @gallery.route('/style.css')
