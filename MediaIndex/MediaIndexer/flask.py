@@ -23,6 +23,12 @@ admin = Blueprint('admin', __name__, url_prefix='/admin')
 def index():
     return "Hello Admin"
 
+
+gallery = Blueprint('gallery', __name__, url_prefix='/g')
+@gallery.route('/')
+def gallery_base():
+    return "Hello Admin"
+
 def debug(self, *args, **kwargs):
     args = parser.parse_args()
     print(args)
