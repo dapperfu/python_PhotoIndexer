@@ -22,7 +22,7 @@ import MediaIndexer.worker
 @click.group()
 @click.version_option()
 def cli():
-    """MediaIndexer command line interface entry point.
+    """MediaIndexer command line interface.
 
     """
 
@@ -30,6 +30,10 @@ def cli():
 @click.option("--config", envvar='MEDIAINDEXER_CFG', default="config.ini", show_default=True, type=click.Path(exists=True, resolve_path=True))
 @click.option('--queue_db', envvar='MEDIAINDEXER_DB', default="rq", show_default=True, type=click.Tuple([str, int]))
 def worker(config, cfg_db):
+    """Launch MediaIndexer worker.
+
+Launch a worker instance."""
+
     os.environ["MEDIAINDEXER_CFG"]=config
     os.environ["MEDIAINDEXER_DB"]=cfg_db
     w = get_worker(config_file=config, database=cfg_db)
@@ -40,6 +44,7 @@ def worker(config, cfg_db):
 @click.option('--cfg_db', default="rq", show_default=True, type=str)
 @click.argument('dirs', nargs=-1, type=click.Path(exists=True, file_okay=False, dir_okay=True, writable=False, readable=True, resolve_path=True))
 def scan(**kwargs):
+    """Use MediaIndexer to scan a directory."""
     os.environ["MEDIAINDEXER_CFG"]=kwargs["config"]
     os.environ["MEDIAINDEXER_DB"]=kwargs["cfg_db"]
 
@@ -52,6 +57,8 @@ def scan(**kwargs):
 @click.option('--cfg_db', default="rq", show_default=True, type=str)
 @click.option('--host', default="0.0.0.0", show_default=True, type=str)
 def server(**kwargs):
+    """Launch MediaIndexer Flask server."""
+
     os.environ["MEDIAINDEXER_CFG"]=kwargs["config"]
     os.environ["MEDIAINDEXER_DB"]=kwargs["cfg_db"]
     app = MediaIndexer.flask.create_app()
@@ -62,13 +69,12 @@ def server(**kwargs):
 @cli.group("db")
 def db(**kwargs):
     """Manage MediaIndexer redis databases.
-
-
     """
 
 @db.command("keys")
 @click.option("--config", default="config.ini", show_default=True, type=click.Path(exists=True, resolve_path=True))
 def keys(**kwargs):
+    """Print number of keys in the redis database."""
     os.environ["MEDIAINDEXER_CFG"]=kwargs["config"]
     databases = load_databases(kwargs["config"])
 
@@ -88,6 +94,7 @@ def callback(ctx, param, value):
 @click.option('--yes', is_flag=True, callback=callback,
               expose_value=False, prompt='Are you sure you want to flush all redis databases?')
 def dropdb(**kwargs):
+    """Flush all data from the redis database."""
     databases = load_databases(kwargs["config"])
     for db_name, database in databases.items():
         print("Flushing: {}...".format(db_name), end="")
