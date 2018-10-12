@@ -117,5 +117,6 @@ def update_blueprints(app):
     app.register_blueprint(base)
     app.register_blueprint(admin)
     app.register_blueprint(gallery)
+    app.register_blueprint(thumbnails)
     app.register_blueprint(api_bp)
     return app
