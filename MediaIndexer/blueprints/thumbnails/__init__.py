@@ -12,6 +12,6 @@ def get_thumbnail(xxhash, size=128):
     databases = MediaIndexer.redis_utils.load_databases(config_file)
 
     thumbnail = MediaIndexer.redis_cache._get_thumbnail(
-        file_path="", file_hash=xxhash, databases=databases
+        file_path="", file_hash=xxhash, size=size, databases=databases
     )
     return send_file(io.BytesIO(thumbnail), mimetype="image/jpg")
