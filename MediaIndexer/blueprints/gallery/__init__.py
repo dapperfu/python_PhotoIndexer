@@ -46,7 +46,12 @@ import json
 @gallery.route('/items2.json', defaults={'page': ''})
 @gallery.route('/<page>/items2.json')
 def items(**kwargs):
-
+    x = dict()
+    sizes = {
+        "small": 128
+        "medium":
+    }
+    for
 
     r = os.path.abspath(os.path.join(os.curdir, kwargs["page"]))
     directories = get_files.get_dirs(directory = r, depth=1, absolute=True)
