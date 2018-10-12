@@ -31,9 +31,9 @@ def index(**kwargs):
 
     images = list()
     for image_ in images_:
-        images=dict()
-        image["xxhash"]=_get_xxhash(file_path=image_, databases=databases)
-        images.append(image)
+        images.append({
+            "xxhash": _get_xxhash(file_path=image_, databases=databases)
+        })
 
     for key, item in kwargs.items():
         print("{}: {}".format(key, item))
