@@ -1,0 +1,9 @@
+var items = [
+{% for image in images %}
+mediumImage: {
+    src: '{{ image }}',
+    w:800,
+    h:600
+},
+{% endfor %}
+];
