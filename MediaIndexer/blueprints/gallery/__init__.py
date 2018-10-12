@@ -6,6 +6,7 @@ import get_files
 import tempfile
 from w3c_validator import validate
 from MediaIndexer.redis_cache import _get_xxhash
+import MediaIndexer.redis_utils
 
 gallery = Blueprint(
     name='gallery',
