@@ -55,9 +55,12 @@ def items2(**kwargs):
 
     items=list()
 
-    r = os.path.abspath(os.path.join(os.curdir, kwargs["page"]))
-    directories = get_files.get_dirs(directory = r, depth=1, absolute=True)
-    images = get_files.get_files(directory = r, extensions=['.jpg'], depth=1, absolute=True)
+    root=os.path.join(os.curdir)
+    path = os.path.abspath(os.path.join(os.curdir, kwargs["page"]))
+    directories = get_files.get_dirs(directory = path, depth=1, absolute=True)
+    images = get_files.get_files(directory = path, extensions=['.jpg'], depth=1, absolute=True)
+
+    for
 
     items_ = {
         "items": items,
