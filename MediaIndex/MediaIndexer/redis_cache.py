@@ -59,7 +59,7 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
     return exif
 
 @hashop
-def _get_thumbnail(file_path, file_hash, databases, **kwargs):
+def _get_thumbnail(file_path, file_hash, size, databases, **kwargs):
     for key, value in kwargs.items():
         print("{}: {}".format(key, value))
 
