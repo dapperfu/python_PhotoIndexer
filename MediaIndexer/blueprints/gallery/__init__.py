@@ -52,7 +52,7 @@ def items2(**kwargs):
         "medium": 608,
         "large": 1024,
     }
-    for
+
 
     r = os.path.abspath(os.path.join(os.curdir, kwargs["page"]))
     directories = get_files.get_dirs(directory = r, depth=1, absolute=True)
