@@ -4,8 +4,8 @@ import json
 
 thumbnails = Blueprint('thumbnails', __name__, template_folder='templates', url_prefix='/thumbnails')
 
-@thumbnails.route('/')
-def get_thumbnail(xxhash):
+@thumbnails.route('/<int:size>/<string:xxhash>.jpg')
+def get_thumbnail(xxhash, size=128):
     config_file = os.environ["MEDIAINDEXER_CFG"]
     databases = MediaIndexer.redis_utils.load_databases(config_file)
 
