@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, abort
+from flask import Blueprint, render_template, abort, url_for
 from jinja2 import TemplateNotFound
 import json
 import os
@@ -66,7 +66,8 @@ def items2(**kwargs):
 
     for image in images:
         item = {
-            "xxhash": _get_xxhash(file_path=image, databases=databases)
+            "xxhash": _get_xxhash(file_path=image, databases=databases),
+            "url": url_for("thumbnails.get_thumbnail"),
         }
         items.append(item)
 
