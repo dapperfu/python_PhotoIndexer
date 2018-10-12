@@ -24,7 +24,6 @@ def index():
     return "Hello Admin"
 
 
-gallery = Blueprint('gallery', __name__, url_prefix='/g')
 @gallery.route('/')
 def gallery_base():
     return "Hello Admin"
