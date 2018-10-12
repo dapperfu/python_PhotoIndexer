@@ -49,9 +49,8 @@ import json
 @gallery.route('/<page>/items2.json')
 def items2(**kwargs):
     sizes = {
-        "small": 128,
-        "medium": 608,
-        "large": 1024,
+        "mediumImage": 128,
+        "originalImage": 608,
     }
 
     config_file = os.environ["MEDIAINDEXER_CFG"]
