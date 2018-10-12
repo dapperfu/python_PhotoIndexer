@@ -1,3 +1,4 @@
+config.ini
 ## Top Level venv folders/files to ignore
 **/bin/*
 **/etc/*
