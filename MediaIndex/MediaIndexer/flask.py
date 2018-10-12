@@ -13,6 +13,7 @@ import werkzeug.exceptions
 import MediaIndexer
 import MediaIndexer.redis_utils
 from MediaIndexer.blueprints.gallery import gallery
+from MediaIndexer.blueprints.admin import admin
 
 parser = reqparse.RequestParser()
 parser.add_argument("path")
@@ -67,8 +68,6 @@ api_cfg= {
 api = Api(**api_cfg)
 api.add_resource(xxhash, "/xxhash")
 api.add_resource(exif, "/exif")
-
-
 
 base = Blueprint('base', __name__, url_prefix='/')
 @base.route("/")
