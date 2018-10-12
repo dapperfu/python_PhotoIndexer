@@ -56,7 +56,7 @@ def items(**kwargs):
     images = get_files.get_files(directory = r, extensions=['.jpg'], depth=1, absolute=True)
     for key, item in kwargs.items():
         print("{}: {}".format(key, item))
-    items_json = render_template('items.json', directorys=directories, images=images, sizes=[128, 608, 1024])
+    items_json = render_template('items.json', directorys=directories, images=images)
     return items_json
 
 import json
