@@ -25,8 +25,16 @@ def index(**kwargs):
     for key, item in kwargs.items():
         print("{}: {}".format(key, item))
     html = render_template('index.html', directorys=directories, images=images)
-
+    with tempfile.NamedTemporaryFile(mode="w", delete=delete) as f:
+        f.write(
     return html
+
+@gallery.route('/style.css')
+def css(**kwargs):
+    for key, item in kwargs.items():
+        print("{}: {}".format(key, item))
+    return render_template('style.css')
+
 
 @gallery.route('/hello')
 @gallery.route('/hello/')
@@ -34,12 +42,4 @@ def hello(**kwargs):
     for key, item in kwargs.items():
         print("{}: {}".format(key, item))
     return render_template('index.html')
-
-
-
-@gallery.route('/style.css')
-def css(**kwargs):
-    for key, item in kwargs.items():
-        print("{}: {}".format(key, item))
-    return render_template('style.css')
 
