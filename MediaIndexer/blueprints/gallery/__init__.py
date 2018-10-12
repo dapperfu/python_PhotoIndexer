@@ -6,6 +6,7 @@ import get_files
 import tempfile
 from w3c_validator import validate
 import MediaIndexer.MediaIndexer
+from MediaIndexer.redis_cache import _get_xxhash
 
 gallery = Blueprint(
     name='gallery',
@@ -52,6 +53,9 @@ def items2(**kwargs):
         "medium": 608,
         "large": 1024,
     }
+
+    config_file = os.environ["MEDIAINDEXER_CFG"]
+    databases = MediaIndexer.redis_utils.load_databases(config_file)
 
     items=list()
 
