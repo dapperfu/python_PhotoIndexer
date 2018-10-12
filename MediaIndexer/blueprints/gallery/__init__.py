@@ -52,15 +52,7 @@ def items2(**kwargs):
         "medium": 608,
         "large": 1024,
     }
-
-
-    r = os.path.abspath(os.path.join(os.curdir, kwargs["page"]))
-    directories = get_files.get_dirs(directory = r, depth=1, absolute=True)
-    images = get_files.get_files(directory = r, extensions=['.jpg'], depth=1, absolute=True)
-    for key, item in kwargs.items():
-        print("{}: {}".format(key, item))
-    items_json = render_template('items.json', directorys=directories, images=images)
-    return items_json
+    return json.dumps(sizes)
 
 @gallery.route('/style.css')
 def css(**kwargs):
