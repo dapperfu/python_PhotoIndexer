@@ -4,9 +4,15 @@ import json
 
 gallery = Blueprint('gallery', __name__, template_folder='templates', url_prefix='/g')
 
+@gallery.route('/')
+def index():
+    return "Hello Gallery"
+
+"""
 @gallery.route('/', defaults={'page': 'index'})
 @gallery.route('/<page>')
 def index(**kwargs):
     for key, item in kwargs.items():
         print("{}: {}".format(key, item))
     return json.dumps(kwargs)
+"""
