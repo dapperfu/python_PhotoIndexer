@@ -31,6 +31,7 @@ def index(**kwargs):
         print(validate(f.name))
     return html
 
+@gallery.route('/items.json', defaults={'page': ''})
 @gallery.route('/<page>/items.json')
 def items(**kwargs):
     r = os.path.abspath(os.path.join(os.curdir, kwargs["page"]))
