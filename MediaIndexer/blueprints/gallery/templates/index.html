@@ -25,12 +25,12 @@
 <!-- UI JS file -->
 <script src="{{ url_for("gallery.static", filename="photoswipe-ui-default.min.js") }}"></script>
 
+{% for size in sizes %}
+
 {% for image in images %}
-<img src="{{ url_for("thumbnails.get_thumbnail", size=128, xxhash=image.xxhash) }}">
+<img src="{{ url_for("thumbnails.get_thumbnail", size={{ size }}, xxhash=image.xxhash) }}">
 {% endfor %}
 
-{% for size in sizes %}
-{{ size }}
 {% endfor %}
 
 </body>
