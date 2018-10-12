@@ -73,6 +73,7 @@ base = Blueprint('base', __name__, url_prefix='/')
 def blank():
     return "[This space intentionally left blank]"
 
+"""
 @base.route("/thumbnails")
 def thumbnails():
     path = request.args.get("path")
@@ -84,7 +85,6 @@ def thumbnails():
     )
     return send_file(io.BytesIO(thumbnail), mimetype="image/jpg")
 
-"""
 @base.route("/thumbnails/<string:xxhash>.jpg")
 def thumbnails2(xxhash):
     config_file = os.environ["MEDIAINDEXER_CFG"]
