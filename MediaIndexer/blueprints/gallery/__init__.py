@@ -5,6 +5,7 @@ import os
 import get_files
 import tempfile
 from w3c_validator import validate
+import MediaIndexer.MediaIndexer
 
 gallery = Blueprint(
     name='gallery',
@@ -46,13 +47,14 @@ import json
 @gallery.route('/items2.json', defaults={'page': ''})
 @gallery.route('/<page>/items2.json')
 def items2(**kwargs):
-    x = dict()
     sizes = {
         "small": 128,
         "medium": 608,
         "large": 1024,
     }
-    return json.dumps(sizes)
+
+
+    return json.dumps(
 
 @gallery.route('/style.css')
 def css(**kwargs):
