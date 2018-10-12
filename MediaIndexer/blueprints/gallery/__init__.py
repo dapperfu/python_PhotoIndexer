@@ -29,7 +29,7 @@ def index(**kwargs):
     images = list()
     for image_ in images_:
         images=dict()
-        image["xxhash"]=_get_xxhash(file_path=image, databases=databases)
+        image["xxhash"]=_get_xxhash(file_path=image_, databases=databases)
         images.append(image)
 
     for key, item in kwargs.items():
