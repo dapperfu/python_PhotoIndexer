@@ -6,9 +6,9 @@ gallery = Blueprint(
     name='gallery',
     import_name=__name__,
     static_folder='static',
-    static_url_path='/s',
+    static_url_path='/static',
     template_folder='templates',
-    url_prefix='/g'
+    url_prefix='/gallery'
 )
 
 @gallery.route('/', defaults={'page': 'index'})
