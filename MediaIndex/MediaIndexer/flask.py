@@ -19,16 +19,6 @@ parser.add_argument("path")
 
 api = Api()
 
-admin = Blueprint('admin', __name__, url_prefix='/admin')
-@admin.route('/')
-def index():
-    return "Hello Admin"
-
-
-@gallery.route('/')
-def gallery_base():
-    return "Hello Admin"
-
 def debug(self, *args, **kwargs):
     args = parser.parse_args()
     print(args)
