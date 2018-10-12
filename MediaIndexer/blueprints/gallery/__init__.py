@@ -25,7 +25,7 @@ def index(**kwargs):
     for key, item in kwargs.items():
         print("{}: {}".format(key, item))
     html = render_template('index.html', directorys=directories, images=images)
-    with tempfile.NamedTemporaryFile(mode="w", delete=delete) as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as f:
         f.write(html)
     return html
 
