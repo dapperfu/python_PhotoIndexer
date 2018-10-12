@@ -7,11 +7,6 @@ gallery = Blueprint('gallery', __name__, template_folder='templates', url_prefix
 @gallery.route('/', defaults={'page': 'index'})
 @gallery.route('/<page>')
 def show(**kwargs):
-    try:
-        for key, item in kwargs.items():
-            print("{}: {}".format(key, item))
-        return json.dumps(kwargs)
-    except TemplateNotFound:
-        abort(404)
-
-
+    for key, item in kwargs.items():
+        print("{}: {}".format(key, item))
+    return json.dumps(kwargs)
