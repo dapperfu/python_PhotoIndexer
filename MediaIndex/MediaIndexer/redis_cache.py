@@ -65,7 +65,7 @@ def _get_thumbnail(file_path, file_hash, databases, size=128, **kwargs):
         print("* {}: {}".format(key, value))
     print("**")
     db_name = "cache_image_{size}x{size}".format(size=size)
-    assert db_name in databases
+    assert db_name in databases, db_name
     db = databases[db_name]
     if db.exists(file_hash):
         thumb_ = db.get(file_hash)
