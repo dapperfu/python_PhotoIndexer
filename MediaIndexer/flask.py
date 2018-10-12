@@ -84,6 +84,7 @@ def thumbnails():
     )
     return send_file(io.BytesIO(thumbnail), mimetype="image/jpg")
 
+"""
 @base.route("/thumbnails/<string:xxhash>.jpg")
 def thumbnails2(xxhash):
     config_file = os.environ["MEDIAINDEXER_CFG"]
@@ -93,6 +94,7 @@ def thumbnails2(xxhash):
         file_path="", file_hash=xxhash, databases=databases
     )
     return send_file(io.BytesIO(thumbnail), mimetype="image/jpg")
+"""
 
 @base.route("/exif/<string:xxhash>.json")
 def exif2(xxhash):
