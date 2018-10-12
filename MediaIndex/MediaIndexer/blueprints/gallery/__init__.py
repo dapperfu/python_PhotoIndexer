@@ -6,6 +6,7 @@ gallery = Blueprint(
     name='gallery',
     import_name=__name__,
     static_folder='static',
+    static_url_path='/s',
     template_folder='templates',
     url_prefix='/g'
 )
