@@ -21,9 +21,17 @@ gallery = Blueprint(
 @gallery.route('/<page>')
 @gallery.route('/<page>/')
 def index(**kwargs):
-    r = os.path.abspath(os.path.join(os.curdir, kwargs["page"]))
-    directories = get_files.get_dirs(directory = r, depth=1, absolute=True)
-    images = get_files.get_files(directory = r, extensions=['.jpg'], depth=1, absolute=True)
+    root=os.path.join(os.curdir)
+    path = os.path.abspath(os.path.join(os.curdir, kwargs["page"]))
+    directories = get_files.get_dirs(directory = path, depth=1, absolute=True)
+    images_ = get_files.get_files(directory = path, extensions=['.jpg'], depth=1, absolute=True)
+
+    images = list()
+    for image_ in images_:
+        images=dict()
+        image["xxhash"]=_get_xxhash(file_path=image, databases=databases)
+        images.append(image)
+
     for key, item in kwargs.items():
         print("{}: {}".format(key, item))
     html = render_template('index.html', directorys=directories, images=images)
