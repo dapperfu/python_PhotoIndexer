@@ -42,6 +42,20 @@ def items(**kwargs):
     items_json = render_template('items.json', directorys=directories, images=images)
     return items_json
 
+import json
+@gallery.route('/items2.json', defaults={'page': ''})
+@gallery.route('/<page>/items2.json')
+def items(**kwargs):
+
+
+    r = os.path.abspath(os.path.join(os.curdir, kwargs["page"]))
+    directories = get_files.get_dirs(directory = r, depth=1, absolute=True)
+    images = get_files.get_files(directory = r, extensions=['.jpg'], depth=1, absolute=True)
+    for key, item in kwargs.items():
+        print("{}: {}".format(key, item))
+    items_json = render_template('items.json', directorys=directories, images=images)
+    return items_json
+
 @gallery.route('/style.css')
 def css(**kwargs):
     for key, item in kwargs.items():
