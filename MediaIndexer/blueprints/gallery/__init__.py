@@ -69,7 +69,7 @@ def items2(**kwargs):
             "xxhash": _get_xxhash(file_path=image, databases=databases),
         }
         for size_name, size in sizes.items():
-            item[size_name] = url_for(("thumbnails.get_thumbnail", size, item["xxhash"]))
+            item[size_name] = url_for("thumbnails.get_thumbnail", size=size, xxhash=item["xxhash"])
 
         items.append(item)
 
