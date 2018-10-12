@@ -48,8 +48,9 @@ import json
 def items2(**kwargs):
     x = dict()
     sizes = {
-        "small": 128
-        "medium":
+        "small": 128,
+        "medium": 608,
+        "large": 1024,
     }
     for
 
