@@ -10,7 +10,9 @@ from . import local
 import os
 
 
-def _get_xxhash(file_path, databases):
+def _get_xxhash(file_path, databases, **kwargs):
+    for key, value in kwargs.items():
+        print("{}: {}".format(key, value))
     if isinstance(file_path, bytes):
         file_path = file_path.decode("UTF-8")
     file_path = str(file_path)
