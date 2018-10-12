@@ -63,7 +63,9 @@ def _get_thumbnail(file_path, file_hash, size, databases, **kwargs):
     for key, value in kwargs.items():
         print("{}: {}".format(key, value))
 
-    db = databases["thumb"]
+    db_name = "cache_image_{size}x{size}".format(size=size)
+    assert db_name in databases
+    db = databases[db_name]
     if db.exists(file_hash):
         thumb_ = db.get(file_hash)
         print("[X] thumb : {}".format(file_path))
@@ -87,7 +89,7 @@ class RedisCacheMixin(object):
         return _get_exif(file_path=file_path, databases=self.databases)
 
 
-    def get_thumbnail(self, file_path, size=200, pil_image=True):
+    def get_thumbnail(self, file_path, size=128, pil_image=True):
         thumbnail_ = _get_thumbnail(file_path=file_path, size=size, databases=self.databases)
         if pil_image:
             thumbnail = local.pil_thumbnail(thumbnail_)
