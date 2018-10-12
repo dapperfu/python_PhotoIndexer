@@ -64,7 +64,11 @@ def items2(**kwargs):
     directories = get_files.get_dirs(directory = path, depth=1, absolute=True)
     images = get_files.get_files(directory = path, extensions=['.jpg'], depth=1, absolute=True)
 
-    for
+    for image in images:
+        item = {
+            "xxhash": _get_xxhash(file_path=image, databases=databases)
+        }
+        items.append(item)
 
     items_ = {
         "items": items,
