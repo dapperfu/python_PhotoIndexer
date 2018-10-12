@@ -28,7 +28,7 @@
 {% for size in sizes %}
 
 {% for image in images %}
-<img src="{{ url_for("thumbnails.get_thumbnail", size={{ size }}, xxhash=image.xxhash) }}">
+<img src="{{ url_for("thumbnails.get_thumbnail", size=size, xxhash=image.xxhash) }}">
 {% endfor %}
 
 {% endfor %}
