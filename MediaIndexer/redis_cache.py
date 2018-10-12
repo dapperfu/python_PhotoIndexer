@@ -62,20 +62,19 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
 
 @hashop
 def _get_thumbnail(file_path, file_hash, databases, size=128, **kwargs):
-    print("** KWARGS DEBUG")
     for key, value in kwargs.items():
         print("* {}: {}".format(key, value))
-    print("**")
+
     db_name = "cache_image_{size}x{size}".format(size=size)
     assert db_name in databases, db_name
     db = databases[db_name]
     if db.exists(file_hash):
         thumb_ = db.get(file_hash)
-        print("[X] thumb : {}".format(file_path))
+        print("[X] thumb({}) : {}".format(size, file_path))
     else:
-        thumb_ = local.get_thumbnail(file_path, pil_image=False)
+        thumb_ = local.get_thumbnail(file_path, size=size, pil_image=False)
         db.set(file_hash, thumb_)
-        print("[ ] thumb : {}".format(file_path))
+        print("[ ] thumb({}) : {}".format(size, file_path))
 
     return thumb_
 
@@ -103,7 +102,6 @@ class RedisCacheMixin(object):
     def cache_xxhash(self, file_path):
         self.get_xxhash(file_path)
         return None
-
 
     def cache_exif(self, file_path):
         self.get_xxhash(file_path)

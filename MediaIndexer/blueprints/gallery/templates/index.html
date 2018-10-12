@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>HTML5 boilerplate – all you really need…</title>
+	<link rel="stylesheet" href="{{ url_for("gallery.css") }}">
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+
+<body id="home">
+
+<h1>HTML5 boilerplate</h1>
+
+<!-- Core CSS file -->
+<link rel="stylesheet" href="{{ url_for("gallery.static", filename="photoswipe.css") }}">
+<!-- Skin CSS file (styling of UI - buttons, caption, etc.)
+     In the folder of skin CSS file there are also:
+     - .png and .svg icons sprite,
+     - preloader.gif (for browsers that do not support CSS animations) -->
+<link rel="stylesheet" href="{{ url_for("gallery.static", filename="default-skin/default-skin.css") }}">
+<!-- Core JS file -->
+<script src="{{ url_for("gallery.static", filename="photoswipe.min.js") }}"></script>
+<!-- UI JS file -->
+<script src="{{ url_for("gallery.static", filename="photoswipe-ui-default.min.js") }}"></script>
+
+<!--
+DEBUG:
+{% for directory in directories %}
+{{ directory }}
+{% endfor %}
+
+{% for image in images %}
+{{ image }}
+{% endfor %}
+-->
+
+</body>
+</html>

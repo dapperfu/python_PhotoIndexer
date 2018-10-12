@@ -28,11 +28,13 @@ def cache_exif(file_path):
         "databases": databases,
     }
     redis_cache._get_exif(**cfg)
-def cache_thumbnail(file_path):
+
+def cache_thumbnail(file_path, size):
     config_file = os.environ["MEDIAINDEXER_CFG"]
     databases = redis_utils.load_databases(config_file)
     cfg = {
         "file_path": file_path,
+        "size": size,
         "databases": databases,
     }
     redis_cache._get_thumbnail(**cfg)
@@ -55,5 +57,9 @@ def scan_dir(directory):
 
     for image in get_files.get_files(directory=directory, extensions=[".jpg", ".jpeg", ".cr2", ".dng"], depth=1):
         queue.enqueue(MediaIndexer.worker.cache_exif, image)
-#        queue.enqueue(MediaIndexer.worker.cache_thumbnail, image)
-
+        if image.endswith(".cr2"):
+            continue
+        if image.endswith(".dng"):
+            continue
+        for size in [128, 608, 1024]:
+            queue.enqueue(MediaIndexer.worker.cache_thumbnail, image, size)

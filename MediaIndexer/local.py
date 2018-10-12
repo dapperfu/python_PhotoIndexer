@@ -26,7 +26,7 @@ def get_exif(file_path):
         return et.get_metadata(str(file_path))
 
 
-def get_thumbnail(file_path, size=size, pil_image=True):
+def get_thumbnail(file_path, size, pil_image=True):
     size = (size, size)
     if isinstance(file_path, bytes):
         file_path = file_path.decode("UTF-8")
