@@ -4,8 +4,8 @@ import json
 
 gallery = Blueprint('gallery', __name__, url_prefix='/g', template_folder='templates')
 
-@simple_page.route('/', defaults={'page': 'index'})
-@simple_page.route('/<page>')
+@gallery.route('/', defaults={'page': 'index'})
+@gallery.route('/<page>')
 def show(**kwargs):
     try:
         for key, item in kwargs.items():
