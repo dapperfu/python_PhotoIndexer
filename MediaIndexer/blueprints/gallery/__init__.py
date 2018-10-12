@@ -27,6 +27,8 @@ def index(**kwargs):
     html = render_template('index.html', directorys=directories, images=images)
     with tempfile.NamedTemporaryFile(mode="w", delete=False) as f:
         f.write(html)
+        f.flush()
+        print(validate(f.name))
     return html
 
 @gallery.route('/style.css')
