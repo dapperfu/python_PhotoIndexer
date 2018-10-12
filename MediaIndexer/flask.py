@@ -86,14 +86,7 @@ def thumbnails():
     return send_file(io.BytesIO(thumbnail), mimetype="image/jpg")
 
 @base.route("/thumbnails/<string:xxhash>.jpg")
-def thumbnails2(xxhash):
-    config_file = os.environ["MEDIAINDEXER_CFG"]
-    databases = MediaIndexer.redis_utils.load_databases(config_file)
 
-    thumbnail = MediaIndexer.redis_cache._get_thumbnail(
-        file_path="", file_hash=xxhash, databases=databases
-    )
-    return send_file(io.BytesIO(thumbnail), mimetype="image/jpg")
 """
 
 @base.route("/exif/<string:xxhash>.json")
