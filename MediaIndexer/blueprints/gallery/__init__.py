@@ -39,12 +39,8 @@ def items(**kwargs):
     images = get_files.get_files(directory = r, extensions=['.jpg'], depth=1, absolute=True)
     for key, item in kwargs.items():
         print("{}: {}".format(key, item))
-    html = render_template('items.json', directorys=directories, images=images)
-    with tempfile.NamedTemporaryFile(mode="w", delete=True) as f:
-        f.write(html)
-        f.flush()
-        print(validate(f.name))
-    return html
+    items_json = render_template('items.json', directorys=directories, images=images)
+    return items_json
 
 @gallery.route('/style.css')
 def css(**kwargs):
