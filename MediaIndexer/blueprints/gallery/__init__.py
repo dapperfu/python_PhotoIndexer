@@ -5,7 +5,6 @@ import os
 import get_files
 import tempfile
 from w3c_validator import validate
-import MediaIndexer.MediaIndexer
 from MediaIndexer.redis_cache import _get_xxhash
 
 gallery = Blueprint(
@@ -73,7 +72,7 @@ def items2(**kwargs):
     items_ = {
         "items": items,
     }
-    return json.dumps(
+    return json.dumps(items_)
 
 @gallery.route('/style.css')
 def css(**kwargs):
