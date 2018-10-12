@@ -67,8 +67,10 @@ def items2(**kwargs):
     for image in images:
         item = {
             "xxhash": _get_xxhash(file_path=image, databases=databases),
-            "url": url_for("thumbnails.get_thumbnail"),
         }
+        for size_name, size in sizes.items():
+            item[size_name]: = url_for("thumbnails.get_thumbnail", size, item["xxhash"])
+
         items.append(item)
 
     items_ = {
