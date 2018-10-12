@@ -12,7 +12,7 @@ import werkzeug.exceptions
 
 import MediaIndexer
 import MediaIndexer.redis_utils
-from MediaIndexer.blueprints import gallery, admin
+from MediaIndexer.blueprints import gallery, admin, thumbnails
 
 parser = reqparse.RequestParser()
 parser.add_argument("path")
