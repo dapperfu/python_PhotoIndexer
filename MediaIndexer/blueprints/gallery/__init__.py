@@ -27,10 +27,12 @@ def index(**kwargs):
     for key, item in kwargs.items():
         print("{}: {}".format(key, item))
     html = render_template('index.html', directorys=directories, images=images)
+    """
     with tempfile.NamedTemporaryFile(mode="w", delete=True) as f:
         f.write(html)
         f.flush()
         print(validate(f.name))
+    """
     return html
 
 @gallery.route('/items.json', defaults={'page': ''})
