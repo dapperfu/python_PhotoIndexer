@@ -53,7 +53,15 @@ def items2(**kwargs):
         "large": 1024,
     }
 
+    items=list()
 
+    r = os.path.abspath(os.path.join(os.curdir, kwargs["page"]))
+    directories = get_files.get_dirs(directory = r, depth=1, absolute=True)
+    images = get_files.get_files(directory = r, extensions=['.jpg'], depth=1, absolute=True)
+
+    items_ = {
+        "items": items,
+    }
     return json.dumps(
 
 @gallery.route('/style.css')
