@@ -45,7 +45,7 @@ def items(**kwargs):
 import json
 @gallery.route('/items2.json', defaults={'page': ''})
 @gallery.route('/<page>/items2.json')
-def items(**kwargs):
+def items2(**kwargs):
     x = dict()
     sizes = {
         "small": 128
