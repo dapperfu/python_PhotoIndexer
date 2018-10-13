@@ -31,5 +31,11 @@
 <img src="{{ url_for("thumbnails.get_thumbnail", size=size, xxhash=image.xxhash) }}">
 {%- endfor %}
 {% endfor %}
+
+<!--
+{% for directory in directories %}
+{{ directory }}
+{% endfor %}
+-->
 </body>
 </html>
