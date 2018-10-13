@@ -16,10 +16,6 @@ import MediaIndexer.worker
 from MediaIndexer.redis_utils import load_databases
 from MediaIndexer.rq_utils import get_connection, get_queue, get_worker
 
-#from .. import worker
-#from ..redis_utils import load_databases
-#from .rq_utils import get_connection, get_queue, get_worker
-
 
 @click.group()
 @click.version_option()
@@ -42,7 +38,7 @@ Launch a worker instance."""
     w.work()
 
 @cli.command()
-@click.option("--config", default="config.ini", show_default=True, type=click.Path(exists=True, resolve_path=True))
+@click.option("--config", envvar='MEDIAINDEXER_CFG', default="config.ini", show_default=True, type=click.Path(exists=True, resolve_path=True))
 @click.option('--queue_db', default="rq", show_default=True, type=str)
 @click.argument('dirs', nargs=-1, type=click.Path(exists=True, file_okay=False, dir_okay=True, writable=False, readable=True, resolve_path=True))
 def scan(**kwargs):
@@ -55,7 +51,7 @@ def scan(**kwargs):
         queue.enqueue(MediaIndexer.worker.scan_dir, d)
 
 @cli.command()
-@click.option("--config", default="config.ini", show_default=True, type=click.Path(exists=True, resolve_path=True))
+@click.option("--config",  envvar='MEDIAINDEXER_CFG', default="config.ini", show_default=True, type=click.Path(exists=True, resolve_path=True))
 @click.option('--queue_db', default="rq", show_default=True, type=str)
 @click.option('--host', default="0.0.0.0", show_default=True, type=str)
 def server(**kwargs):
@@ -74,7 +70,7 @@ def db(**kwargs):
     """
 
 @db.command("keys")
-@click.option("--config", default="config.ini", show_default=True, type=click.Path(exists=True, resolve_path=True))
+@click.option("--config",  envvar='MEDIAINDEXER_CFG', default="config.ini", show_default=True, type=click.Path(exists=True, resolve_path=True))
 def keys(**kwargs):
     """Print number of keys in the redis database."""
     os.environ["MEDIAINDEXER_CFG"]=kwargs["config"]

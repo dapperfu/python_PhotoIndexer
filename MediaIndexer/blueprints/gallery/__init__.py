@@ -37,7 +37,7 @@ def index(**kwargs):
 
     for key, item in kwargs.items():
         print("{}: {}".format(key, item))
-    html = render_template('index.html', directorys=directories, images=images, sizes=[128, 608, 1024])
+    html = render_template('index.html', directorys=directories, images=images, sizes=[128, 608, 2048])
 
 
     """

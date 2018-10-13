@@ -29,9 +29,7 @@
 <h1>{{ size }}x{{ size }}</h1>
 {% for image in images %}
 <img src="{{ url_for("thumbnails.get_thumbnail", size=size, xxhash=image.xxhash) }}">
+{%- endfor %}
 {% endfor %}
-
-{% endfor %}
-
 </body>
 </html>
