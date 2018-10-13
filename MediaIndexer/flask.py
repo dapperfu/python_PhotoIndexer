@@ -106,6 +106,13 @@ def create_app():
     app.config["WTF_CSRF_ENABLED"] = False
     # This is still necessary for SocketIO
     app.config["SECRET_KEY"] = os.urandom(12).hex()
+
+    def basename(path):
+        return os.path.basename(path)
+
+    def dirname(path):
+        return os.path.dirname(path)
+
     return app
 
 def update_blueprints(app):

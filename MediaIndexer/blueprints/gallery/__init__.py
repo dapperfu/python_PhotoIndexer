@@ -22,13 +22,18 @@ gallery = Blueprint(
 
 @gallery.route('/', defaults={'page': ''})
 @gallery.route('/<page>')
-@gallery.route('/<page>/')
 def index(**kwargs):
-    root=os.path.join(os.curdir)
-    path = os.path.abspath(os.path.join(os.curdir, kwargs["page"]))
-    directories = get_files.get_dirs(directory = path, depth=1, absolute=True)
+    for i, (key, value) in enumerate(kwargs.items()):
+        print("[{}] {}: {}".format(i, key, value))
 
-    directories = [f.path for f in os.scandir(path) if f.is_dir() ]
+    root=os.path.abspath(os.curdir)
+    if not os.path.exists(root):
+        abort(404)
+    path = os.path.abspath(os.path.join(root, kwargs["page"]))
+    if not os.path.exists(path):
+        abort(404)
+    directories_ = get_files.get_dirs(directory = path, depth=1, absolute=True)
+    directories = [directory.replace(root, "").strip(os.path.sep) for directory in directories_]
     images_ = get_files.get_files(directory = path, extensions=['.jpg'], depth=1, absolute=True)
 
     config_file = os.environ["MEDIAINDEXER_CFG"]
@@ -42,7 +47,7 @@ def index(**kwargs):
 
     for key, item in kwargs.items():
         print("{}: {}".format(key, item))
-    html = render_template('index.html', directorys=directories, images=images, sizes=[128, 608, 2048])
+    html = render_template('index.html', directories=directories, images=images, sizes=[128, 608, 2048])
 
 
     """

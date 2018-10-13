@@ -11,7 +11,22 @@
 
 <body id="home">
 
-<h1>HTML5 boilerplate</h1>
+<h1>Gallery</h1>
+
+<h2>SubGalleries</h2>
+
+<ul>
+{% for directory in directories %}
+<li><a href="{{ url_for("gallery.index", page=directory)|e }}">{{ directory }}</a></li>
+{% endfor %}
+</ul>
+
+{% for size in sizes %}
+<h1>{{ size }}x{{ size }}</h1>
+{% for image in images %}
+<img src="{{ url_for("thumbnails.get_thumbnail", size=size, xxhash=image.xxhash) }}">
+{%- endfor %}
+{% endfor %}
 
 <!-- Core CSS file -->
 <link rel="stylesheet" href="{{ url_for("gallery.static", filename="photoswipe.css") }}">
@@ -24,18 +39,5 @@
 <script src="{{ url_for("gallery.static", filename="photoswipe.min.js") }}"></script>
 <!-- UI JS file -->
 <script src="{{ url_for("gallery.static", filename="photoswipe-ui-default.min.js") }}"></script>
-
-{% for size in sizes %}
-<h1>{{ size }}x{{ size }}</h1>
-{% for image in images %}
-<img src="{{ url_for("thumbnails.get_thumbnail", size=size, xxhash=image.xxhash) }}">
-{%- endfor %}
-{% endfor %}
-
-<!--
-{% for directory in directories %}
-{{ directory }}
-{% endfor %}
--->
 </body>
 </html>
