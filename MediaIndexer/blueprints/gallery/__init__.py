@@ -29,6 +29,9 @@ def index(**kwargs):
     directories = get_files.get_dirs(directory = path, depth=1, absolute=True)
     images_ = get_files.get_files(directory = path, extensions=['.jpg'], depth=1, absolute=True)
 
+    config_file = os.environ["MEDIAINDEXER_CFG"]
+    databases = MediaIndexer.redis_utils.load_databases(config_file)
+
     images = list()
     for image_ in images_:
         images.append({
