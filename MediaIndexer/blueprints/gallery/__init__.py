@@ -27,6 +27,8 @@ def index(**kwargs):
     root=os.path.join(os.curdir)
     path = os.path.abspath(os.path.join(os.curdir, kwargs["page"]))
     directories = get_files.get_dirs(directory = path, depth=1, absolute=True)
+
+    directories = [f.path for f in os.scandir(path) if f.is_dir() ]
     images_ = get_files.get_files(directory = path, extensions=['.jpg'], depth=1, absolute=True)
 
     config_file = os.environ["MEDIAINDEXER_CFG"]
