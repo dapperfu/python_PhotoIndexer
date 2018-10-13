@@ -61,5 +61,5 @@ def scan_dir(directory):
             continue
         if image.endswith(".dng"):
             continue
-        for size in [128, 608, 1024]:
+        for size in [128, 608, 2048]:
             queue.enqueue(MediaIndexer.worker.cache_thumbnail, image, size)
