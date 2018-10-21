@@ -4,9 +4,7 @@
 	<meta charset="utf-8">
 	<title>HTML5 boilerplate – all you really need…</title>
 	<link rel="stylesheet" href="{{ url_for("gallery.css") }}">
-	<!--[if IE]>
-		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
+	<script src="{{ url_for("gallery.static", filename="lazysizes.min.js") }}"></script>
 </head>
 
 <body id="home">
@@ -21,13 +19,18 @@
 {% endfor %}
 </ul>
 
-{% for size in sizes %}
-<h1>{{ size }}x{{ size }}</h1>
+<h1>Pictures</h1>
 {% for image in images %}
-<img src="{{ url_for("thumbnails.get_thumbnail", size=size, xxhash=image.xxhash) }}">
+<img
+    src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+    data-sizes="auto"
+    data-src="{{ url_for("thumbnails.get_thumbnail", size="608", xxhash=image.xxhash) }}"
+    data-srcset="{{ url_for("thumbnails.get_thumbnail", size="128", xxhash=image.xxhash) }} 128w,
+    {{ url_for("thumbnails.get_thumbnail", size="608", xxhash=image.xxhash) }} 608w,
+    {{ url_for("thumbnails.get_thumbnail", size="2048", xxhash=image.xxhash) }} 2048w"
+    class="lazyload"
+/>
 {%- endfor %}
-{% endfor %}
-
 <!-- Core CSS file -->
 <link rel="stylesheet" href="{{ url_for("gallery.static", filename="photoswipe.css") }}">
 <!-- Skin CSS file (styling of UI - buttons, caption, etc.)
@@ -41,3 +44,4 @@
 <script src="{{ url_for("gallery.static", filename="photoswipe-ui-default.min.js") }}"></script>
 </body>
 </html>
+
