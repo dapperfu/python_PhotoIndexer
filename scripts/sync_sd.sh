@@ -1,22 +1,13 @@
-#!/usr/bin/env tcsh
+#!/usr/bin/env bash
 # Script to quickly sync photos from an SD card to a local directory
 
 # Setup
-set HOST=`hostname`
-if ( ${HOST} == "m6700" ) then
-   set SD_CARD=mmcblk0p1
-   set SYNC_ROOT=/net/8600k.local/mnt/vault/pictures/sync
-   set SYNC_ROOT=/pictures
-else if ( ${HOST} == "4770k" ) then
-   echo Host "${HOST}" not configured.
-   exit 1
-else
-   echo Host "${HOST}" not configured.
-   exit 1
-endif
+HOST=`hostname`
+SD_CARD=${SD_CARD:-mmcblk0p1}
+SYNC_ROOT=${SYNC_ROOT:-/data/pictures}
 
 # Sync photos on my laptop to my local pictures directory.
-set DIR=`date --iso-8601="seconds" | sed "s/\:/_/g"`
+DIR=`date --iso-8601="date"`
 
 # Cameras, especially "Action Cams" have a bad habit of corrupting
 # a partition.
@@ -28,14 +19,14 @@ mkdir -p /mnt/sdcard
 # Mount the SD card.
 mount /dev/${SD_CARD} /mnt/sdcard
 # Create a dest dir
-mkdir -p ${SYNC_ROOT}/$DIR
+mkdir -p ${SYNC_ROOT}/${DIR}
 # Sync
-rsync -aP /mnt/sdcard/ ${SYNC_ROOT}/$DIR/
+rsync -aP /mnt/sdcard/ ${SYNC_ROOT}/${DIR}/
 
 # Mark the SD card as synced.
-touch "/mnt/sdcard/.synced_`date +%Y%b%d_%H%M%S`"
-# Unmount
 umount /mnt/sdcard
+
+echo ${SYNC_ROOT}/${DIR}
 
 # Exit.
 exit 0

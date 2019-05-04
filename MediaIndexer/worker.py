@@ -39,6 +39,12 @@ def cache_thumbnail(file_path, size):
     }
     redis_cache._get_thumbnail(**cfg)
 
+def export_thumbnail(xxhash, export_dir="/tmp", size=128):
+    for key in db.keys():
+        tn_ = db.get(key)
+        out = os.path.join("cache", size, "{}.jpg".format(key.decode()))
+        MediaIndexer.utils.pil_thumbnail(tn_).save(out)
+
 def scan_dir(directory):
     """Scan a directory.
 
@@ -57,9 +63,5 @@ def scan_dir(directory):
 
     for image in get_files.get_files(directory=directory, extensions=[".jpg", ".jpeg", ".cr2", ".dng"], depth=1):
         queue.enqueue(MediaIndexer.worker.cache_exif, image)
-        if image.endswith(".cr2"):
-            continue
-        if image.endswith(".dng"):
-            continue
         for size in [128, 608, 2048]:
             queue.enqueue(MediaIndexer.worker.cache_thumbnail, image, size)
