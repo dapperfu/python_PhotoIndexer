@@ -1,9 +1,14 @@
-# PhotoStuffs
+# KISS PhotoSorter
+
 Stuff for managing the daily growing number of personal photos and videos I shoot.
+
+The week before one huge 'embedded' project was due in college our team threw away all code and went back to zero. Implementing the "KISS Protocol". 
 
 ## Problem Statement
 
 I bought my first digital camera in 2002. My first digital camcorder in 2003.
+
+Then college:
 
 Resulting in this:
 
@@ -15,16 +20,20 @@ Resulting in this:
 	NAME        PROPERTY  VALUE  SOURCE
 	keg/Videos  used      1.02T  -
 
+Then Kids:
+
+    $ date; zfs get used keg/Pictures
+    Fri May  3 21:38:49 EDT 2019
+    NAME          PROPERTY  VALUE  SOURCE
+    keg/Pictures  used      3.14T  -
+
+    $ date; zfs get used keg/Videos
+    Fri May  3 21:39:11 EDT 2019
+    NAME        PROPERTY  VALUE  SOURCE
+    keg/Videos  used      1.31T  -
+
 ## Stack
 
-[PonyORM](https://ponyorm.com/):
-
-- An exceptionally convenient syntax for writing queries
-    - Automatic query optimization
-    - An elegant solution for the N+1 problem
-    - The online database schema editor
-    - Supported databases
-        - SQLite
-        - PostgreSQL
-        - MySQL
-        - Oracle [A necessary evil for business]
+- Jenkins (or cron).
+- Bash.
+- Exiftool.
