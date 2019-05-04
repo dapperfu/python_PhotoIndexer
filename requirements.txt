@@ -38,3 +38,4 @@ notebook
 
 git+https://github.com/jed-frey/pydarknet2.git#egg=pydarknet2
 w3c_validator
+rawpy

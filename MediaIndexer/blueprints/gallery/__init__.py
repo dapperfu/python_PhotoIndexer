@@ -8,9 +8,6 @@ import tempfile
 from MediaIndexer.redis_cache import _get_xxhash
 import MediaIndexer.redis_utils
 
-#config_file = os.environ["MEDIAINDEXER_CFG"]
-#databases = MediaIndexer.redis_utils.load_databases(config_file)
-
 gallery = Blueprint(
     name='gallery',
     import_name=__name__,
