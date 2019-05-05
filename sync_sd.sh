@@ -2,7 +2,7 @@
 
 # Sync photos on my laptop to my local pictures directory.
 
-# Root folder. 
+# Root folder.
 ROOT=/pictures
 # Temporary local directory.
 DIR=`date --iso-8601="seconds"`

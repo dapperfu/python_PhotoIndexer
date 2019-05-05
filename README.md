@@ -8,8 +8,6 @@ The week before one huge 'embedded' project was due in college our team threw aw
 
 I bought my first digital camera in 2002. My first digital camcorder in 2003.
 
-Then college:
-
 Resulting in this:
 
 	$ zfs get used keg/Pictures
