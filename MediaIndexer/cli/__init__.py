@@ -27,14 +27,17 @@ def cli():
 @cli.command()
 @click.option("--config", envvar='MEDIAINDEXER_CFG', default="config.ini", show_default=True, type=click.Path(exists=True, resolve_path=True))
 @click.option('--queue_db', envvar='MEDIAINDEXER_DB', default="rq", show_default=True)
-def worker(config, queue_db):
+def worker(**kwargs):
     """Launch MediaIndexer worker.
 
 Launch a worker instance."""
 
-    os.environ["MEDIAINDEXER_CFG"]=config
-    os.environ["MEDIAINDEXER_DB"]=queue_db
-    w = get_worker(config_file=config, database=queue_db)
+    os.environ["MEDIAINDEXER_CFG"]=kwargs["config"]
+    os.environ["MEDIAINDEXER_DB"]=kwargs["queue_db"]
+    w = get_worker(
+        config_file=kwargs["config"],
+        database=kwargs["queue_db"],
+    )
     w.work()
 
 @cli.command()
@@ -91,7 +94,7 @@ def callback(ctx, param, value):
 @click.option("--config", default="config.ini", show_default=True, type=click.Path(exists=True, resolve_path=True))
 @click.option('--yes', is_flag=True, callback=callback,
               expose_value=False, prompt='Are you sure you want to flush all redis databases?')
-def dropdb(**kwargs):
+def flushdb(**kwargs):
     """Flush all data from the redis database."""
     databases = load_databases(kwargs["config"])
     for db_name, database in databases.items():
