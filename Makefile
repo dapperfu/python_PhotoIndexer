@@ -1,5 +1,4 @@
 # Config
-VENV=_indexer
 
 # Environments to setup for this project
 # Available options: python arduino

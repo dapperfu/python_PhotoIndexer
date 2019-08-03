@@ -37,6 +37,7 @@ def cache_thumbnail(file_path, size):
         "size": size,
         "databases": databases,
     }
+    return True
     redis_cache._get_thumbnail(**cfg)
 
 def scan_dir(directory):
@@ -57,9 +58,8 @@ def scan_dir(directory):
 
     for image in get_files.get_files(directory=directory, extensions=[".jpg", ".jpeg", ".cr2", ".dng"], depth=1):
         queue.enqueue(MediaIndexer.worker.cache_exif, image)
+        return
         if image.endswith(".cr2"):
             continue
         if image.endswith(".dng"):
             continue
-        for size in [128, 608, 2048]:
-            queue.enqueue(MediaIndexer.worker.cache_thumbnail, image, size)
