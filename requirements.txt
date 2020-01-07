@@ -1,3 +1,4 @@
+rawpy
 prettytable
 requests
 flask-restful
