@@ -7,7 +7,7 @@ from flask import (Blueprint, current_app, Flask, g, make_response,
                    render_template, request, send_file)
 from flask_bootstrap import Bootstrap
 from flask_restful import Api, reqparse, Resource
-from werkzeug import HTTP_STATUS_CODES
+#from werkzeug import HTTP_STATUS_CODES
 import werkzeug.exceptions
 
 import MediaIndexer
