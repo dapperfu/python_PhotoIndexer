@@ -15,7 +15,7 @@
 
 <ul>
 {% for directory in directories %}
-<li><a href="{{ url_for("gallery.index", page=directory)|e }}">{{ directory }}</a></li>
+<li><a href="{{ url_for("gallery.index", page=directory) }}">{{ directory }}</a></li>
 {% endfor %}
 </ul>
 
