@@ -1,8 +1,9 @@
 import os
 import sys
 
-import versioneer
 from setuptools import find_packages, setup
+
+import versioneer
 
 LOCAL_DIR = os.path.dirname(os.path.abspath(__file__))
 

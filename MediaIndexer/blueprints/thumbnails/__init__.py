@@ -1,12 +1,25 @@
-from flask import Blueprint, render_template, abort, send_file, url_for
-from jinja2 import TemplateNotFound
 import json
 
-thumbnails = Blueprint('thumbnails', __name__, template_folder='templates', url_prefix='/thumbnails')
+from jinja2 import TemplateNotFound
+
+from flask import abort
+from flask import Blueprint
+from flask import render_template
+from flask import send_file
+from flask import url_for
+
+thumbnails = Blueprint(
+    "thumbnails",
+    __name__,
+    template_folder="templates",
+    url_prefix="/thumbnails",
+)
 import os
 import io
 import MediaIndexer.redis_utils
-@thumbnails.route('/<int:size>/<string:xxhash>.jpg')
+
+
+@thumbnails.route("/<int:size>/<string:xxhash>.jpg")
 def get_thumbnail(xxhash, size=128):
     config_file = os.environ["MEDIAINDEXER_CFG"]
     databases = MediaIndexer.redis_utils.load_databases(config_file)
