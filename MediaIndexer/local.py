@@ -1,15 +1,14 @@
-# -*- coding: utf-8 -*-
 """Functions for working with local files.
 
 Functions for working with local files."""
-
 import io
 import os
+
 import exiftool
-from PIL import Image
 import pydarknet2
-import xxhash
 import rawpy
+import xxhash
+from PIL import Image
 
 
 def get_xxhash(file_path):
@@ -33,14 +32,13 @@ def get_thumbnail(file_path, size, pil_image=True):
     if isinstance(file_path, bytes):
         file_path = file_path.decode("UTF-8")
 
-
     ext = os.path.splitext(file_path)[1]
 
     with open(file_path, "rb") as fp:
         if ext.lower() in [".dng", ".cr2"]:
             with rawpy.imread(file_path) as raw_:
                 rgb = raw_.postprocess()
-            img=Image.fromarray(rgb)
+            img = Image.fromarray(rgb)
         else:
             img = Image.open(fp=fp)
         img.thumbnail(size)
@@ -51,6 +49,7 @@ def get_thumbnail(file_path, size, pil_image=True):
             img.save(buffer, format="jpeg")
             thumbnail = buffer.getvalue()
         return thumbnail
+
 
 def pil_thumbnail(thumbnail_str):
     assert isinstance(thumbnail_str, bytes)
