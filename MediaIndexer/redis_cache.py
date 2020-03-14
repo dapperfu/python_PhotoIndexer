@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""redis_db module ^ utils.
+"""redis_db module utils.
 
 """
 import functools
 import json
 import os
 
+from . import ai
 from . import local
+from .utils import arr_to_bytes
+from .utils import bytes_to_arr
 
 
 def _get_xxhash(file_path, databases, **kwargs):
@@ -60,27 +63,68 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
         exif_ = json.dumps(exif)
         db.set(file_hash, exif_)
         print(f"[ ] EXIF: {file_path}")
-
     return exif
 
 
 @hashop
-def _get_thumbnail(file_path, file_hash, databases, size=128, **kwargs):
+def _get_face_locations(file_path, file_hash, databases, **kwargs):
+    sidecar_path = f"{file_path}.json"
+    try:
+        with open(sidecar_path) as fp:
+            sidecar_data = json.load(fp)
+    except:
+        sidecar_data = dict()
     for key, value in kwargs.items():
-        print(f"* {key}: {value}")
-
-    db_name = "cache_image_{size}x{size}".format(size=size)
-    assert db_name in databases, db_name
-    db = databases[db_name]
+        print(f"{key}: {value}")
+    db = databases["cache_face_locations"]
     if db.exists(file_hash):
-        thumb_ = db.get(file_hash)
-        print(f"[X] thumb({size}) : {file_path}")
+        face_locations_ = db.get(file_hash)
+        face_locations = json.loads(
+            face_locations_.decode("UTF-8").replace("'", '"')
+        )
+        print(f"[X] face_locations : {file_path}")
+    elif "face_locations" in sidecar_data:
+        face_locations = sidecar_data["face_locations"]
+        print(f"[#] face_locations : {file_path}")
+        face_locations_ = json.dumps(face_locations)
+        db.set(file_hash, face_locations_)
     else:
-        thumb_ = local.get_thumbnail(file_path, size=size, pil_image=False)
-        db.set(file_hash, thumb_)
-        print(f"[ ] thumb({size}) : {file_path}")
+        face_locations = ai.get_face_locations(file_path)
+        face_locations_ = json.dumps(face_locations)
+        db.set(file_hash, face_locations_)
+        print(f"[ ] face_locations: {file_path}")
 
-    return thumb_
+    return face_locations
+
+
+@hashop
+def _get_face_encodings(file_path, file_hash, databases, **kwargs):
+    sidecar_path = f"{file_path}.json"
+    try:
+        with open(sidecar_path) as fp:
+            sidecar_data = json.load(fp)
+    except:
+        sidecar_data = dict()
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+    db = databases["cache_face_encodings"]
+    if db.exists(file_hash):
+        face_encodings_ = db.get(file_hash)
+        face_encodings = bytes_to_arr(face_encodings_)
+        print(f"[X] face_encodings : {file_path}")
+    elif "face_encodings" in sidecar_data:
+        raise Exception("Not Yet.")
+    else:
+        face_locations = _get_face_locations(
+            file_path=file_path, file_hash=file_hash, databases=databases
+        )
+        face_encodings = ai.get_face_encodings(
+            file_path=file_path, known_face_locations=face_locations
+        )
+        face_encodings_ = arr_to_bytes(face_encodings)
+        db.set(file_hash, face_encodings_)
+        print(f"[ ] face_encodings: {file_path}")
+    return face_encodings
 
 
 class RedisCacheMixin:
@@ -93,18 +137,15 @@ class RedisCacheMixin:
     def get_exif(self, file_path):
         return _get_exif(file_path=file_path, databases=self.databases)
 
-    def get_thumbnail(self, file_path, size=128, pil_image=True):
-        thumbnail_ = _get_thumbnail(
-            file_path=file_path,
-            databases=self.databases,
-            size=size,
-            pil_image=pil_image,
+    def get_face_locations(self, file_path):
+        return _get_face_locations(
+            file_path=file_path, databases=self.databases
         )
-        if pil_image:
-            thumbnail = local.pil_thumbnail(thumbnail_)
-        else:
-            thumbnail = thumbnail_
-        return thumbnail
+
+    def get_face_encodings(self, file_path):
+        return _get_face_encodings(
+            file_path=file_path, databases=self.databases
+        )
 
     def cache_xxhash(self, file_path):
         self.get_xxhash(file_path)
@@ -114,8 +155,8 @@ class RedisCacheMixin:
         self.get_xxhash(file_path)
         return None
 
-    def cache_thumbnail(self, file_path):
-        self.get_thumbnail(file_path)
+    def cache_face_locations(self, file_path):
+        self.get_face_locations(file_path)
         return None
 
 

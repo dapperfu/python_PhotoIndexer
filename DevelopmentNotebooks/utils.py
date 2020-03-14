@@ -1,11 +1,13 @@
 import io
 
 import exiftool
-from PIL import Image
-import xxhash
 import pydarknet2
+import xxhash
+from PIL import Image
 
-classifier = pydarknet2.Classifier("cfg/coco.data", "cfg/yolov3.cfg", "weights/yolov3.weights")
+classifier = pydarknet2.Classifier(
+    "cfg/coco.data", "cfg/yolov3.cfg", "weights/yolov3.weights"
+)
 classifier.load()
 
 
@@ -37,6 +39,7 @@ def get_thumbnail(file_path, size=(255, 255), pil_image=True):
         img.save(buffer, format="jpeg")
         thumbnail = buffer.getvalue()
     return thumbnail
+
 
 def get_objects(file_path):
     if isinstance(file_path, bytes):
