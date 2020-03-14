@@ -31,11 +31,7 @@ def cache_thumbnail(file_path, size):
     raise Exception("Bad idea")
     config_file = os.environ["MEDIAINDEXER_CFG"]
     databases = redis_utils.load_databases(config_file)
-    cfg = {
-        "file_path": file_path,
-        "size": size,
-        "databases": databases,
-    }
+    cfg = {"file_path": file_path, "size": size, "databases": databases}
     redis_cache._get_thumbnail(**cfg)
 
 

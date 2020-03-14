@@ -7,6 +7,7 @@ import numpy as np
 import rawpy
 from PIL import Image
 
+
 def load_image_array(file_path: str):
     """ Loads both jpg and raw image file formats. Returns Image. """
     _, ext = os.path.splitext(file_path)
@@ -18,6 +19,7 @@ def load_image_array(file_path: str):
         rgb = np.asarray(img)
     return rgb
 
+
 def load_image(file_path: str):
     """ Loads both jpg and raw image file formats. Returns Image. """
     _, ext = os.path.splitext(file_path)
@@ -27,7 +29,8 @@ def load_image(file_path: str):
             img = copy.deepcopy(Image.fromarray(rgb))
     else:
         img = copy.deepcopy(Image.open(file_path))
-    return rgb
+    return img
+
 
 def pil_to_bytes(image: Image) -> bytes:
     """ Convert a PIL Image into a byte string for redis & mysql. """
@@ -45,7 +48,7 @@ def bytes_to_pil(thumbnail_str: bytes) -> Image:
 
 def get_thumbnail(file_path: str, size: int = 128):
     """ Return a thumbnail. """
-    img = Image.fromarray(load_image(file_path))
+    img = load_image(file_path)
     img.thumbnail((size, size))
     return img
 
