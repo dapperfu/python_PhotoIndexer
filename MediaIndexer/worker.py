@@ -27,40 +27,28 @@ def touch_sidecar(file_path):
 def cache_xxhash(file_path):
     config_file = os.environ["MEDIAINDEXER_CFG"]
     databases = redis_utils.load_databases(config_file)
-    cfg = {
-        "file_path": file_path,
-        "databases": databases,
-    }
+    cfg = {"file_path": file_path, "databases": databases}
     redis_cache._get_xxhash(**cfg)
 
 
 def cache_face_locations(file_path):
     config_file = os.environ["MEDIAINDEXER_CFG"]
     databases = redis_utils.load_databases(config_file)
-    cfg = {
-        "file_path": file_path,
-        "databases": databases,
-    }
+    cfg = {"file_path": file_path, "databases": databases}
     redis_cache._get_face_locations(**cfg)
 
 
 def cache_face_encodings(file_path):
     config_file = os.environ["MEDIAINDEXER_CFG"]
     databases = redis_utils.load_databases(config_file)
-    cfg = {
-        "file_path": file_path,
-        "databases": databases,
-    }
+    cfg = {"file_path": file_path, "databases": databases}
     redis_cache._get_face_encodings(**cfg)
 
 
 def cache_exif(file_path):
     config_file = os.environ["MEDIAINDEXER_CFG"]
     databases = redis_utils.load_databases(config_file)
-    cfg = {
-        "file_path": file_path,
-        "databases": databases,
-    }
+    cfg = {"file_path": file_path, "databases": databases}
     redis_cache._get_exif(**cfg)
 
 
@@ -82,9 +70,7 @@ def scan_dir(directory, worker_fcn="cache_xxhash"):
         queue.enqueue(MediaIndexer.worker.scan_dir, d, worker_fcn)
 
     for image in get_files.get_files(
-        directory=directory,
-        extensions=[".jpg", ".jpeg", ".cr2", ".dng"],
-        depth=1,
+        directory=directory, extensions=[".jpg", ".jpeg", ".cr2", ".dng"], depth=1
     ):
         fcn = getattr(MediaIndexer.worker, worker_fcn)
         queue.enqueue(fcn, image)
