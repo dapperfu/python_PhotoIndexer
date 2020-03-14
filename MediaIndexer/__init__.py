@@ -7,6 +7,8 @@ from ._version import get_versions
 from .redis_cache import RedisCacheMixin
 from .redis_utils import load_databases
 from .utils import read_config
+from .image_utils import get_thumbnail
+from .image_utils import load_image
 
 __version__ = get_versions()["version"]
 del get_versions
@@ -27,6 +29,14 @@ class MediaIndexer(RedisCacheMixin):
     def __repr__(self):
         return "MediaIndexer<{}>".format(os.path.basename(self.config_file))
 
+class Face:
+    def __init__(self, media, face_location, face_encoding):
+        self.media = media
+        self.face_location = face_location
+        self.face_encoding = face_encoding
+        
+    def __repr__(self):
+        return f"Face<{self.media.xxhash}, {self.face_location}>"
 
 class IndexedMedia:
     def __init__(self, indexer, file_path):
@@ -35,6 +45,10 @@ class IndexedMedia:
 
     def __repr__(self):
         return f"IndexedMedia<{self.xxhash}>"
+        
+    @cached_property.cached_property
+    def img(self):
+        return load_image(self.file_path)
 
     @property
     def sidecar_file(self):
@@ -61,7 +75,23 @@ class IndexedMedia:
     @cached_property.cached_property
     def exif(self):
         return self.indexer.get_exif(self.file_path)
+        
+    @cached_property.cached_property
+    def face_locations(self):
+        return self.indexer.get_face_locations(self.file_path)
+        
+    @cached_property.cached_property
+    def face_encodings(self):
+        return self.indexer.get_face_encodings(self.file_path)
+        
+    @property
+    def faces(self):
+        faces = list()
+        for location, encoding in zip(self.face_locations, self.face_encodings):
+            faces.append(Face(self, location, encoding))
+        return faces
+        
 
     @cached_property.cached_property
     def thumbnail(self):
-        return self.indexer.get_thumbnail(self.file_path)
+        return get_thumbnail(self.file_path)
