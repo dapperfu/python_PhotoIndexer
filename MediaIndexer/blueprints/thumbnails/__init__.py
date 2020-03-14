@@ -1,12 +1,11 @@
 import json
 
-from jinja2 import TemplateNotFound
-
 from flask import abort
 from flask import Blueprint
 from flask import render_template
 from flask import send_file
 from flask import url_for
+from jinja2 import TemplateNotFound
 
 thumbnails = Blueprint(
     "thumbnails",

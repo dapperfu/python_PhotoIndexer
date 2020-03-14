@@ -2,17 +2,8 @@ import io
 import json
 import os
 
-import MediaIndexer.redis_utils
-import werkzeug.exceptions
-from flask_bootstrap import Bootstrap
-from flask_restful import Api
-from flask_restful import reqparse
-from flask_restful import Resource
-from MediaIndexer.blueprints import admin
-from MediaIndexer.blueprints import gallery
-from MediaIndexer.blueprints import thumbnails
-
 import flask
+import werkzeug.exceptions
 from flask import Blueprint
 from flask import current_app
 from flask import Flask
@@ -21,6 +12,15 @@ from flask import make_response
 from flask import render_template
 from flask import request
 from flask import send_file
+from flask_bootstrap import Bootstrap
+from flask_restful import Api
+from flask_restful import reqparse
+from flask_restful import Resource
+
+import MediaIndexer.redis_utils
+from MediaIndexer.blueprints import admin
+from MediaIndexer.blueprints import gallery
+from MediaIndexer.blueprints import thumbnails
 
 # from werkzeug import HTTP_STATUS_CODES
 

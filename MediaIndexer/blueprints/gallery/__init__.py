@@ -3,14 +3,14 @@ import os
 import tempfile
 
 import get_files
-import MediaIndexer.redis_utils
-from jinja2 import TemplateNotFound
-from MediaIndexer.redis_cache import _get_xxhash
-
 from flask import abort
 from flask import Blueprint
 from flask import render_template
 from flask import url_for
+from jinja2 import TemplateNotFound
+
+import MediaIndexer.redis_utils
+from MediaIndexer.redis_cache import _get_xxhash
 
 # from w3c_validator import validate
 

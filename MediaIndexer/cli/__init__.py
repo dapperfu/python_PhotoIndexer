@@ -1,30 +1,20 @@
-"""MediaIndexer
+"""MediaIndexer command line interface.
 """
-import configparser
 import os
 import time
 
 import click
-import click_config_file
+from prettytable import PrettyTable
+
 import MediaIndexer.flask
 import MediaIndexer.worker
-import rq
 from MediaIndexer.redis_utils import load_databases
-from MediaIndexer.rq_utils import get_connection
 from MediaIndexer.rq_utils import get_queue
 from MediaIndexer.rq_utils import get_worker
-from prettytable import PrettyTable
 
 
 @click.group()
 @click.version_option()
-def cli():
-    """MediaIndexer command line interface.
-
-    """
-
-
-@cli.command()
 @click.option(
     "--config",
     envvar="MEDIAINDEXER_CFG",
@@ -35,26 +25,27 @@ def cli():
 @click.option(
     "--queue_db", envvar="MEDIAINDEXER_DB", default="rq", show_default=True
 )
-def worker(config, queue_db):
+def cli(config, queue_db):
+    """MediaIndexer command line interface.
+
+    """
+    os.environ["MEDIAINDEXER_CFG"] = config
+    os.environ["MEDIAINDEXER_DB"] = queue_db
+
+
+@cli.command()
+def worker():
     """Launch MediaIndexer worker.
 
 Launch a worker instance."""
-
-    os.environ["MEDIAINDEXER_CFG"] = config
-    os.environ["MEDIAINDEXER_DB"] = queue_db
+    queue_db = os.environ["MEDIAINDEXER_DB"]
+    config = os.environ["MEDIAINDEXER_CFG"]
     w = get_worker(config_file=config, database=queue_db)
     w.work()
 
 
 @cli.command()
-@click.option(
-    "--config",
-    envvar="MEDIAINDEXER_CFG",
-    default="config.ini",
-    show_default=True,
-    type=click.Path(exists=True, resolve_path=True),
-)
-@click.option("--queue_db", default="rq", show_default=True, type=str)
+@click.option("--fcn", default="cache_xxhash", show_default=True)
 @click.argument(
     "dirs",
     nargs=-1,
@@ -69,54 +60,34 @@ Launch a worker instance."""
 )
 def scan(**kwargs):
     """Use MediaIndexer to scan a directory."""
-    os.environ["MEDIAINDEXER_CFG"] = kwargs["config"]
-    os.environ["MEDIAINDEXER_DB"] = kwargs["queue_db"]
-
-    queue = get_queue(config_file=kwargs["config"], database=kwargs["queue_db"])
+    queue_db = os.environ["MEDIAINDEXER_DB"]
+    config = os.environ["MEDIAINDEXER_CFG"]
+    fcn = kwargs["fcn"]
+    queue = get_queue(config_file=config, database=queue_db)
     for d in kwargs["dirs"]:
-        queue.enqueue(MediaIndexer.worker.scan_dir, d)
+        queue.enqueue(MediaIndexer.worker.scan_dir, d, fcn)
 
 
 @cli.command()
-@click.option(
-    "--config",
-    envvar="MEDIAINDEXER_CFG",
-    default="config.ini",
-    show_default=True,
-    type=click.Path(exists=True, resolve_path=True),
-)
-@click.option("--queue_db", default="rq", show_default=True, type=str)
 @click.option("--host", default="0.0.0.0", show_default=True, type=str)
 def server(**kwargs):
     """Launch MediaIndexer Flask server."""
-
-    os.environ["MEDIAINDEXER_CFG"] = kwargs["config"]
-    os.environ["MEDIAINDEXER_DB"] = kwargs["queue_db"]
     app = MediaIndexer.flask.create_app()
     app = MediaIndexer.flask.update_blueprints(app)
-    app.config["CONFIG"] = kwargs["config"]
+    app.config["CONFIG"] = os.environ["MEDIAINDEXER_CFG"]
     app.run(debug=True, host=kwargs["host"])
 
 
-@cli.group("db")
+@cli.group("redis")
 def db(**kwargs):
     """Manage MediaIndexer redis databases.
     """
 
 
 @db.command("keys")
-@click.option(
-    "--config",
-    envvar="MEDIAINDEXER_CFG",
-    default="config.ini",
-    show_default=True,
-    type=click.Path(exists=True, resolve_path=True),
-)
 def keys(**kwargs):
     """Print number of keys in the redis database."""
-    os.environ["MEDIAINDEXER_CFG"] = kwargs["config"]
-    databases = load_databases(kwargs["config"])
-
+    databases = load_databases(os.environ["MEDIAINDEXER_CFG"])
     tbl = PrettyTable()
     tbl.field_names = ["Redis DB", "Keys"]
     for db_name, database in databases.items():
@@ -131,12 +102,6 @@ def callback(ctx, param, value):
 
 @db.command("flush")
 @click.option(
-    "--config",
-    default="config.ini",
-    show_default=True,
-    type=click.Path(exists=True, resolve_path=True),
-)
-@click.option(
     "--yes",
     is_flag=True,
     callback=callback,
@@ -145,7 +110,7 @@ def callback(ctx, param, value):
 )
 def dropdb(**kwargs):
     """Flush all data from the redis database."""
-    databases = load_databases(kwargs["config"])
+    databases = load_databases(os.environ["MEDIAINDEXER_CFG"])
     for db_name, database in databases.items():
         print(f"Flushing: {db_name}...", end="")
         t1 = time.time()
