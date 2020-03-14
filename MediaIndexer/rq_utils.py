@@ -2,11 +2,11 @@
 """."""
 import uuid
 
-import MediaIndexer
 import rq
-from MediaIndexer import redis_cache
 
+import MediaIndexer
 from .redis_utils import load_databases
+from MediaIndexer import redis_cache
 
 
 def get_connection(config_file, database):
