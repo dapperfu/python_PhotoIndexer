@@ -16,8 +16,8 @@ def read_config(config_file):
 
 
 def arr_to_bytes(arr) -> bytes:
-    """ Convert a numpy array to a bytestring containing a saved numpy file. 
-    
+    """ Convert a numpy array to a bytestring containing a saved numpy file.
+
     Purpose: Numpy arrays in redis & databases.
     """
     with io.BytesIO() as b:

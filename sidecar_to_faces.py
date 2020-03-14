@@ -35,9 +35,7 @@ def extract_faces(sidecar_path):
     if len(sidecar_data["face_locations_pct"]) == 0:
         return
     image = face_recognition.load_image_file(image_path)
-    for img_idx, face_location_pct in enumerate(
-        sidecar_data["face_locations_pct"]
-    ):
+    for img_idx, face_location_pct in enumerate(sidecar_data["face_locations_pct"]):
         print("$", end="")
         top, right, bottom, left = from_pct(image, face_location_pct)
         face_image = image[top:bottom, left:right]
@@ -46,17 +44,11 @@ def extract_faces(sidecar_path):
             continue
         pil_image = Image.fromarray(face_image)
         if image_path.startswith("/projects/Camera"):
-            face_path = image_path.replace(
-                "/projects/Camera", "/projects/Faces"
-            )
+            face_path = image_path.replace("/projects/Camera", "/projects/Faces")
         elif image_path.startswith("/home/user1/Pictures"):
-            face_path = image_path.replace(
-                "/home/user1/Pictures", "/projects/Faces2"
-            )
+            face_path = image_path.replace("/home/user1/Pictures", "/projects/Faces2")
         elif image_path.startswith("/projects/Pictures"):
-            face_path = image_path.replace(
-                "/projects/Pictures", "/projects/Faces3"
-            )
+            face_path = image_path.replace("/projects/Pictures", "/projects/Faces3")
         else:
             raise Exception(image_path)
         base_path, ext = os.path.splitext(face_path)

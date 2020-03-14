@@ -22,9 +22,7 @@ from MediaIndexer.rq_utils import get_worker
     show_default=True,
     type=click.Path(exists=True, resolve_path=True),
 )
-@click.option(
-    "--queue_db", envvar="MEDIAINDEXER_DB", default="rq", show_default=True
-)
+@click.option("--queue_db", envvar="MEDIAINDEXER_DB", default="rq", show_default=True)
 def cli(config, queue_db):
     """MediaIndexer command line interface.
 
