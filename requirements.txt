@@ -1,35 +1,35 @@
-rawpy
-prettytable
-requests
-flask-restful
-Flask-Bootstrap4
+black
+
+cached_property
+click-config-file
+cython
 
 docopt
-click-config-file
+
+exifyay
+Flask-Bootstrap4
+flask-restful
+git+http://github.com/jed-frey/get_files.git#egg=get_files
+git+http://github.com/smarnach/pyexiftool.git#egg=pyexiftool
 isort
+
+# Development
+jupyter
+notebook
+Pillow
+prettytable
 pycodestyle
 pydocstyle
 
-cached_property
-xxhash
-
-exifyay
-git+http://github.com/smarnach/pyexiftool.git#egg=pyexiftool
-git+http://github.com/jed-frey/get_files.git#egg=get_files
-
-versioneer
-rq
-black
-redis
-
 # Testing
 pytest
-cython
-Pillow
+rawpy
+rawpy
+redis
+requests
+rq
 
-# Development 
-jupyter
-notebook
+versioneer
 
 w3c_validator
-rawpy
+xxhash

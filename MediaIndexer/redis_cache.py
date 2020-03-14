@@ -79,9 +79,7 @@ def _get_face_locations(file_path, file_hash, databases, **kwargs):
     db = databases["cache_face_locations"]
     if db.exists(file_hash):
         face_locations_ = db.get(file_hash)
-        face_locations = json.loads(
-            face_locations_.decode("UTF-8").replace("'", '"')
-        )
+        face_locations = json.loads(face_locations_.decode("UTF-8").replace("'", '"'))
         print(f"[X] face_locations : {file_path}")
     elif "face_locations" in sidecar_data:
         face_locations = sidecar_data["face_locations"]
@@ -105,8 +103,7 @@ def _get_face_encodings(file_path, file_hash, databases, **kwargs):
             sidecar_data = json.load(fp)
     except:
         sidecar_data = dict()
-    for key, value in kwargs.items():
-        print(f"{key}: {value}")
+
     db = databases["cache_face_encodings"]
     if db.exists(file_hash):
         face_encodings_ = db.get(file_hash)
@@ -138,14 +135,10 @@ class RedisCacheMixin:
         return _get_exif(file_path=file_path, databases=self.databases)
 
     def get_face_locations(self, file_path):
-        return _get_face_locations(
-            file_path=file_path, databases=self.databases
-        )
+        return _get_face_locations(file_path=file_path, databases=self.databases)
 
     def get_face_encodings(self, file_path):
-        return _get_face_encodings(
-            file_path=file_path, databases=self.databases
-        )
+        return _get_face_encodings(file_path=file_path, databases=self.databases)
 
     def cache_xxhash(self, file_path):
         self.get_xxhash(file_path)

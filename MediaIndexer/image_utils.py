@@ -8,7 +8,7 @@ import rawpy
 from PIL import Image
 
 
-def load_image(file_path: str):
+def load_image_array(file_path: str):
     """ Loads both jpg and raw image file formats. Returns Image. """
     _, ext = os.path.splitext(file_path)
     if ext.lower() in [".dng", ".cr2"]:
@@ -18,6 +18,18 @@ def load_image(file_path: str):
         img = Image.open(file_path)
         rgb = np.asarray(img)
     return rgb
+
+
+def load_image(file_path: str):
+    """ Loads both jpg and raw image file formats. Returns Image. """
+    _, ext = os.path.splitext(file_path)
+    if ext.lower() in [".dng", ".cr2"]:
+        with rawpy.imread(file_path) as raw_:
+            rgb = raw_.postprocess()
+            img = copy.deepcopy(Image.fromarray(rgb))
+    else:
+        img = copy.deepcopy(Image.open(file_path))
+    return img
 
 
 def pil_to_bytes(image: Image) -> bytes:
@@ -34,7 +46,7 @@ def bytes_to_pil(thumbnail_str: bytes) -> Image:
     return Image.open(io.BytesIO(thumbnail_str))
 
 
-def get_thumbnail(file_path: str, size: int):
+def get_thumbnail(file_path: str, size: int = 128):
     """ Return a thumbnail. """
     img = load_image(file_path)
     img.thumbnail((size, size))
