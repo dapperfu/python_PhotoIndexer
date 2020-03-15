@@ -1,8 +1,4 @@
-#!/usr/bin/env python3
-"""
-Created on Sat Mar 14 05:06:44 2020
-
-@author: user1
+"""image functions.
 """
 import os
 
@@ -11,6 +7,7 @@ from PIL import Image
 
 
 def load_image(file_path):
+    """ Load image from the given path. """
     _, ext = os.path.splitext(file_path)
     if ext.lower() in [".dng", ".cr2"]:
         with rawpy.imread(file_path) as raw_:
