@@ -2,6 +2,7 @@ import json
 import os
 
 import cached_property
+import numpy as np
 from PIL import Image
 
 from ._version import get_versions
@@ -12,12 +13,16 @@ from .redis_cache import RedisCacheMixin
 from .redis_utils import load_databases
 from .utils import read_config
 
+import io
 __version__ = get_versions()["version"]
 del get_versions
 import copy
 
 
 class MediaIndexer(RedisCacheMixin):
+    """
+    """
+
     def __init__(self, config_file):
         self.config_file = config_file
 
@@ -34,6 +39,9 @@ class MediaIndexer(RedisCacheMixin):
 
 
 class Face:
+    """
+    """
+
     def __init__(self, media, face_location):
         self.media = media
         self.face_location = face_location
@@ -53,8 +61,18 @@ class Face:
     def __repr__(self):
         return f"Face<{self.media.xxhash}, {self.face_location}>"
 
+    def _repr_jpeg_(self):
+        fp = io.BytesIO()
+        self.thumbnail.save(fp, "jpeg")
+        fp.flush()
+        fp.seek(0)
+        return fp.read()
+
 
 class IndexedMedia:
+    """
+    """
+
     def __init__(self, indexer, file_path):
         self.indexer = indexer
         self.file_path = os.path.abspath(file_path)
@@ -66,9 +84,9 @@ class IndexedMedia:
     def image(self):
         return load_image(self.file_path)
 
-    @cached_property.cached_property
+    @property
     def image_array(self):
-        return load_image_array(self.file_path)
+        return np.asarray(self.image)
 
     @property
     def sidecar_file(self):
@@ -77,14 +95,14 @@ class IndexedMedia:
     @property
     def sidecar(self):
         if os.path.exists(self.sidecar_file):
-            with open(self.sidecar_file) as fp:
+            with open(self.sidecar_file, "r") as fp:
                 return json.load(fp)
         else:
             return dict()
 
     @sidecar.setter
     def sidecar(self, sidecar_data):
-        with open(self.sidecar_file) as fp:
+        with open(self.sidecar_file, "w") as fp:
             json.dump(sidecar_data, fp)
 
     @cached_property.cached_property
@@ -117,3 +135,7 @@ class IndexedMedia:
     @cached_property.cached_property
     def thumbnail(self):
         return get_thumbnail(self.file_path)
+
+    @cached_property.cached_property
+    def medium(self):
+        return get_thumbnail(self.file_path, 480)

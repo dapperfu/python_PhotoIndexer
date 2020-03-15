@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """redis_db module utils.
 
 """
@@ -50,9 +49,9 @@ def hashop(f):
 
 @hashop
 def _get_exif(file_path, file_hash, databases, **kwargs):
-    for key, value in kwargs.items():
-        print(f"{key}: {value}")
-
+    """
+    
+    """
     db = databases["cache_exif"]
     if db.exists(file_hash):
         exif_ = db.get(file_hash)
@@ -68,6 +67,9 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
 
 @hashop
 def _get_face_locations(file_path, file_hash, databases, **kwargs):
+    """
+    
+    """
     sidecar_path = f"{file_path}.json"
     try:
         with open(sidecar_path) as fp:
@@ -93,7 +95,6 @@ def _get_face_locations(file_path, file_hash, databases, **kwargs):
         print(f"[ ] face_locations: {file_path}")
 
     return face_locations
-
 
 @hashop
 def _get_face_encodings(file_path, file_hash, databases, **kwargs):
@@ -132,23 +133,35 @@ class RedisCacheMixin:
         return _get_xxhash(file_path=file_path, databases=self.databases)
 
     def get_exif(self, file_path):
+        """
+        """
         return _get_exif(file_path=file_path, databases=self.databases)
 
     def get_face_locations(self, file_path):
+        """
+        """
         return _get_face_locations(file_path=file_path, databases=self.databases)
 
     def get_face_encodings(self, file_path):
+        """
+        """
         return _get_face_encodings(file_path=file_path, databases=self.databases)
 
     def cache_xxhash(self, file_path):
+        """
+        """
         self.get_xxhash(file_path)
         return None
 
     def cache_exif(self, file_path):
+        """
+        """
         self.get_xxhash(file_path)
         return None
 
     def cache_face_locations(self, file_path):
+        """
+        """
         self.get_face_locations(file_path)
         return None
 
