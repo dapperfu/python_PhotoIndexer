@@ -1,17 +1,14 @@
 black
 
 cached_property
-click-config-file
 cython
 
 docopt
 
-exifyay
 Flask-Bootstrap4
 flask-restful
 git+http://github.com/jed-frey/get_files.git#egg=get_files
 git+http://github.com/smarnach/pyexiftool.git#egg=pyexiftool
-isort
 
 # Development
 jupyter
@@ -33,3 +30,4 @@ versioneer
 
 w3c_validator
 xxhash
+face_recognition
