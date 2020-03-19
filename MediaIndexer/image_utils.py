@@ -9,7 +9,7 @@ from PIL import Image
 
 
 def load_image_array(file_path: str):
-    """ Loads both jpg and raw image file formats. Returns Image. """
+    """ Loads both jpg and raw image file formats. Returns rgb numpy array. """
     _, ext = os.path.splitext(file_path)
     if ext.lower() in [".dng", ".cr2"]:
         with rawpy.imread(file_path) as raw_:
