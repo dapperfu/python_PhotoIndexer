@@ -50,7 +50,7 @@ def hashop(f):
 @hashop
 def _get_exif(file_path, file_hash, databases, **kwargs):
     """
-    
+
     """
     db = databases["cache_exif"]
     if db.exists(file_hash):
@@ -68,7 +68,7 @@ def _get_exif(file_path, file_hash, databases, **kwargs):
 @hashop
 def _get_face_locations(file_path, file_hash, databases, **kwargs):
     """
-    
+
     """
     sidecar_path = f"{file_path}.json"
     try:
@@ -95,6 +95,7 @@ def _get_face_locations(file_path, file_hash, databases, **kwargs):
         print(f"[ ] face_locations: {file_path}")
 
     return face_locations
+
 
 @hashop
 def _get_face_encodings(file_path, file_hash, databases, **kwargs):

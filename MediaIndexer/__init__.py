@@ -1,3 +1,4 @@
+import io
 import json
 import os
 
@@ -13,7 +14,6 @@ from .redis_cache import RedisCacheMixin
 from .redis_utils import load_databases
 from .utils import read_config
 
-import io
 __version__ = get_versions()["version"]
 del get_versions
 import copy

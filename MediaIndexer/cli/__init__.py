@@ -62,7 +62,7 @@ Launch a worker instance."""
 
 
 @cli.command()
-@click.option("--fcn", default="cache_xxhash", show_default=True)
+@click.option("--fcn", default="cache_face_encodings", show_default=True)
 @click.argument(
     "dirs",
     nargs=-1,
