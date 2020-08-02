@@ -1,0 +1,70 @@
+version: '3.3'
+services:
+  adminer:
+    # Database management in a single PHP file.
+    # For looking at the indexing database.s
+    container_name: mediaindexer_adminer
+    image: adminer
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: "mysql"
+      ADMINER_DEFAULT_USER: "mediaindexer_indexer_user"
+      ADMINER_DEFAULT_PASS: "mediaindexer_indexer_pass"
+      ADMINER_DEFAULT_DB: "mediaindexer_database"
+    ports:
+      - 43305:8080
+  minio:
+    # Minio Server
+    command: server /data
+    container_name: mdf_minio
+    environment:
+      # minio access setup.
+      MINIO_ACCESS_KEY: mdf_minio_access_key
+      MINIO_SECRET_KEY: mdf_minio_secret_key
+    hostname: mdf_minio
+    image: minio/minio:latest
+    ports:
+    - 49000:9000/tcp
+    restart: always
+    volumes:
+    - ./minio_config:/root/.minio:rw
+    - /mnt/vat/pictures/Pictures:/data:rw
+  jupyter:
+    container_name: mediaindexer_jupyter
+    image: jupyter/scipy-notebook:latest
+    ports:
+    - 48888:8888/tcp
+    volumes:
+    - /mnt/vat/pictures/Pictures:/data:rw
+    - .:/home/jovyan:rw
+  db:
+    container_name: mediaindexer_db
+    image: mariadb:10.5 # Alternatively mysql:8.0
+    restart: unless-stopped
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=1024 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=50
+    environment:
+      MYSQL_DATABASE: mediaindexer_database
+      MYSQL_PASSWORD: mediaindexer_indexer_pass
+      MYSQL_ROOT_PASSWORD: mediaindexer_indexer_root_password
+      MYSQL_USER: mediaindexer_indexer_user
+    ports:
+    - 43306:3306/tcp
+    restart: always
+    volumes:
+    - ./db_data:/var/lib/mysql:rw
+  redis:
+    command: redis-server
+    container_name: mediaindexer_redis
+    hostname: mediaindexer_redis
+    image: redis:latest
+    ports:
+    - 46379:6379/tcp
+    restart: always
+  rq_dashboard:
+    container_name: mediaindexer_rq_dashboard
+    hostname: mediaindexer_rq_dashboard
+    image: eoranged/rq-dashboard
+    ports:
+    - 49181:9181
+    environment:
+      RQ_DASHBOARD_REDIS_URL: redis://redis:6379
